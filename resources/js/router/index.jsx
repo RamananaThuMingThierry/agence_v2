@@ -3,6 +3,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import PublicLayout from "../layouts/PublicLayout";
+import ActivityLogsPage from "../pages/admin/activity-logs/ActivityLogsPage";
 import DashboardPage from "../pages/admin/DashboardPage";
 import SlidesPage from "../pages/admin/slides/SlidesPage";
 import FormSlidePage from "../pages/admin/slides/FormSlidePage";
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
           {
             path: "slides/:slideId/edit",
             element: <FormSlidePage />,
+          },
+          {
+            path: "activity-logs",
+            element: <ActivityLogsPage />,
           },
         ],
       },

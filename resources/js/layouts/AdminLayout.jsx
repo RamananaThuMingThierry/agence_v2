@@ -82,6 +82,12 @@ function Icon({ name, className = "h-5 w-5" }) {
           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       );
+    case "activity":
+      return (
+        <svg {...common}>
+          <path d="M4 12h4l2-7 4 14 2-7h4" />
+        </svg>
+      );
     case "logout":
       return (
         <svg {...common}>
@@ -165,6 +171,7 @@ function Icon({ name, className = "h-5 w-5" }) {
 const NAV = [
   { to: "/admin/dashboard", icon: "dashboard", label: "Tableau de bord" },
   { to: "/admin/slides", icon: "slides", label: "Slides" },
+  { to: "/admin/activity-logs", icon: "activity", label: "Activity Logs" },
   { to: "/admin/dashboard", icon: "testimonials", label: "Testimonials", badge: "Soon" },
   { to: "/admin/dashboard", icon: "tours", label: "Tours", badge: "Soon" },
   { to: "/admin/dashboard", icon: "gallery", label: "Galerie", badge: "Soon" },
@@ -276,6 +283,10 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
 }
 
 function getPageTitle(pathname) {
+  if (pathname.startsWith("/admin/activity-logs")) {
+    return "Activity Logs";
+  }
+
   if (pathname.startsWith("/admin/slides")) {
     return "Gestion des slides";
   }
