@@ -19,6 +19,7 @@ class UpdateSlideRequest extends FormRequest
             'image' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'description' => ['sometimes', 'nullable', 'string'],
             'order' => ['sometimes', 'integer', 'min:0'],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
 }

@@ -81,6 +81,7 @@ class SlideController extends Controller
 
     public function show(Request $request, string $encryptedId): JsonResponse
     {
+
         try {
             $id = decrypt_to_int_or_null($encryptedId);
 
@@ -118,6 +119,9 @@ class SlideController extends Controller
                 'data' => $slide,
             ]);
         } catch (Throwable $e) {
+
+            dd($e->getMessage());
+
             $this->activityLogService->logError(
                 $request,
                 'slide_show_error',
@@ -136,6 +140,7 @@ class SlideController extends Controller
     public function update(UpdateSlideRequest $request, string $encryptedId): JsonResponse
     {
         $id = decrypt_to_int_or_null($encryptedId);
+
 
         if (is_null($id)) {
             $this->activityLogService->logWarning(

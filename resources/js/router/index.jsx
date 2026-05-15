@@ -1,9 +1,12 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import PublicLayout from "../layouts/PublicLayout";
-import SlidesPage from "../pages/admin/SlidesPage";
+import DashboardPage from "../pages/admin/DashboardPage";
+import SlidesPage from "../pages/admin/slides/SlidesPage";
+import FormSlidePage from "../pages/admin/slides/FormSlidePage";
+import LoginPage from "../pages/auth/LoginPage";
 import HomePage from "../pages/public/HomePage";
 
 export const router = createBrowserRouter([
@@ -21,12 +24,32 @@ export const router = createBrowserRouter([
         ],
       },
       {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
         path: "admin",
         element: <AdminLayout />,
         children: [
           {
+            index: true,
+            element: <Navigate to="/admin/dashboard" replace />,
+          },
+          {
+            path: "dashboard",
+            element: <DashboardPage />,
+          },
+          {
             path: "slides",
             element: <SlidesPage />,
+          },
+          {
+            path: "slides/create",
+            element: <FormSlidePage />,
+          },
+          {
+            path: "slides/:slideId/edit",
+            element: <FormSlidePage />,
           },
         ],
       },

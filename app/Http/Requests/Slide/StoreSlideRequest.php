@@ -19,6 +19,7 @@ class StoreSlideRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'description' => ['nullable', 'string'],
             'order' => ['sometimes', 'integer', 'min:0'],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
 }

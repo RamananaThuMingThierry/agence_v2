@@ -28,7 +28,7 @@ class SlideRepository extends BaseRepository implements SlideInterface
         $q = $this->applyRelation($q, $relations);
         $q = $this->applyTrashed($q, $withTrashed, $onlyTrashed);
 
-        return $q->findOrFail($id, $fields);
+        return $q->find($id, $fields);
     }
 
     public function getByKeys(string|array|null $keys, mixed $values, array $fields = [], array $relations = [], bool $withTrashed = false, bool $onlyTrashed = false): ?Slide

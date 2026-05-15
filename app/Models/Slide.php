@@ -18,6 +18,11 @@ class Slide extends Model
         'image',
         'description',
         'order',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     protected $appends = [
