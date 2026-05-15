@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,8 +12,6 @@ class Slide extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'slides';
-
     protected $fillable = [
         'title',
         'subtitle',
@@ -21,19 +20,12 @@ class Slide extends Model
         'order',
     ];
 
-    protected $dates = [
-        'deleted_at',
+    protected $appends = [
+        'encrypted_id',
     ];
 
-    protected $casts = [
-        'order' => 'integer',
-        'deleted_at' => 'datetime',
-    ];
-
-    protected $appends = ['encrypted_id'];
-
-    public function getEncryptedIdAttribute()
+    protected function encryptedId(): Attribute
     {
-        return Crypt::encryptString($this->id);
+        return Attribute::get(fn () => Crypt::encryptString((string) $this->id));
     }
 }

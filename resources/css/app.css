@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+    color-scheme: light;
+    --bg: #f4efe6;
+    --bg-strong: #e8dcc8;
+    --surface: rgba(255, 251, 245, 0.88);
+    --surface-strong: #fff8ee;
+    --ink: #241815;
+    --muted: #6f5d54;
+    --line: rgba(76, 53, 42, 0.14);
+    --accent: #c65a3d;
+    --accent-dark: #8f3320;
+    --accent-soft: #f3c8b5;
+    --success: #1f7a5a;
+    --danger: #a63f30;
+    --shadow: 0 24px 80px rgba(52, 30, 18, 0.14);
+    font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+html,
+body,
+#app {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at top left, rgba(198, 90, 61, 0.22), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(126, 146, 104, 0.2), transparent 25%),
+        linear-gradient(135deg, var(--bg), #fbf7f1 42%, #efe2cf);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(rgba(36, 24, 21, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(36, 24, 21, 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+::selection {
+    background: rgba(198, 90, 61, 0.2);
+}
