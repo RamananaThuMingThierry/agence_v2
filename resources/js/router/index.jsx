@@ -5,6 +5,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import PublicLayout from "../layouts/PublicLayout";
 import ActivityLogsPage from "../pages/admin/activity-logs/ActivityLogsPage";
 import DashboardPage from "../pages/admin/DashboardPage";
+import SettingsPage from "../pages/admin/settings/SettingsPage";
 import SlidesPage from "../pages/admin/slides/SlidesPage";
 import FormSlidePage from "../pages/admin/slides/FormSlidePage";
 import LoginPage from "../pages/auth/LoginPage";
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
           {
             path: "activity-logs",
             element: <ActivityLogsPage />,
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />,
           },
         ],
       },

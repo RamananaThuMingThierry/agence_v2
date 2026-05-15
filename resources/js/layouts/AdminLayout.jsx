@@ -88,6 +88,13 @@ function Icon({ name, className = "h-5 w-5" }) {
           <path d="M4 12h4l2-7 4 14 2-7h4" />
         </svg>
       );
+    case "settings":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8.92 4.6H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c0 .66.26 1.3.73 1.77.47.47 1.11.73 1.77.73H22a2 2 0 1 1 0 4h-.09c-.66 0-1.3.26-1.77.73-.47.47-.73 1.11-.73 1.77Z" />
+        </svg>
+      );
     case "logout":
       return (
         <svg {...common}>
@@ -172,6 +179,7 @@ const NAV = [
   { to: "/admin/dashboard", icon: "dashboard", label: "Tableau de bord" },
   { to: "/admin/slides", icon: "slides", label: "Slides" },
   { to: "/admin/activity-logs", icon: "activity", label: "Activity Logs" },
+  { to: "/admin/settings", icon: "settings", label: "Settings" },
   { to: "/admin/dashboard", icon: "testimonials", label: "Testimonials", badge: "Soon" },
   { to: "/admin/dashboard", icon: "tours", label: "Tours", badge: "Soon" },
   { to: "/admin/dashboard", icon: "gallery", label: "Galerie", badge: "Soon" },
@@ -283,6 +291,10 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
 }
 
 function getPageTitle(pathname) {
+  if (pathname.startsWith("/admin/settings")) {
+    return "Settings";
+  }
+
   if (pathname.startsWith("/admin/activity-logs")) {
     return "Activity Logs";
   }
@@ -546,7 +558,7 @@ export default function AdminLayout() {
                 <button
                   type="button"
                   className="inline-flex items-center gap-2 rounded-sm border border-red-200 bg-black px-2 py-1 btn-sm text-sm font-bold text-white shadow-[0_18px_40px_rgba(220,38,38,0.18)] transition hover:bg-black"
-                  onClick={() => nav("/admin/dashboard")}
+                  onClick={() => nav("/admin/settings")}
                 >
                   {headerAvatar ? (
                     <span className="flex h-9 w-9 overflow-hidden rounded-sm border border-white/30 bg-white/15">

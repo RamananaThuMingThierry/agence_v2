@@ -14,7 +14,10 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = $this->route('user')?->id;
+        $routeUser = $this->route('user');
+        $userId = is_object($routeUser)
+            ? $routeUser->id
+            : decrypt_to_int_or_null(is_string($routeUser) ? $routeUser : null);
 
         return [
             'avatar' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
