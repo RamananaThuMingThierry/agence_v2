@@ -237,6 +237,20 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
+        if ((int) $request->user()?->id === (int) $user->id) {
+            $this->activityLogService->logWarning(
+                $request,
+                'user_destroy_self_forbidden',
+                'Attempted to delete currently authenticated user.',
+                $request->user(),
+                User::class,
+                $user->id,
+                403
+            );
+
+            return response()->json(['message' => 'You cannot delete your own authenticated account.'], 403);
+        }
+
         $deletedUserId = $user->id;
         $deletedUserEmail = $user->email;
 
@@ -342,6 +356,20 @@ class UserController extends Controller
             );
 
             return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        if ((int) $request->user()?->id === (int) $user->id) {
+            $this->activityLogService->logWarning(
+                $request,
+                'user_force_delete_self_forbidden',
+                'Attempted to permanently delete currently authenticated user.',
+                $request->user(),
+                User::class,
+                $user->id,
+                403
+            );
+
+            return response()->json(['message' => 'You cannot delete your own authenticated account.'], 403);
         }
 
         $deletedUserEmail = $user->email;

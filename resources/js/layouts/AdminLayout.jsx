@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/admin/AuthContext";
 import { useI18n } from "../hooks/admin/I18nContext";
@@ -178,12 +178,12 @@ function Icon({ name, className = "h-5 w-5" }) {
 const NAV = [
   { to: "/admin/dashboard", icon: "dashboard", label: "Tableau de bord" },
   { to: "/admin/slides", icon: "slides", label: "Slides" },
+  { to: "/admin/users", icon: "users", label: "Users" },
   { to: "/admin/activity-logs", icon: "activity", label: "Activity Logs" },
   { to: "/admin/settings", icon: "settings", label: "Settings" },
   { to: "/admin/dashboard", icon: "testimonials", label: "Testimonials", badge: "Soon" },
   { to: "/admin/dashboard", icon: "tours", label: "Tours", badge: "Soon" },
   { to: "/admin/dashboard", icon: "gallery", label: "Galerie", badge: "Soon" },
-  { to: "/admin/dashboard", icon: "users", label: "Utilisateurs", badge: "Soon" },
   { action: "logout", icon: "logout", label: "Deconnexion" },
 ];
 
@@ -297,6 +297,10 @@ function getPageTitle(pathname) {
 
   if (pathname.startsWith("/admin/activity-logs")) {
     return "Activity Logs";
+  }
+
+  if (pathname.startsWith("/admin/users")) {
+    return "Gestion des users";
   }
 
   if (pathname.startsWith("/admin/slides")) {
@@ -581,7 +585,7 @@ export default function AdminLayout() {
 
           <footer className="border-t border-red-100 bg-red-50/70 backdrop-blur-xl">
             <div className="flex flex-col gap-3 px-4 py-5 text-sm text-red-700 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-              <p>© {new Date().getFullYear()} WORLD OF MADAGASCAR - Admin Dashboard</p>
+              <p>� {new Date().getFullYear()} WORLD OF MADAGASCAR - Admin Dashboard</p>
               <div className="flex flex-wrap items-center gap-5">
                 <span className="inline-flex items-center gap-2">
                   <Icon name="shield" className="h-4 w-4" />
@@ -609,3 +613,6 @@ export default function AdminLayout() {
     </div>
   );
 }
+
+
+

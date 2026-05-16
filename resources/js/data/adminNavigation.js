@@ -26,7 +26,7 @@ export const adminNavigation = [
   },
   {
     label: "Users",
-    href: "/admin/dashboard",
-    badge: "Soon",
+    href: "/admin/users",
+    badge: "Live",
   },
 ];

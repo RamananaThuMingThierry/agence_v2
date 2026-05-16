@@ -8,13 +8,19 @@ import DashboardPage from "../pages/admin/DashboardPage";
 import SettingsPage from "../pages/admin/settings/SettingsPage";
 import SlidesPage from "../pages/admin/slides/SlidesPage";
 import FormSlidePage from "../pages/admin/slides/FormSlidePage";
+import UsersPage from "../pages/admin/users/UsersPage";
+import FormUserPage from "../pages/admin/users/FormUserPage";
+import UserDetailsPage from "../pages/admin/users/UserDetailsPage";
 import LoginPage from "../pages/auth/LoginPage";
+import NotFoundPage from "../pages/errors/NotFoundPage";
+import ErrorPage from "../pages/errors/ErrorPage";
 import HomePage from "../pages/public/HomePage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <PublicLayout />,
@@ -54,6 +60,22 @@ export const router = createBrowserRouter([
             element: <FormSlidePage />,
           },
           {
+            path: "users",
+            element: <UsersPage />,
+          },
+          {
+            path: "users/create",
+            element: <FormUserPage />,
+          },
+          {
+            path: "users/:userId",
+            element: <UserDetailsPage />,
+          },
+          {
+            path: "users/:userId/edit",
+            element: <FormUserPage />,
+          },
+          {
             path: "activity-logs",
             element: <ActivityLogsPage />,
           },
@@ -62,6 +84,10 @@ export const router = createBrowserRouter([
             element: <SettingsPage />,
           },
         ],
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },

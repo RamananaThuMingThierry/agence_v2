@@ -26,4 +26,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::apiResource('users', UserController::class)->except(['destroy']);
     Route::delete('users/{user}', [UserController::class, 'destroy']);
+    Route::post('users/{user}/restore', [UserController::class, 'restore']);
+    Route::delete('users/{user}/force', [UserController::class, 'forceDelete']);
 });

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { deleteUser, updateUser } from "../../../api/users";
+import { updateUser } from "../../../api/users";
 import { useAuth } from "../../../hooks/admin/AuthContext";
 
 function buildAvatarUrl(path) {
@@ -15,47 +14,6 @@ function buildAvatarUrl(path) {
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
-}
-
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button
-        type="button"
-        aria-label="Fermer"
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
-        onClick={loading ? undefined : onCancel}
-      />
-
-      <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
-        <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">{title}</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">{message}</p>
-        </div>
-
-        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onCancel}
-            disabled={loading}
-          >
-            Annuler
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onConfirm}
-            disabled={loading}
-          >
-            {loading ? "Suppression..." : confirmText}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function InfoCard({ title, description, children, className = "" }) {
@@ -81,14 +39,11 @@ const EMPTY_FORM = {
 };
 
 export default function SettingsPage() {
-  const navigate = useNavigate();
-  const { user, refreshUser, logout } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [form, setForm] = useState(EMPTY_FORM);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -166,28 +121,6 @@ export default function SettingsPage() {
       }
     } finally {
       setSaving(false);
-    }
-  }
-
-  async function handleDeleteAccount() {
-    if (!user?.encrypted_id) {
-      setError("Utilisateur introuvable.");
-      return;
-    }
-
-    setDeleteLoading(true);
-    setError("");
-    setNotice("");
-
-    try {
-      await deleteUser(user.encrypted_id);
-      await logout();
-      navigate("/login", { replace: true });
-    } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de supprimer le compte.");
-    } finally {
-      setDeleteLoading(false);
-      setDeleteOpen(false);
     }
   }
 
@@ -366,37 +299,8 @@ export default function SettingsPage() {
               Module categories a brancher prochainement depuis cette page.
             </div>
           </InfoCard>
-
-          <InfoCard
-            title="Zone sensible"
-            description="Cette action supprime le compte actuellement connecte."
-            className="border-rose-200"
-          >
-            <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-4">
-              <p className="text-sm font-semibold text-rose-700">
-                La suppression du compte est irreversible. Vous serez immediatement deconnecte.
-              </p>
-              <button
-                type="button"
-                onClick={() => setDeleteOpen(true)}
-                className="mt-4 inline-flex items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700"
-              >
-                Supprimer mon compte
-              </button>
-            </div>
-          </InfoCard>
         </div>
       </div>
-
-      <ConfirmModal
-        open={deleteOpen}
-        title="Supprimer le compte"
-        message="Voulez-vous vraiment supprimer votre compte administrateur ?"
-        confirmText="Oui, supprimer"
-        loading={deleteLoading}
-        onCancel={() => setDeleteOpen(false)}
-        onConfirm={handleDeleteAccount}
-      />
     </div>
   );
 }
