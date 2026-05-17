@@ -34,6 +34,12 @@ export async function deleteUser(encryptedId) {
   return axios.delete(`/api/users/${encryptedId}`);
 }
 
+export async function deleteAuthenticatedUser(password) {
+  return axios.delete("/api/auth/account", {
+    data: { password },
+  });
+}
+
 export async function restoreUser(encryptedId) {
   return axios.post(`/api/users/${encryptedId}/restore`);
 }

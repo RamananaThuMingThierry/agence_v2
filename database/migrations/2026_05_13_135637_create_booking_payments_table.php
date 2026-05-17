@@ -14,10 +14,18 @@ return new class extends Migration
         Schema::create('booking_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
-            $table->string('payment_method');
+            $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
+            $table->enum('payment_type', ['deposit', 'installment', 'balance', 'adjustment'])->default('installment');
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->string('transaction_id')->nullable();
+            $table->date('due_date')->nullable();
+            $table->timestamp('paid_at')->nullable();
+            $table->string('reference')->nullable();
+            $table->text('note')->nullable();
+            $table->unsignedInteger('sort_order')->default(1);
+            $table->index(['booking_id', 'status']);
+            $table->index(['booking_id', 'payment_type']);
+            $table->index(['booking_id', 'sort_order']);
             $table->softDeletes();
             $table->timestamps();
         });

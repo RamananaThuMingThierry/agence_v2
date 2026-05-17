@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ContactSection from "../../components/public/ContactSection";
 import CustomTripCtaSection from "../../components/public/CustomTripCtaSection";
 import FeaturedToursSection from "../../components/public/FeaturedToursSection";
@@ -9,17 +9,19 @@ import PaymentMethodsSection from "../../components/public/PaymentMethodsSection
 import PhotoDetailSection from "../../components/public/PhotoDetailSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
-import ReviewsSection from "../../components/public/ReviewsSection";
+import TestimonialsSection from "../../components/public/TestimonialsSection";
 import TopBar from "../../components/public/TopBar";
 import TourDetailPreviewSection from "../../components/public/TourDetailPreviewSection";
 import ToursCatalogSection from "../../components/public/ToursCatalogSection";
 import TrustStatsSection from "../../components/public/TrustStatsSection";
 import WhatsAppButton from "../../components/public/WhatsAppButton";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
+import { fetchPublishedTestimonials } from "../../api/testimonials";
 import {
   allTours,
   contactLinks,
   customTrips,
+  fallbackTestimonials,
   featuredTours,
   footerLinks,
   galleryFilters,
@@ -32,10 +34,37 @@ import {
   photoRelated,
   reasons,
   siteMeta,
-  testimonials,
 } from "../../data/publicHomeData";
 
 export default function HomePage() {
+  const [testimonials, setTestimonials] = useState(fallbackTestimonials);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadTestimonials() {
+      try {
+        const items = await fetchPublishedTestimonials();
+
+        if (!active || !Array.isArray(items) || items.length === 0) {
+          return;
+        }
+
+        setTestimonials(items);
+      } catch {
+        if (active) {
+          setTestimonials(fallbackTestimonials);
+        }
+      }
+    }
+
+    loadTestimonials();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="bg-stone-50 text-slate-800">
       <TopBar leftText={siteMeta.topBarLeft} rightText={siteMeta.topBarRight} />
@@ -56,7 +85,7 @@ export default function HomePage() {
       <PhotoDetailSection relatedPhotos={photoRelated} />
       <PaymentMethodsSection methods={paymentMethods} />
       <CustomTripCtaSection trips={customTrips} />
-      <ReviewsSection testimonials={testimonials} />
+      <TestimonialsSection testimonials={testimonials} />
       <ContactSection />
       <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
       <WhatsAppButton />

@@ -13,12 +13,19 @@ return new class extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
-            $table->string('payment_method');
-            $table->decimal('amount', 10, 2);
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->string('transaction_id')->nullable();
+
+            // Image (logo)
+            $table->string('image')->nullable(); // path ou URL du logo
+
+            // Identification
+            $table->string('name'); // ex: Mvola
+            $table->string('code')->unique(); // ex: mvola, orange_money, cash
+
+            // Activation
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
+            $table->index(['code', 'is_active']);
         });
     }
 

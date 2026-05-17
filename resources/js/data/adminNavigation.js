@@ -10,19 +10,24 @@ export const adminNavigation = [
     badge: "Live",
   },
   {
+    label: "Contact Forms",
+    href: "/admin/contact-forms",
+    badge: "Live",
+  },
+  {
     label: "Testimonials",
-    href: "/admin/dashboard",
-    badge: "Soon",
+    href: "/admin/testimonials",
+    badge: "Live",
   },
   {
     label: "Tours",
-    href: "/admin/dashboard",
-    badge: "Soon",
+    href: "/admin/tours",
+    badge: "Live",
   },
   {
     label: "Gallery",
-    href: "/admin/dashboard",
-    badge: "Soon",
+    href: "/admin/galleries",
+    badge: "Live",
   },
   {
     label: "Users",

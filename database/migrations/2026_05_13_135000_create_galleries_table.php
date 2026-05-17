@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
             $table->string('title');                       // Titre de la galerie
-            $table->string('subtitle');                    // Sous-titre de la galerie
-            $table->text('description');
+            $table->string('subtitle')->nullable();                    // Sous-titre de la galerie
+            $table->text('description')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

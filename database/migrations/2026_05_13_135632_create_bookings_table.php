@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('number_of_people');
+            $table->decimal('total_amount', 10, 2)->default(0);
             $table->enum('status', ['booked', 'cancelled', 'completed'])->default('booked');
             $table->softDeletes();
             $table->timestamps();

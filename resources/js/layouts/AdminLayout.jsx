@@ -56,6 +56,22 @@ function Icon({ name, className = "h-5 w-5" }) {
           <path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
         </svg>
       );
+    case "contact-forms":
+      return (
+        <svg {...common}>
+          <path d="M4 6h16v12H4z" />
+          <path d="m4 7 8 6 8-6" />
+        </svg>
+      );
+    case "bookings":
+      return (
+        <svg {...common}>
+          <path d="M7 4v4" />
+          <path d="M17 4v4" />
+          <rect x="4" y="6" width="16" height="14" rx="2" />
+          <path d="M4 10h16" />
+        </svg>
+      );
     case "tours":
       return (
         <svg {...common}>
@@ -177,14 +193,16 @@ function Icon({ name, className = "h-5 w-5" }) {
 
 const NAV = [
   { to: "/admin/dashboard", icon: "dashboard", label: "Tableau de bord" },
+  { to: "/admin/bookings", icon: "bookings", label: "Bookings" },
+  { to: "/admin/contact-forms", icon: "contact-forms", label: "Contact Forms" },
   { to: "/admin/slides", icon: "slides", label: "Slides" },
+  { to: "/admin/galleries", icon: "gallery", label: "Galerie" },
+  { to: "/admin/tours", icon: "tours", label: "Tours" },
+  { to: "/admin/testimonials", icon: "testimonials", label: "Testimonials" },
   { to: "/admin/users", icon: "users", label: "Users" },
-  { to: "/admin/activity-logs", icon: "activity", label: "Activity Logs" },
   { to: "/admin/settings", icon: "settings", label: "Settings" },
-  { to: "/admin/dashboard", icon: "testimonials", label: "Testimonials", badge: "Soon" },
-  { to: "/admin/dashboard", icon: "tours", label: "Tours", badge: "Soon" },
-  { to: "/admin/dashboard", icon: "gallery", label: "Galerie", badge: "Soon" },
-  { action: "logout", icon: "logout", label: "Deconnexion" },
+  { to: "/admin/activity-logs", icon: "activity", label: "Logs" },
+  { action: "logout", icon: "logout", label: "Logout" },
 ];
 
 function SidebarItem({ item, collapsed, onAction, mobile = false }) {
@@ -303,8 +321,24 @@ function getPageTitle(pathname) {
     return "Gestion des users";
   }
 
+  if (pathname.startsWith("/admin/contact-forms")) {
+    return "Gestion des formulaires de contact";
+  }
+
+  if (pathname.startsWith("/admin/bookings")) {
+    return "Gestion des bookings";
+  }
+
+  if (pathname.startsWith("/admin/galleries")) {
+    return "Gestion des galleries";
+  }
+
   if (pathname.startsWith("/admin/slides")) {
     return "Gestion des slides";
+  }
+
+  if (pathname.startsWith("/admin/testimonials")) {
+    return "Gestion des testimonials";
   }
 
   if (pathname.startsWith("/admin/dashboard")) {
@@ -394,19 +428,21 @@ function SidebarContent({ collapsed, onAction, mobile = false }) {
         </div>
       </div>
       <hr className="mb-5 border-white/15" />
-      <nav className="space-y-2">
-        {NAV.map((item) => (
-          <SidebarItem
-            key={item.to ?? item.action}
-            item={item}
-            collapsed={collapsed}
-            onAction={onAction}
-            mobile={mobile}
-          />
-        ))}
-      </nav>
+      <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+        <nav className="space-y-2">
+          {NAV.map((item) => (
+            <SidebarItem
+              key={item.to ?? item.action}
+              item={item}
+              collapsed={collapsed}
+              onAction={onAction}
+              mobile={mobile}
+            />
+          ))}
+        </nav>
+      </div>
 
-      <div className="mt-auto pt-6">
+      <div className="pt-6">
         <a
           href="/"
           className={cn(
@@ -497,7 +533,7 @@ export default function AdminLayout() {
       <div className="flex min-h-screen">
         <aside
           className={cn(
-            "sticky top-0 hidden min-h-screen shrink-0 border-r border-red-800 bg-red-700 p-5 text-white lg:flex lg:flex-col",
+            "sticky top-0 hidden h-screen shrink-0 border-r border-red-800 bg-red-700 p-5 text-white lg:flex lg:flex-col",
             sidebarWidth,
           )}
         >
@@ -515,7 +551,7 @@ export default function AdminLayout() {
 
         <aside
           className={cn(
-            "fixed inset-y-0 left-0 z-50 w-[88vw] max-w-sm -translate-x-full border-r border-red-800 bg-red-700 p-5 text-white shadow-[0_30px_80px_rgba(127,29,29,0.35)] transition-transform duration-300 lg:hidden",
+            "fixed inset-y-0 left-0 z-50 flex h-screen w-[88vw] max-w-sm -translate-x-full flex-col border-r border-red-800 bg-red-700 p-5 text-white shadow-[0_30px_80px_rgba(127,29,29,0.35)] transition-transform duration-300 lg:hidden",
             drawerOpen && "translate-x-0",
           )}
         >
@@ -585,7 +621,7 @@ export default function AdminLayout() {
 
           <footer className="border-t border-red-100 bg-red-50/70 backdrop-blur-xl">
             <div className="flex flex-col gap-3 px-4 py-5 text-sm text-red-700 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-              <p>� {new Date().getFullYear()} WORLD OF MADAGASCAR - Admin Dashboard</p>
+              <p>Ã‚Â© {new Date().getFullYear()} WORLD OF MADAGASCAR - Admin Dashboard</p>
               <div className="flex flex-wrap items-center gap-5">
                 <span className="inline-flex items-center gap-2">
                   <Icon name="shield" className="h-4 w-4" />
@@ -613,6 +649,7 @@ export default function AdminLayout() {
     </div>
   );
 }
+
 
 
 

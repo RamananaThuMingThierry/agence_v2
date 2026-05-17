@@ -12,7 +12,7 @@ export const navLinks = [
   { href: "#all-tours", label: "Liste circuits" },
   { href: "#gallery", label: "Galerie" },
   { href: "#why", label: "Pourquoi nous" },
-  { href: "#reviews", label: "Avis" },
+  { href: "#testimonials", label: "Avis" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -74,7 +74,7 @@ export const galleryFull = [
 export const paymentMethods = ["Mastercard", "Visa", "PayPal", "Virement", "Especes", "Mobile Money"];
 export const galleryFilters = ["Tous", "Baobabs", "Lemuriens", "Plages", "Parcs", "Clients"];
 export const customTrips = ["Wildlife & Lemurs Tour", "Baobabs & Tsingy Adventure", "RN7 Classic Road Trip", "Beach & Island Escape"];
-export const testimonials = [
+export const fallbackTestimonials = [
   { name: "Sarah M.", country: "France", quote: "Amazing trip! The guide was friendly, professional and showed us beautiful places in Madagascar." },
   { name: "James K.", country: "United Kingdom", quote: "Very flexible itinerary and great communication before the tour. Highly recommended." },
   { name: "Anna B.", country: "Germany", quote: "We loved the lemurs, baobabs and local villages. Everything was well organized." },
@@ -83,3 +83,4 @@ export const testimonials = [
 export const footerLinks = ["Accueil", "Circuits", "Avis", "Contact"];
 export const contactLinks = ["WhatsApp", "Email", "Facebook", "TripAdvisor"];
 export const photoRelated = galleryFull.slice(1, 5);
+
