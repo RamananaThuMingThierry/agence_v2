@@ -41,6 +41,44 @@ class TestimonialController extends Controller
         }
     }
 
+    public function publicStore(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'message' => ['required', 'string'],
+            'rating' => ['required', 'integer', 'min:1', 'max:5'],
+        ]);
+
+        if (array_key_exists('image', $validated) && $validated['image'] instanceof UploadedFile) {
+            $validated['image'] = $this->uploadFile($request, 'image', 'uploads/testimonials');
+        }
+
+        $testimonial = $this->testimonialService->createTestimonial([
+            'name' => $validated['name'],
+            'image' => $validated['image'] ?? null,
+            'message' => $validated['message'],
+            'rating' => $validated['rating'],
+            'status' => 'publish',
+        ]);
+
+        $this->activityLogService->logInfo(
+            $request,
+            'public_testimonial_created',
+            'Public testimonial created successfully.',
+            null,
+            Testimonial::class,
+            $testimonial->id,
+            201,
+            ['testimonial_name' => $testimonial->name]
+        );
+
+        return response()->json([
+            'data' => $testimonial,
+            'message' => 'Avis envoye avec succes.',
+        ], 201);
+    }
+
     public function index(Request $request): JsonResponse
     {
         try {

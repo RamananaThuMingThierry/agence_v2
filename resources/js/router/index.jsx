@@ -30,6 +30,7 @@ import BookingPage from "../pages/public/BookingPage";
 import GalleryDetailPage from "../pages/public/GalleryDetailPage";
 import GalleryListPage from "../pages/public/GalleryListPage";
 import HomePage from "../pages/public/HomePage";
+import TestimonialsListPage from "../pages/public/TestimonialsListPage";
 import TourPublicDetailPage from "../pages/public/TourPublicDetailPage";
 
 export const router = createBrowserRouter([
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <HomePage />,
+          },
+          {
+            path: "avis",
+            element: <TestimonialsListPage />,
           },
           {
             path: "galerie",

@@ -1,8 +1,9 @@
-import React from "react";
+﻿import React from "react";
+import { Link } from "react-router-dom";
 import SectionTitle from "./SectionTitle";
 
 function buildImageUrl(path) {
-  if (!path) return null;
+  if (!path) return "/images/profil.png";
 
   if (/^https?:\/\//i.test(path)) {
     return path;
@@ -21,13 +22,34 @@ function normalizeTestimonial(item) {
   };
 }
 
-export default function TestimonialsSection({ testimonials = [] }) {
+function StarIcon({ filled }) {
+  return (
+    <svg viewBox="0 0 24 24" className={filled ? "h-4 w-4 fill-amber-400 text-amber-400" : "h-4 w-4 fill-stone-200 text-stone-200"} aria-hidden="true">
+      <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+    </svg>
+  );
+}
+
+function StarRating({ value = 5 }) {
+  return (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => <StarIcon key={star} filled={star <= value} />)}
+    </div>
+  );
+}
+
+export default function TestimonialsSection({ testimonials = [], showMoreHref = "/avis" }) {
   const items = testimonials.map(normalizeTestimonial);
 
   return (
     <section id="testimonials" className="bg-stone-100 py-20">
       <div className="mx-auto max-w-7xl px-4">
-        <SectionTitle eyebrow="Avis clients" title="Ils ont voyage avec nous" center />
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <SectionTitle eyebrow="Avis clients" title="Ils ont voyage avec nous" center={false} />
+          <Link to={showMoreHref} className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-6 py-3 text-sm font-bold text-emerald-700 transition hover:bg-emerald-50">
+            Voir plus d'avis
+          </Link>
+        </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {items.map((item, index) => (
@@ -47,8 +69,8 @@ export default function TestimonialsSection({ testimonials = [] }) {
                 </div>
               </div>
 
-              <p className="mt-5 text-sm tracking-[0.22em] text-amber-500">{"★".repeat(item.rating)}</p>
-              <p className="mt-4 flex-1 leading-relaxed text-slate-600">“{item.message}”</p>
+              <div className="mt-5"><StarRating value={item.rating} /></div>
+              <p className="mt-4 flex-1 leading-relaxed text-slate-600">"{item.message}"</p>
             </article>
           ))}
         </div>

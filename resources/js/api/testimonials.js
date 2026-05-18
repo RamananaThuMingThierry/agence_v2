@@ -1,8 +1,28 @@
-import axios from "axios";
+﻿import axios from "axios";
 
 export async function fetchPublishedTestimonials() {
   const { data } = await axios.get("/api/public/testimonials");
   return Array.isArray(data?.data) ? data.data : data?.data?.data || [];
+}
+
+export async function createPublicTestimonial(values) {
+  const payload = new FormData();
+  payload.append("name", values.name ?? "");
+  payload.append("message", values.message ?? "");
+  payload.append("rating", String(values.rating ?? 5));
+
+  if (values.image instanceof File) {
+    payload.append("image", values.image);
+  }
+
+  const { data } = await axios.post("/api/public/testimonials", payload, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return {
+    testimonial: data?.data ?? null,
+    message: data?.message ?? "",
+  };
 }
 
 export async function fetchTestimonials(params = {}) {

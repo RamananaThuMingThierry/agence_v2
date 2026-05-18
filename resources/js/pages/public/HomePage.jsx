@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { fetchPublicGalleries } from "../../api/galleries";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { fetchPublicSlides } from "../../api/slides";
 import { fetchPublishedTestimonials } from "../../api/testimonials";
 import { fetchPublicTours } from "../../api/tours";
+import AboutSection from "../../components/public/AboutSection";
 import ContactSection from "../../components/public/ContactSection";
 import CustomTripCtaSection from "../../components/public/CustomTripCtaSection";
 import FeaturedToursSection from "../../components/public/FeaturedToursSection";
@@ -19,6 +20,7 @@ import TrustStatsSection from "../../components/public/TrustStatsSection";
 import WhatsAppButton from "../../components/public/WhatsAppButton";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
 import {
+  aboutFounder,
   contactLinks,
   customTrips,
   fallbackTestimonials,
@@ -52,10 +54,10 @@ export default function HomePage() {
           return;
         }
 
-        setTestimonials(items);
+        setTestimonials(items.slice(0, 3));
       } catch {
         if (active) {
-          setTestimonials(fallbackTestimonials);
+          setTestimonials(fallbackTestimonials.slice(0, 3));
         }
       }
     }
@@ -181,13 +183,14 @@ export default function HomePage() {
       />
       <HeroSection hero={hero} slides={slides} />
       <TrustStatsSection items={highlights} />
+      <AboutSection founder={aboutFounder} />
       <WhyChooseSection items={reasons} />
       <FeaturedToursSection tours={featuredTours} />
       <ToursCatalogSection tours={allTours} />
       <GalleryPreviewSection items={galleryPreview} />
       <PaymentMethodsSection methods={paymentMethods} />
       <CustomTripCtaSection trips={customTrips} />
-      <TestimonialsSection testimonials={testimonials} />
+      <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
       <ContactSection />
       <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
       <WhatsAppButton />
