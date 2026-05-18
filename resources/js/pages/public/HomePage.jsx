@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchPublicGalleries } from "../../api/galleries";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { fetchPublicSlides } from "../../api/slides";
@@ -10,6 +10,7 @@ import CustomTripCtaSection from "../../components/public/CustomTripCtaSection";
 import FeaturedToursSection from "../../components/public/FeaturedToursSection";
 import GalleryPreviewSection from "../../components/public/GalleryPreviewSection";
 import HeroSection from "../../components/public/HeroSection";
+import LocationMapSection from "../../components/public/LocationMapSection";
 import PaymentMethodsSection from "../../components/public/PaymentMethodsSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
@@ -32,6 +33,7 @@ import {
   reasons,
   siteMeta,
 } from "../../data/publicHomeData";
+import { officeLocation } from "../../data/publicLocationData";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
@@ -192,6 +194,7 @@ export default function HomePage() {
       <CustomTripCtaSection trips={customTrips} />
       <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
       <ContactSection />
+      <LocationMapSection location={officeLocation} />
       <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
       <WhatsAppButton />
     </div>
