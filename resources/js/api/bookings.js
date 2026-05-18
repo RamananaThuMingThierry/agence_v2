@@ -1,4 +1,4 @@
-﻿import axios from "axios";
+import axios from "axios";
 
 export async function createPublicBooking(values) {
   const { data } = await axios.post("/api/public/bookings", values);
@@ -28,4 +28,28 @@ export async function updateBooking(encryptedId, values) {
 
 export async function deleteBooking(encryptedId) {
   return axios.delete(`/api/bookings/${encryptedId}`);
+}
+
+export async function createBookingPayment(encryptedBookingId, values) {
+  const { data } = await axios.post(`/api/bookings/${encryptedBookingId}/payments`, values);
+  return {
+    booking: data?.data ?? null,
+    message: data?.message ?? "",
+  };
+}
+
+export async function updateBookingPayment(encryptedBookingId, encryptedPaymentId, values) {
+  const { data } = await axios.put(`/api/bookings/${encryptedBookingId}/payments/${encryptedPaymentId}`, values);
+  return {
+    booking: data?.data ?? null,
+    message: data?.message ?? "",
+  };
+}
+
+export async function deleteBookingPayment(encryptedBookingId, encryptedPaymentId) {
+  const { data } = await axios.delete(`/api/bookings/${encryptedBookingId}/payments/${encryptedPaymentId}`);
+  return {
+    booking: data?.data ?? null,
+    message: data?.message ?? "",
+  };
 }

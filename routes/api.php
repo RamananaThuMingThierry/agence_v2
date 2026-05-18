@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\BookingPaymentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ContactFormController;
 use App\Http\Controllers\Api\GalleryController;
@@ -40,6 +41,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('bookings', BookingController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::post('bookings/{booking}/payments', [BookingPaymentController::class, 'store']);
+    Route::put('bookings/{booking}/payments/{payment}', [BookingPaymentController::class, 'update']);
+    Route::delete('bookings/{booking}/payments/{payment}', [BookingPaymentController::class, 'destroy']);
     Route::apiResource('contact-forms', ContactFormController::class)->only(['index', 'show', 'destroy']);
     Route::apiResource('galleries', GalleryController::class);
     Route::apiResource('payment-methods', PaymentMethodController::class)->except(['show']);
@@ -68,3 +72,4 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('users/{user}/restore', [UserController::class, 'restore']);
     Route::delete('users/{user}/force', [UserController::class, 'forceDelete']);
 });
+

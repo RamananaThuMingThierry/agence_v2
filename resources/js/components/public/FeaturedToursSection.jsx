@@ -34,7 +34,9 @@ export default function FeaturedToursSection({ tours }) {
             <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">Nos circuits populaires</p>
             <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Choisissez votre aventure a Madagascar</h2>
           </div>
-          <a href="/#contact" className="font-bold text-emerald-700 hover:underline">Creer un circuit personnalise ?</a>
+          <Link to="/circuits" className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-6 py-3 text-sm font-bold text-emerald-700 transition hover:bg-emerald-50">
+            Voir plus
+          </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
           {tours.map((tour) => <FeaturedTourCard key={tour.tourId || tour.id || tour.title} tour={tour} />)}

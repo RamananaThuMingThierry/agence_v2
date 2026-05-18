@@ -31,6 +31,7 @@ import GalleryDetailPage from "../pages/public/GalleryDetailPage";
 import GalleryListPage from "../pages/public/GalleryListPage";
 import HomePage from "../pages/public/HomePage";
 import TestimonialsListPage from "../pages/public/TestimonialsListPage";
+import ToursListPage from "../pages/public/ToursListPage";
 import TourPublicDetailPage from "../pages/public/TourPublicDetailPage";
 
 export const router = createBrowserRouter([
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
           {
             path: "galerie/:galleryId",
             element: <GalleryDetailPage />,
+          },
+          {
+            path: "circuits",
+            element: <ToursListPage />,
           },
           {
             path: "circuits/:tourId",
