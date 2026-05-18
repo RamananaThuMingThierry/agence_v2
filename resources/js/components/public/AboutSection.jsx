@@ -25,7 +25,7 @@ export default function AboutSection({ founder }) {
               {founder.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div className="rounded-3xl bg-emerald-50 p-5">
                 <p className="text-sm font-bold uppercase tracking-[0.18em] text-emerald-800">Langues parlées</p>
                 <div className="mt-4 flex flex-wrap gap-2">

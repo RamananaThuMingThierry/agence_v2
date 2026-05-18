@@ -1,9 +1,24 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const I18nContext = createContext(null);
+const STORAGE_KEY = "public_lang";
+const DEFAULT_LANG = "fr";
 
 export function I18nProvider({ children }) {
-  const [lang, setLang] = useState("fr");
+  const [lang, setLang] = useState(() => {
+    if (typeof window === "undefined") {
+      return DEFAULT_LANG;
+    }
+
+    return window.localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.localStorage.setItem(STORAGE_KEY, lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const value = useMemo(
     () => ({

@@ -34,6 +34,7 @@ Route::get('public/tours', [TourController::class, 'publicIndex']);
 Route::get('public/tours/{encryptedId}', [TourController::class, 'publicShow']);
 Route::post('public/tours/{encryptedId}/reviews', [TourController::class, 'publicStoreReview']);
 Route::post('public/bookings', [BookingController::class, 'publicStore']);
+Route::post('public/contact-forms', [ContactFormController::class, 'publicStore']);
 Route::get('platform-settings', [PlatformSettingController::class, 'show']);
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -72,4 +73,5 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('users/{user}/restore', [UserController::class, 'restore']);
     Route::delete('users/{user}/force', [UserController::class, 'forceDelete']);
 });
+
 

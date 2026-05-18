@@ -7,6 +7,7 @@ import { fetchPublicTours } from "../../api/tours";
 import AboutSection from "../../components/public/AboutSection";
 import ContactSection from "../../components/public/ContactSection";
 import CustomTripCtaSection from "../../components/public/CustomTripCtaSection";
+import FaqSection from "../../components/public/FaqSection";
 import FeaturedToursSection from "../../components/public/FeaturedToursSection";
 import GalleryPreviewSection from "../../components/public/GalleryPreviewSection";
 import HeroSection from "../../components/public/HeroSection";
@@ -33,6 +34,7 @@ import {
   reasons,
   siteMeta,
 } from "../../data/publicHomeData";
+import { faqItems } from "../../data/publicFaqData";
 import { officeLocation } from "../../data/publicLocationData";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 import { mapTourToPublicItem } from "../../utils/publicTour";
@@ -84,6 +86,12 @@ export default function HomePage() {
           ...current,
           logo: settings.logo ? `/${String(settings.logo).replace(/^\/+/, "")}` : current.logo,
           brand: settings.platform_name || current.brand,
+          contact: settings.contact || current.contact,
+          whatsapp: settings.whatsapp || current.whatsapp,
+          email: settings.email || current.email,
+          facebook: settings.facebook || current.facebook,
+          instagram: settings.instagram || current.instagram,
+          address: settings.address || current.address,
         }));
       } catch {
         if (active) {
@@ -183,8 +191,13 @@ export default function HomePage() {
         tagline={platformMeta.tagline}
         links={navLinks}
       />
-      <HeroSection hero={hero} slides={slides} />
-      <TrustStatsSection items={highlights} />
+      <HeroSection hero={hero} slides={slides}>
+        <TrustStatsSection items={highlights} />
+      </HeroSection>
+      <div className="bg-stone-50 px-4 pt-6 md:hidden">
+        <TrustStatsSection items={highlights} />
+      </div>
+      <div className="hidden h-24 md:block" />
       <AboutSection founder={aboutFounder} />
       <WhyChooseSection items={reasons} />
       <FeaturedToursSection tours={featuredTours} />
@@ -193,10 +206,13 @@ export default function HomePage() {
       <PaymentMethodsSection methods={paymentMethods} />
       <CustomTripCtaSection trips={customTrips} />
       <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
-      <ContactSection />
+      <FaqSection items={faqItems} />
+      <ContactSection platform={platformMeta} />
       <LocationMapSection location={officeLocation} />
       <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
       <ScrollToTopButton />
     </div>
   );
 }
+
+

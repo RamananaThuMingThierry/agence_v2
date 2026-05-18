@@ -22,7 +22,7 @@ function normalizeSlides(slides = [], fallbackHero) {
   }];
 }
 
-export default function HeroSection({ hero, slides = [] }) {
+export default function HeroSection({ hero, slides = [], children = null }) {
   const items = normalizeSlides(slides, hero);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -48,7 +48,7 @@ export default function HeroSection({ hero, slides = [] }) {
   }
 
   return (
-    <section id="home" className="relative flex min-h-[78vh] items-center overflow-hidden">
+    <section id="home" className="relative flex min-h-[78vh] items-center overflow-hidden pb-24 md:overflow-visible">
       {items.map((slide, index) => (
         <div
           key={slide.id}
@@ -102,6 +102,12 @@ export default function HeroSection({ hero, slides = [] }) {
               aria-label={`Aller au slide ${index + 1}`}
             />
           ))}
+        </div>
+      ) : null}
+
+      {children ? (
+        <div className="absolute inset-x-0 bottom-0 z-20 hidden translate-y-1/2 md:block">
+          {children}
         </div>
       ) : null}
     </section>

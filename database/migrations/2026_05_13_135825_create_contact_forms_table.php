@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('subject')->nullable();
-            $table->enum('type', ['general', 'circuit', 'claim', 'quotation'])->default('general');
             $table->string('email');
             $table->text('message');
             $table->timestamps();

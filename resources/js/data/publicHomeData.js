@@ -4,6 +4,12 @@ export const siteMeta = {
   tagline: "Tours",
   topBarLeft: "Circuits priv�s � Madagascar avec guides locaux",
   topBarRight: "WhatsApp: +261 38 09 137 03 | Email: worldofmadagascartour@gmail.com",
+  contact: "+261 38 09 137 03",
+  whatsapp: "https://wa.me/261380913703",
+  email: "worldofmadagascartour@gmail.com",
+  facebook: "https://www.facebook.com/profile.php?id=100084179285857",
+  instagram: "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D",
+  address: "Antananarivo, Madagascar",
 };
 
 export const navLinks = [
@@ -107,4 +113,5 @@ export const footerLinks = [
 ];
 export const contactLinks = ["WhatsApp", "Email", "Facebook", "TripAdvisor"];
 export const photoRelated = galleryFull.slice(1, 5);
+
 
