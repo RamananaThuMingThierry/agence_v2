@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');                       // Titre de la galerie
             $table->string('subtitle')->nullable();                    // Sous-titre de la galerie
+            $table->string('place')->nullable();
             $table->text('description')->nullable();
+            $table->enum('status', ['draft', 'publish'])->default('publish');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('tour_id')->nullable()->constrained('tours')->nullOnDelete();
             $table->timestamps();
         });
     }

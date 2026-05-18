@@ -16,8 +16,11 @@ class StoreGalleryRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
+            'place' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:draft,publish'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'tour_id' => ['nullable', 'integer', 'exists:tours,id'],
             'images' => ['required', 'array', 'min:1'],
             'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'captions' => ['sometimes', 'array'],

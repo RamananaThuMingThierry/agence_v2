@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export async function fetchPublicSlides() {
+  const { data } = await axios.get("/api/public/slides");
+  return Array.isArray(data?.data) ? data.data : data?.data?.data || [];
+}
+
 export async function fetchSlides(params = {}) {
   const { data } = await axios.get("/api/slides", { params });
   return Array.isArray(data?.data) ? data.data : data?.data?.data || [];

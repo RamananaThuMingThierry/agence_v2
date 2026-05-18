@@ -1,4 +1,14 @@
-﻿import axios from "axios";
+import axios from "axios";
+
+export async function fetchPublicGalleries() {
+  const { data } = await axios.get("/api/public/galleries");
+  return Array.isArray(data?.data) ? data.data : data?.data?.data || [];
+}
+
+export async function fetchPublicGallery(encryptedId) {
+  const { data } = await axios.get(`/api/public/galleries/${encryptedId}`);
+  return data?.data ?? null;
+}
 
 export async function fetchGalleries(params = {}) {
   const { data } = await axios.get("/api/galleries", { params });
@@ -38,8 +48,11 @@ function buildGalleryFormData(values) {
   const payload = new FormData();
   payload.append("title", values.title ?? "");
   payload.append("subtitle", values.subtitle ?? "");
+  payload.append("place", values.place ?? "");
   payload.append("description", values.description ?? "");
+  payload.append("status", values.status ?? "publish");
   payload.append("category_id", String(values.category_id ?? ""));
+  payload.append("tour_id", values.tour_id ? String(values.tour_id) : "");
 
   (values.newImages ?? []).forEach((file, index) => {
     if (file instanceof File) {

@@ -26,6 +26,8 @@ import UserDetailsPage from "../pages/admin/users/UserDetailsPage";
 import LoginPage from "../pages/auth/LoginPage";
 import NotFoundPage from "../pages/errors/NotFoundPage";
 import ErrorPage from "../pages/errors/ErrorPage";
+import GalleryDetailPage from "../pages/public/GalleryDetailPage";
+import GalleryListPage from "../pages/public/GalleryListPage";
 import HomePage from "../pages/public/HomePage";
 
 export const router = createBrowserRouter([
@@ -40,6 +42,14 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <HomePage />,
+          },
+          {
+            path: "galerie",
+            element: <GalleryListPage />,
+          },
+          {
+            path: "galerie/:galleryId",
+            element: <GalleryDetailPage />,
           },
         ],
       },

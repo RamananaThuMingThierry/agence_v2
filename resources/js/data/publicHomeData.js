@@ -1,9 +1,9 @@
 export const siteMeta = {
-  logo: "/favicon.ico",
+  logo: "/images/logo.png",
   brand: "World of Madagascar",
-  tagline: "Local Tours & Travel",
-  topBarLeft: "Circuits prives a Madagascar avec guides locaux",
-  topBarRight: "WhatsApp: +261 XX XX XXX XX | Email: contact@example.com",
+  tagline: "Tours",
+  topBarLeft: "Circuits privés à Madagascar avec guides locaux",
+  topBarRight: "WhatsApp: +261 38 09 137 03 | Email: worldofmadagascartour@gmail.com",
 };
 
 export const navLinks = [
@@ -11,23 +11,22 @@ export const navLinks = [
   { href: "#tours", label: "Circuits" },
   { href: "#all-tours", label: "Liste circuits" },
   { href: "#gallery", label: "Galerie" },
-  { href: "#why", label: "Pourquoi nous" },
+  { href: "#why", label: "Pourquoi-nous" },
   { href: "#testimonials", label: "Avis" },
   { href: "#contact", label: "Contact" },
 ];
 
 export const hero = {
-  badge: "Guides francophones & anglophones a Madagascar",
-  title: "Circuits prives a Madagascar avec des experts locaux",
+  title: "Circuits privés à Madagascar avec des experts locaux",
   text: "Decouvrez les lemuriens, les baobabs, les parcs nationaux, les plages et les villages malgaches avec une equipe locale de confiance.",
   image: "https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=1600&q=80",
-  highlights: ["????? Avis voyageurs", "Tours prives", "Itineraires personnalises", "Assistance WhatsApp"],
+  highlights: ["????? Avis voyageurs", "Tours privés", "Itineraires personnalises", "Assistance WhatsApp"],
 };
 
 export const highlights = [
-  { value: "8+", label: "Annees d'experience" },
-  { value: "100%", label: "Circuits prives" },
-  { value: "4", label: "Langues parlees" },
+  { value: "8+", label: "Années d'experience" },
+  { value: "100%", label: "Circuits privés" },
+  { value: "4", label: "Langues parlées" },
   { value: "24/7", label: "Support voyage" },
 ];
 

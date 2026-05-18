@@ -48,9 +48,17 @@ function SortableHead({ label, column, sortBy, sortDirection, onSort }) {
     <th className="px-5 py-4">
       <button type="button" onClick={() => onSort(column)} className={cn("inline-flex items-center gap-2 font-bold uppercase tracking-[0.18em] transition", active ? "text-slate-800" : "text-slate-500 hover:text-slate-700")}>
         <span>{label}</span>
-        <span className="text-[10px]">{active ? (sortDirection === "asc" ? "â–²" : "â–¼") : "â†•"}</span>
+        <span className="text-[10px]">{active ? (sortDirection === "asc" ? "?" : "?") : "?"}</span>
       </button>
     </th>
+  );
+}
+
+function StatusBadge({ status }) {
+  return (
+    <span className={status === "publish" ? "inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-emerald-800" : "inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-amber-800"}>
+      {status === "publish" ? "Publie" : "Brouillon"}
+    </span>
   );
 }
 
@@ -116,11 +124,11 @@ export default function GalleriesPage() {
 
     try {
       await deleteGallery(confirmGallery.encrypted_id);
-      setNotice("Gallery supprimÃ©e.");
+      setNotice("Gallery supprimee.");
       setConfirmGallery(null);
       await loadGalleries();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Ã‰chec de la suppression de la gallery.");
+      setError(requestError.response?.data?.message || "Echec de la suppression de la gallery.");
     } finally {
       setActionLoading(false);
     }
@@ -131,7 +139,7 @@ export default function GalleriesPage() {
     if (!query) return galleries;
 
     return galleries.filter((gallery) =>
-      [gallery.title, gallery.subtitle, gallery.description, gallery.category?.name]
+      [gallery.title, gallery.subtitle, gallery.description, gallery.category?.name, gallery.status]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(query)),
     );
@@ -174,8 +182,8 @@ export default function GalleriesPage() {
 
   const counts = useMemo(() => ({
     total: galleries.length,
-    images: galleries.reduce((sum, gallery) => sum + (gallery.images?.length || 0), 0),
-    categories: new Set(galleries.map((gallery) => gallery.category?.id).filter(Boolean)).size,
+    published: galleries.filter((gallery) => gallery.status === "publish").length,
+    drafts: galleries.filter((gallery) => gallery.status === "draft").length,
   }), [galleries]);
 
   return (
@@ -184,7 +192,7 @@ export default function GalleriesPage() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h2 className="text-2xl font-extrabold text-slate-950">Gestion des galleries</h2>
-            <p className="mt-2 text-sm text-slate-500">Liste des galleries, categories associÃ©es et images de couverture.</p>
+            <p className="mt-2 text-sm text-slate-500">Liste des galleries, statut de publication et images de couverture.</p>
           </div>
 
           <Link to="/admin/galleries/create" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">
@@ -198,12 +206,12 @@ export default function GalleriesPage() {
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Images</p>
-            <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.images}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Publiees</p>
+            <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.published}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">CatÃ©gories</p>
-            <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.categories}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Brouillons</p>
+            <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.drafts}</p>
           </div>
         </div>
 
@@ -214,7 +222,7 @@ export default function GalleriesPage() {
               <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">
                 {[5, 10, 25, 50].map((size) => <option key={size} value={size}>{size} / page</option>)}
               </select>
-              <button type="button" onClick={loadGalleries} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">RafraÃ®chir</button>
+              <button type="button" onClick={loadGalleries} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">Rafraichir</button>
             </div>
           </div>
 
@@ -223,9 +231,9 @@ export default function GalleriesPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les galleries sont en cours de rÃ©cupÃ©ration depuis l'API." />
+              <EmptyState title="Chargement..." description="Les galleries sont en cours de recuperation depuis l'API." />
             ) : sortedGalleries.length === 0 ? (
-              <EmptyState title="Aucune gallery" description="Aucune gallery ne correspond Ã  la recherche actuelle." />
+              <EmptyState title="Aucune gallery" description="Aucune gallery ne correspond a la recherche actuelle." />
             ) : (
               <div className="space-y-4">
                 <div className="overflow-hidden rounded-sm border border-stone-200">
@@ -235,9 +243,10 @@ export default function GalleriesPage() {
                         <tr>
                           <th className="px-5 py-4 text-slate-500">Cover</th>
                           <SortableHead label="Titre" column="title" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="CatÃ©gorie" column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label="Categorie" column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label="Statut" column="status" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
                           <SortableHead label="Images" column="images" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="CrÃ©ation" column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label="Creation" column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
                           <th className="px-5 py-4 text-right text-slate-500">Actions</th>
                         </tr>
                       </thead>
@@ -257,6 +266,7 @@ export default function GalleriesPage() {
                                 <p className="mt-1 max-w-md text-sm text-slate-500">{gallery.subtitle || "Sans sous-titre"}</p>
                               </td>
                               <td className="px-5 py-4 text-sm font-bold text-slate-700">{gallery.category?.name || "-"}</td>
+                              <td className="px-5 py-4"><StatusBadge status={gallery.status} /></td>
                               <td className="px-5 py-4 text-sm text-slate-600">{gallery.images?.length || 0}</td>
                               <td className="px-5 py-4 text-sm text-slate-500">{gallery.created_at ? new Date(gallery.created_at).toLocaleDateString("fr-FR") : "-"}</td>
                               <td className="px-5 py-4">

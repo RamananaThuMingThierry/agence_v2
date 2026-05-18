@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchGallery } from "../../../api/galleries";
 
@@ -98,6 +98,9 @@ export default function GalleryDetailsPage() {
               <DetailCard label="Titre" value={gallery?.title} />
               <DetailCard label="Categorie" value={gallery?.category?.name} />
               <DetailCard label="Sous-titre" value={gallery?.subtitle} />
+              <DetailCard label="Lieu" value={gallery?.place} />
+              <DetailCard label="Circuit lie" value={gallery?.tour?.title} />
+              <DetailCard label="Statut" value={gallery?.status === "publish" ? "Publie" : "Brouillon"} />
               <DetailCard label="Nombre d'images" value={String(gallery?.images?.length || 0)} />
               <DetailCard label="Creation" value={gallery?.created_at ? new Date(gallery.created_at).toLocaleString("fr-FR") : "-"} />
               <DetailCard label="Derniere mise a jour" value={gallery?.updated_at ? new Date(gallery.updated_at).toLocaleString("fr-FR") : "-"} />
@@ -114,7 +117,7 @@ export default function GalleryDetailsPage() {
       <section className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
         <div className="border-b border-stone-200 px-6 py-5">
           <h3 className="text-lg font-extrabold text-slate-950">Images de la gallery</h3>
-          <p className="mt-2 text-sm text-slate-500">Toutes les images associées, avec leur caption et indication de cover.</p>
+          <p className="mt-2 text-sm text-slate-500">Toutes les images associees, avec leur caption et indication de cover.</p>
         </div>
 
         <div className="grid gap-4 px-6 py-6 sm:grid-cols-2 xl:grid-cols-3">

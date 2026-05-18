@@ -2,12 +2,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchCategories } from "../../../api/categories";
 import { createGallery, fetchGallery, updateGallery } from "../../../api/galleries";
+import { fetchTours } from "../../../api/tours";
 
 const initialForm = {
   title: "",
   subtitle: "",
+  place: "",
   description: "",
+  status: "publish",
   category_id: "",
+  tour_id: "",
 };
 
 function buildImageUrl(path) {
@@ -32,6 +36,7 @@ export default function FormGalleryPage() {
   const isEditMode = Boolean(galleryId);
   const [form, setForm] = useState(initialForm);
   const [categories, setCategories] = useState([]);
+  const [tours, setTours] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [removedImageIds, setRemovedImageIds] = useState([]);
   const [newImages, setNewImages] = useState([]);
@@ -49,21 +54,26 @@ export default function FormGalleryPage() {
       setError("");
 
       try {
-        const [categoryItems, gallery] = await Promise.all([
+        const [categoryItems, tourItems, gallery] = await Promise.all([
           fetchCategories(),
+          fetchTours(),
           isEditMode ? fetchGallery(galleryId) : Promise.resolve(null),
         ]);
 
         if (!active) return;
 
         setCategories(categoryItems);
+        setTours(Array.isArray(tourItems) ? tourItems : []);
 
         if (gallery) {
           setForm({
             title: gallery.title || "",
             subtitle: gallery.subtitle || "",
+            place: gallery.place || "",
             description: gallery.description || "",
+            status: gallery.status || "publish",
             category_id: String(gallery.category_id || ""),
+            tour_id: gallery.tour_id ? String(gallery.tour_id) : "",
           });
           const images = Array.isArray(gallery.images) ? gallery.images : [];
           setExistingImages(images);
@@ -127,10 +137,10 @@ export default function FormGalleryPage() {
     setRemovedImageIds((current) => [...current, imageId]);
 
     if (coverSelection.type === "existing" && coverSelection.value === imageId) {
-      setCoverSelection((current) => {
+      setCoverSelection(() => {
         const fallbackExisting = existingImages.filter((image) => image.id !== imageId)[0];
         if (fallbackExisting) return { type: "existing", value: fallbackExisting.id };
-        return newImages.length > 0 ? { type: "new", value: 0 } : { type: "new", value: 0 };
+        return { type: "new", value: 0 };
       });
     }
   }
@@ -180,16 +190,16 @@ export default function FormGalleryPage() {
       navigate("/admin/galleries", {
         replace: true,
         state: {
-          notice: isEditMode ? "Gallery mise à jour." : "Gallery créée.",
+          notice: isEditMode ? "Gallery mise a jour." : "Gallery creee.",
         },
       });
     } catch (requestError) {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Échec de l'enregistrement de la gallery.");
+        setError(firstMessage || "Echec de l'enregistrement de la gallery.");
       } else {
-        setError(requestError.response?.data?.message || "Échec de l'enregistrement de la gallery.");
+        setError(requestError.response?.data?.message || "Echec de l'enregistrement de la gallery.");
       }
     } finally {
       setSaving(false);
@@ -211,7 +221,7 @@ export default function FormGalleryPage() {
 
           <Link to="/admin/galleries" className="inline-flex items-center justify-center gap-2 self-start rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:text-black">
             <Icon name="arrow-left" className="h-4 w-4" />
-            Retour à la liste
+            Retour a la liste
           </Link>
         </div>
       </section>
@@ -233,13 +243,38 @@ export default function FormGalleryPage() {
               </label>
             </div>
 
-            <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Catégorie</span>
-              <select name="category_id" required value={form.category_id} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
-                <option value="">Sélectionner une catégorie</option>
-                {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
-              </select>
-            </label>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <label className="space-y-2">
+                <span className="block text-sm font-bold text-slate-800">Lieu</span>
+                <input type="text" name="place" value={form.place} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Ex: Morondava" />
+              </label>
+
+              <label className="space-y-2">
+                <span className="block text-sm font-bold text-slate-800">Categorie</span>
+                <select name="category_id" required value={form.category_id} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
+                  <option value="">Selectionner une categorie</option>
+                  {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+                </select>
+              </label>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <label className="space-y-2">
+                <span className="block text-sm font-bold text-slate-800">Circuit lie</span>
+                <select name="tour_id" value={form.tour_id} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
+                  <option value="">Aucun circuit lie</option>
+                  {tours.map((tour) => <option key={tour.id} value={tour.id}>{tour.title}</option>)}
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <span className="block text-sm font-bold text-slate-800">Statut</span>
+                <select name="status" required value={form.status} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
+                  <option value="publish">Publie</option>
+                  <option value="draft">Brouillon</option>
+                </select>
+              </label>
+            </div>
 
             <label className="space-y-2">
               <span className="block text-sm font-bold text-slate-800">Description</span>
@@ -255,7 +290,7 @@ export default function FormGalleryPage() {
           <div className="border-t border-stone-200 bg-white px-4 py-4 sm:px-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
               <Link to="/admin/galleries" className="inline-flex w-full items-center justify-center rounded-sm border border-stone-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition sm:w-auto">Annuler</Link>
-              <button type="submit" disabled={saving} className="inline-flex w-full items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">{saving ? "Enregistrement..." : isEditMode ? "Mettre à jour" : "Enregistrer"}</button>
+              <button type="submit" disabled={saving} className="inline-flex w-full items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">{saving ? "Enregistrement..." : isEditMode ? "Mettre a jour" : "Enregistrer"}</button>
             </div>
           </div>
         </section>
@@ -293,10 +328,10 @@ export default function FormGalleryPage() {
           <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
             <div className="border-b border-stone-200 px-6 py-5">
               <h3 className="text-lg font-extrabold text-slate-950">Nouvelles images</h3>
-              <p className="mt-2 text-sm text-slate-500">Prévisualisez les nouvelles images avant enregistrement.</p>
+              <p className="mt-2 text-sm text-slate-500">Previsualisez les nouvelles images avant enregistrement.</p>
             </div>
             <div className="space-y-4 px-6 py-6">
-              {newImages.length === 0 ? <p className="text-sm text-slate-500">Aucune nouvelle image sélectionnée.</p> : newImages.map((file, index) => (
+              {newImages.length === 0 ? <p className="text-sm text-slate-500">Aucune nouvelle image selectionnee.</p> : newImages.map((file, index) => (
                 <div key={`${file.name}-${index}`} className="rounded-sm border border-stone-200 p-4">
                   <div className="flex gap-4">
                     <img src={newPreviews[index]} alt={file.name} className="h-24 w-24 rounded-sm object-cover" />

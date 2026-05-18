@@ -16,8 +16,11 @@ class UpdateGalleryRequest extends FormRequest
         return [
             'title' => ['sometimes', 'required', 'string', 'max:255'],
             'subtitle' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'place' => ['sometimes', 'nullable', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
+            'status' => ['sometimes', 'required', 'in:draft,publish'],
             'category_id' => ['sometimes', 'required', 'integer', 'exists:categories,id'],
+            'tour_id' => ['sometimes', 'nullable', 'integer', 'exists:tours,id'],
             'images' => ['sometimes', 'array'],
             'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'captions' => ['sometimes', 'array'],

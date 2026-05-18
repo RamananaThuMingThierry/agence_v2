@@ -25,6 +25,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::get('public/testimonials', [TestimonialController::class, 'publicIndex']);
+Route::get('public/slides', [SlideController::class, 'publicIndex']);
+Route::get('public/galleries', [GalleryController::class, 'publicIndex']);
+Route::get('public/galleries/{encryptedId}', [GalleryController::class, 'publicShow']);
 Route::get('platform-settings', [PlatformSettingController::class, 'show']);
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {

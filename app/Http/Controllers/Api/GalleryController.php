@@ -27,12 +27,58 @@ class GalleryController extends Controller
         private ActivityLogService $activityLogService
     ) {}
 
+    public function publicIndex(): JsonResponse
+    {
+        try {
+            $galleries = $this->galleryService->getAllGalleries(
+                keys: 'status',
+                values: 'publish',
+                fields: ['*'],
+                relations: ['category:id,name', 'tour:id,title,slug', 'images'],
+                orderBy: ['id' => 'desc'],
+            );
+
+            return response()->json([
+                'data' => $galleries,
+            ]);
+        } catch (Throwable) {
+            return response()->json(['message' => 'Failed to fetch public galleries.'], 500);
+        }
+    }
+
+    public function publicShow(string $encryptedId): JsonResponse
+    {
+        try {
+            $id = decrypt_to_int_or_null($encryptedId);
+
+            if (is_null($id)) {
+                return response()->json(['message' => 'Invalid gallery ID.'], 400);
+            }
+
+            $gallery = $this->galleryService->getByKeysGallery(
+                ['id', 'status'],
+                [$id, 'publish'],
+                relations: ['category:id,name', 'tour:id,title,slug', 'images']
+            );
+
+            if (!$gallery) {
+                return response()->json(['message' => 'Gallery not found.'], 404);
+            }
+
+            return response()->json([
+                'data' => $gallery,
+            ]);
+        } catch (Throwable) {
+            return response()->json(['message' => 'Failed to fetch public gallery.'], 500);
+        }
+    }
+
     public function index(Request $request): JsonResponse
     {
         try {
             $galleries = $this->galleryService->getAllGalleries(
                 fields: ['*'],
-                relations: ['category:id,name', 'images'],
+                relations: ['category:id,name', 'tour:id,title,slug', 'images'],
                 paginate: $request->integer('per_page'),
                 orderBy: ['id' => 'desc'],
             );
@@ -65,13 +111,16 @@ class GalleryController extends Controller
                 $gallery = $this->galleryService->createGallery([
                     'title' => $validated['title'],
                     'subtitle' => $validated['subtitle'] ?? null,
+                    'place' => $validated['place'] ?? null,
                     'description' => $validated['description'] ?? null,
+                    'status' => $validated['status'],
                     'category_id' => $validated['category_id'],
+                    'tour_id' => $validated['tour_id'] ?? null,
                 ]);
 
                 $this->syncGalleryImages($request, $gallery);
 
-                return $gallery->fresh(['category:id,name', 'images']);
+                return $gallery->fresh(['category:id,name', 'tour:id,title,slug', 'images']);
             });
 
             $this->activityLogService->logSuccess(
@@ -115,7 +164,7 @@ class GalleryController extends Controller
                 return response()->json(['message' => 'Invalid gallery ID.'], 400);
             }
 
-            $gallery = $this->galleryService->getByIdGallery($id, relations: ['category:id,name', 'images']);
+            $gallery = $this->galleryService->getByIdGallery($id, relations: ['category:id,name', 'tour:id,title,slug', 'images']);
 
             if (!$gallery) {
                 return response()->json(['message' => 'Gallery not found.'], 404);
@@ -161,13 +210,16 @@ class GalleryController extends Controller
                 $this->galleryService->updateGallery($gallery, [
                     'title' => $validated['title'] ?? $gallery->title,
                     'subtitle' => array_key_exists('subtitle', $validated) ? $validated['subtitle'] : $gallery->subtitle,
+                    'place' => array_key_exists('place', $validated) ? $validated['place'] : $gallery->place,
                     'description' => array_key_exists('description', $validated) ? $validated['description'] : $gallery->description,
+                    'status' => $validated['status'] ?? $gallery->status,
                     'category_id' => $validated['category_id'] ?? $gallery->category_id,
+                    'tour_id' => array_key_exists('tour_id', $validated) ? $validated['tour_id'] : $gallery->tour_id,
                 ]);
 
                 $this->syncGalleryImages($request, $gallery, true);
 
-                return $gallery->fresh(['category:id,name', 'images']);
+                return $gallery->fresh(['category:id,name', 'tour:id,title,slug', 'images']);
             });
 
             $this->activityLogService->logInfo(

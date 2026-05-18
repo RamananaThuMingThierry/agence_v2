@@ -22,6 +22,18 @@ class SlideController extends Controller
         private SlideService $slideService,
         private ActivityLogService $activityLogService
     ) {}
+    public function publicIndex(): JsonResponse
+    {
+        $slides = Slide::query()
+            ->where('is_active', true)
+            ->orderBy('order')
+            ->orderByDesc('id')
+            ->get();
+
+        return response()->json([
+            'data' => $slides,
+        ]);
+    }
 
     public function index(Request $request): JsonResponse
     {
@@ -352,3 +364,4 @@ class SlideController extends Controller
         return response()->json(['message' => 'Slide permanently deleted successfully.']);
     }
 }
+

@@ -16,8 +16,11 @@ class Gallery extends Model
     protected $fillable = [
         'title',
         'subtitle',
+        'place',
         'description',
+        'status',
         'category_id',
+        'tour_id',
     ];
 
     protected $appends = [
@@ -27,6 +30,11 @@ class Gallery extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function tour(): BelongsTo
+    {
+        return $this->belongsTo(Tour::class);
     }
 
     public function images(): HasMany
