@@ -18,7 +18,7 @@ import TestimonialsSection from "../../components/public/TestimonialsSection";
 import TopBar from "../../components/public/TopBar";
 import ToursCatalogSection from "../../components/public/ToursCatalogSection";
 import TrustStatsSection from "../../components/public/TrustStatsSection";
-import WhatsAppButton from "../../components/public/WhatsAppButton";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
 import {
   aboutFounder,
@@ -195,8 +195,8 @@ export default function HomePage() {
       <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
       <ContactSection />
       <LocationMapSection location={officeLocation} />
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
-      <WhatsAppButton />
+      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <ScrollToTopButton />
     </div>
   );
 }

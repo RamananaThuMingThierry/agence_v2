@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone')->nullable();
-            $table->string('image')->nullable();
             $table->foreignId('tour_id')->constrained()->onDelete('cascade');
             $table->text('message')->nullable();
             $table->date('start_date');

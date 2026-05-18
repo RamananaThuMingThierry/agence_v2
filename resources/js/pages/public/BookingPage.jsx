@@ -6,7 +6,7 @@ import { fetchPublicTour } from "../../api/tours";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import TopBar from "../../components/public/TopBar";
-import WhatsAppButton from "../../components/public/WhatsAppButton";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import { contactLinks, footerLinks, navLinks, siteMeta } from "../../data/publicHomeData";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
@@ -309,8 +309,8 @@ export default function BookingPage() {
           )}
         </div>
       </section>
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
-      <WhatsAppButton href="/#contact" />
+      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <ScrollToTopButton />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { fetchPublicGallery, fetchPublicGalleries } from "../../api/galleries";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import TopBar from "../../components/public/TopBar";
-import WhatsAppButton from "../../components/public/WhatsAppButton";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { contactLinks, footerLinks, navLinks, siteMeta } from "../../data/publicHomeData";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
@@ -223,8 +223,8 @@ export default function GalleryDetailPage() {
           )}
         </div>
       </section>
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
-      <WhatsAppButton href="/#contact" />
+      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <ScrollToTopButton />
     </div>
   );
 }

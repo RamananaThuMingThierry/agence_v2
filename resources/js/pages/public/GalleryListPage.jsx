@@ -4,7 +4,7 @@ import GalleryPageSection from "../../components/public/GalleryPageSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import TopBar from "../../components/public/TopBar";
-import WhatsAppButton from "../../components/public/WhatsAppButton";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import {
   contactLinks,
@@ -95,8 +95,8 @@ export default function GalleryListPage() {
         contactHref="/#contact"
       />
       <GalleryPageSection filters={galleryFilters} items={galleryItems} />
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} />
-      <WhatsAppButton href="/#contact" />
+      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <ScrollToTopButton />
     </div>
   );
 }
