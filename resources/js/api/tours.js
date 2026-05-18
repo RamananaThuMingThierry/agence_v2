@@ -1,5 +1,35 @@
 ﻿import axios from "axios";
 
+export async function fetchPublicTours() {
+  const { data } = await axios.get("/api/public/tours");
+  return Array.isArray(data?.data) ? data.data : data?.data?.data || [];
+}
+
+export async function fetchPublicTour(encryptedId) {
+  const { data } = await axios.get(`/api/public/tours/${encryptedId}`);
+  return data?.data ?? null;
+}
+
+export async function createPublicTourReview(encryptedId, values) {
+  const payload = new FormData();
+  payload.append("name", values.name ?? "");
+  payload.append("rating", String(values.rating ?? 5));
+  payload.append("review", values.review ?? "");
+
+  if (values.image instanceof File) {
+    payload.append("image", values.image);
+  }
+
+  const { data } = await axios.post(`/api/public/tours/${encryptedId}/reviews`, payload, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return {
+    review: data?.data ?? null,
+    message: data?.message ?? "",
+  };
+}
+
 export async function fetchTours(params = {}) {
   const { data } = await axios.get("/api/tours", { params });
   return Array.isArray(data?.data) ? data.data : data?.data?.data || [];
@@ -8,6 +38,15 @@ export async function fetchTours(params = {}) {
 export async function fetchTour(encryptedId) {
   const { data } = await axios.get(`/api/tours/${encryptedId}`);
   return data?.data ?? null;
+}
+
+export async function updateTourReview(tourEncryptedId, reviewId, values) {
+  const { data } = await axios.put(`/api/tours/${tourEncryptedId}/reviews/${reviewId}`, values);
+  return data?.data ?? null;
+}
+
+export async function deleteTourReview(tourEncryptedId, reviewId) {
+  return axios.delete(`/api/tours/${tourEncryptedId}/reviews/${reviewId}`);
 }
 
 export async function createTour(values) {

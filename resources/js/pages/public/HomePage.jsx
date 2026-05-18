@@ -1,46 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { fetchPublicGalleries } from "../../api/galleries";
+import { fetchPlatformSettings } from "../../api/platformSettings";
+import { fetchPublicSlides } from "../../api/slides";
+import { fetchPublishedTestimonials } from "../../api/testimonials";
+import { fetchPublicTours } from "../../api/tours";
 import ContactSection from "../../components/public/ContactSection";
 import CustomTripCtaSection from "../../components/public/CustomTripCtaSection";
 import FeaturedToursSection from "../../components/public/FeaturedToursSection";
 import GalleryPreviewSection from "../../components/public/GalleryPreviewSection";
 import HeroSection from "../../components/public/HeroSection";
 import PaymentMethodsSection from "../../components/public/PaymentMethodsSection";
-import PhotoDetailSection from "../../components/public/PhotoDetailSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import TestimonialsSection from "../../components/public/TestimonialsSection";
 import TopBar from "../../components/public/TopBar";
-import TourDetailPreviewSection from "../../components/public/TourDetailPreviewSection";
 import ToursCatalogSection from "../../components/public/ToursCatalogSection";
 import TrustStatsSection from "../../components/public/TrustStatsSection";
 import WhatsAppButton from "../../components/public/WhatsAppButton";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
-import { fetchPlatformSettings } from "../../api/platformSettings";
-import { fetchPublicSlides } from "../../api/slides";
-import { fetchPublishedTestimonials } from "../../api/testimonials";
 import {
-  allTours,
   contactLinks,
   customTrips,
   fallbackTestimonials,
-  featuredTours,
   footerLinks,
   hero,
   highlights,
   navLinks,
   paymentMethods,
-  photoRelated,
   reasons,
   siteMeta,
 } from "../../data/publicHomeData";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
+import { mapTourToPublicItem } from "../../utils/publicTour";
 
 export default function HomePage() {
   const [testimonials, setTestimonials] = useState(fallbackTestimonials);
   const [platformMeta, setPlatformMeta] = useState(siteMeta);
   const [slides, setSlides] = useState([]);
   const [galleryPreview, setGalleryPreview] = useState([]);
+  const [featuredTours, setFeaturedTours] = useState([]);
+  const [allTours, setAllTours] = useState([]);
 
   useEffect(() => {
     let active = true;
@@ -144,6 +143,33 @@ export default function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    async function loadTours() {
+      try {
+        const items = await fetchPublicTours();
+
+        if (!active || !Array.isArray(items)) return;
+
+        const mappedTours = items.map(mapTourToPublicItem);
+        setAllTours(mappedTours);
+        setFeaturedTours(mappedTours.slice(0, 3));
+      } catch {
+        if (active) {
+          setAllTours([]);
+          setFeaturedTours([]);
+        }
+      }
+    }
+
+    loadTours();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="bg-stone-50 text-slate-800">
       <TopBar leftText={platformMeta.topBarLeft} rightText={platformMeta.topBarRight} />
@@ -159,7 +185,6 @@ export default function HomePage() {
       <FeaturedToursSection tours={featuredTours} />
       <ToursCatalogSection tours={allTours} />
       <GalleryPreviewSection items={galleryPreview} />
-      <TourDetailPreviewSection paymentMethods={paymentMethods} />
       <PaymentMethodsSection methods={paymentMethods} />
       <CustomTripCtaSection trips={customTrips} />
       <TestimonialsSection testimonials={testimonials} />

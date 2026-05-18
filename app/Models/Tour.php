@@ -53,6 +53,11 @@ class Tour extends Model
         return $this->hasMany(TourExclusion::class)->orderBy('id');
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(TourReview::class)->orderByDesc('created_at')->orderByDesc('id');
+    }
+
     protected function encryptedId(): Attribute
     {
         return Attribute::get(fn () => Crypt::encryptString((string) $this->id));

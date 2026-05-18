@@ -28,6 +28,10 @@ Route::get('public/testimonials', [TestimonialController::class, 'publicIndex'])
 Route::get('public/slides', [SlideController::class, 'publicIndex']);
 Route::get('public/galleries', [GalleryController::class, 'publicIndex']);
 Route::get('public/galleries/{encryptedId}', [GalleryController::class, 'publicShow']);
+Route::get('public/tours', [TourController::class, 'publicIndex']);
+Route::get('public/tours/{encryptedId}', [TourController::class, 'publicShow']);
+Route::post('public/tours/{encryptedId}/reviews', [TourController::class, 'publicStoreReview']);
+Route::post('public/bookings', [BookingController::class, 'publicStore']);
 Route::get('platform-settings', [PlatformSettingController::class, 'show']);
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -52,6 +56,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::delete('slides/{slide}/force', [SlideController::class, 'forceDelete']);
 
     Route::apiResource('tours', TourController::class)->except(['destroy']);
+    Route::put('tours/{tour}/reviews/{review}', [TourController::class, 'updateReview']);
+    Route::delete('tours/{tour}/reviews/{review}', [TourController::class, 'destroyReview']);
     Route::delete('tours/{tour}', [TourController::class, 'destroy']);
     Route::post('tours/{tour}/restore', [TourController::class, 'restore']);
     Route::delete('tours/{tour}/force', [TourController::class, 'forceDelete']);

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -26,9 +26,11 @@ import UserDetailsPage from "../pages/admin/users/UserDetailsPage";
 import LoginPage from "../pages/auth/LoginPage";
 import NotFoundPage from "../pages/errors/NotFoundPage";
 import ErrorPage from "../pages/errors/ErrorPage";
+import BookingPage from "../pages/public/BookingPage";
 import GalleryDetailPage from "../pages/public/GalleryDetailPage";
 import GalleryListPage from "../pages/public/GalleryListPage";
 import HomePage from "../pages/public/HomePage";
+import TourPublicDetailPage from "../pages/public/TourPublicDetailPage";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
           {
             path: "galerie/:galleryId",
             element: <GalleryDetailPage />,
+          },
+          {
+            path: "circuits/:tourId",
+            element: <TourPublicDetailPage />,
+          },
+          {
+            path: "reservations/:tourId",
+            element: <BookingPage />,
           },
         ],
       },

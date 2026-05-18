@@ -1,4 +1,15 @@
-import axios from "axios";
+﻿import axios from "axios";
+
+export async function createPublicBooking(values) {
+  const { data } = await axios.post("/api/public/bookings", values);
+
+  return {
+    booking: data?.data ?? null,
+    message: data?.message ?? "",
+    notifications: data?.notifications ?? {},
+    whatsappUrl: data?.whatsapp_url ?? "",
+  };
+}
 
 export async function fetchBookings(params = {}) {
   const { data } = await axios.get("/api/bookings", { params });

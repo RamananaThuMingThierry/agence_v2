@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tour\StoreTourRequest;
 use App\Http\Requests\Tour\UpdateTourRequest;
 use App\Models\Tour;
+use App\Models\TourReview;
 use App\Services\ActivityLogService;
 use App\Services\TourService;
 use App\Traits\HasFileUpload;
@@ -26,6 +27,102 @@ class TourController extends Controller
         private TourService $tourService,
         private ActivityLogService $activityLogService
     ) {}
+
+    public function publicIndex(): JsonResponse
+    {
+        try {
+            $tours = $this->tourService->getAllTours(
+                keys: 'status',
+                values: 'active',
+                fields: ['*'],
+                relations: ['images', 'programs', 'inclusions', 'exclusions'],
+                orderBy: ['id' => 'desc'],
+            );
+
+            return response()->json([
+                'data' => $tours,
+            ]);
+        } catch (Throwable) {
+            return response()->json(['message' => 'Failed to fetch public tours.'], 500);
+        }
+    }
+
+    public function publicShow(string $encryptedId): JsonResponse
+    {
+        try {
+            $id = decrypt_to_int_or_null($encryptedId);
+
+            if (is_null($id)) {
+                return response()->json(['message' => 'Invalid tour ID.'], 400);
+            }
+
+            $tour = $this->tourService->getByKeysTour(
+                ['id', 'status'],
+                [$id, 'active'],
+                relations: ['images', 'programs', 'inclusions', 'exclusions', 'reviews' => fn ($query) => $query->where('status', 'publish')]
+            );
+
+            if (!$tour) {
+                return response()->json(['message' => 'Tour not found.'], 404);
+            }
+
+            return response()->json([
+                'data' => $tour,
+            ]);
+        } catch (Throwable) {
+            return response()->json(['message' => 'Failed to fetch public tour.'], 500);
+        }
+    }
+
+    public function publicStoreReview(Request $request, string $encryptedId): JsonResponse
+    {
+        $id = decrypt_to_int_or_null($encryptedId);
+
+        if (is_null($id)) {
+            return response()->json(['message' => 'Invalid tour ID.'], 400);
+        }
+
+        $tour = Tour::query()->where('id', $id)->where('status', 'active')->first();
+
+        if (!$tour) {
+            return response()->json(['message' => 'Tour not found.'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'review' => ['required', 'string', 'max:2000'],
+            'image' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        if (array_key_exists('image', $validated) && $validated['image'] instanceof UploadedFile) {
+            $validated['image'] = $this->uploadFile($request, 'image', 'uploads/reviews');
+        }
+
+        $review = $tour->reviews()->create([
+            'name' => $validated['name'],
+            'image' => $validated['image'] ?? null,
+            'rating' => $validated['rating'],
+            'review' => $validated['review'],
+            'status' => 'publish',
+        ]);
+
+        $this->activityLogService->logInfo(
+            $request,
+            'public_tour_review_created',
+            'Public tour review created successfully.',
+            null,
+            TourReview::class,
+            $review->id,
+            201,
+            ['tour_id' => $tour->id, 'reviewer_name' => $review->name]
+        );
+
+        return response()->json([
+            'data' => $review,
+            'message' => 'Avis envoye avec succes.',
+        ], 201);
+    }
 
     public function index(Request $request): JsonResponse
     {
@@ -125,7 +222,7 @@ class TourController extends Controller
                 return response()->json(['message' => 'Invalid tour ID.'], 400);
             }
 
-            $tour = $this->tourService->getByIdTour($id, relations: ['images', 'programs', 'inclusions', 'exclusions'], withTrashed: true);
+            $tour = $this->tourService->getByIdTour($id, relations: ['images', 'programs', 'inclusions', 'exclusions', 'reviews'], withTrashed: true);
 
             if (!$tour) {
                 return response()->json(['message' => 'Tour not found.'], 404);
@@ -158,7 +255,7 @@ class TourController extends Controller
             return response()->json(['message' => 'Invalid tour ID.'], 400);
         }
 
-        $tour = $this->tourService->getByIdTour($id, relations: ['images', 'programs', 'inclusions', 'exclusions']);
+        $tour = $this->tourService->getByIdTour($id, relations: ['images', 'programs', 'inclusions', 'exclusions', 'reviews']);
 
         if (!$tour) {
             return response()->json(['message' => 'Tour not found.'], 404);
@@ -220,6 +317,90 @@ class TourController extends Controller
         }
     }
 
+
+    public function updateReview(Request $request, string $encryptedTourId, string $reviewId): JsonResponse
+    {
+        $tourId = decrypt_to_int_or_null($encryptedTourId);
+
+        if (is_null($tourId)) {
+            return response()->json(['message' => 'Invalid tour ID.'], 400);
+        }
+
+        $tour = Tour::query()->find($tourId);
+
+        if (!$tour) {
+            return response()->json(['message' => 'Tour not found.'], 404);
+        }
+
+        $review = TourReview::query()->where('tour_id', $tour->id)->find($reviewId);
+
+        if (!$review) {
+            return response()->json(['message' => 'Review not found.'], 404);
+        }
+
+        $validated = $request->validate([
+            'status' => ['required', 'in:publish,archived'],
+        ]);
+
+        $review->update([
+            'status' => $validated['status'],
+        ]);
+
+        $this->activityLogService->logInfo(
+            $request,
+            'tour_review_update',
+            'Tour review updated successfully.',
+            $request->user(),
+            TourReview::class,
+            $review->id,
+            200,
+            ['tour_id' => $tour->id, 'status' => $review->status]
+        );
+
+        return response()->json([
+            'data' => $review->fresh(),
+        ]);
+    }
+
+    public function destroyReview(Request $request, string $encryptedTourId, string $reviewId): JsonResponse
+    {
+        $tourId = decrypt_to_int_or_null($encryptedTourId);
+
+        if (is_null($tourId)) {
+            return response()->json(['message' => 'Invalid tour ID.'], 400);
+        }
+
+        $tour = Tour::query()->find($tourId);
+
+        if (!$tour) {
+            return response()->json(['message' => 'Tour not found.'], 404);
+        }
+
+        $review = TourReview::query()->where('tour_id', $tour->id)->find($reviewId);
+
+        if (!$review) {
+            return response()->json(['message' => 'Review not found.'], 404);
+        }
+
+        $deletedReviewId = $review->id;
+        $reviewerName = $review->name;
+        $review->delete();
+
+        $this->activityLogService->logWarning(
+            $request,
+            'tour_review_delete',
+            'Tour review deleted successfully.',
+            $request->user(),
+            TourReview::class,
+            $deletedReviewId,
+            200,
+            ['tour_id' => $tour->id, 'reviewer_name' => $reviewerName]
+        );
+
+        return response()->json([
+            'message' => 'Review deleted successfully.',
+        ]);
+    }
     public function destroy(Request $request, string $encryptedId): JsonResponse
     {
         $id = decrypt_to_int_or_null($encryptedId);
@@ -350,7 +531,7 @@ class TourController extends Controller
         $captions = $request->input('captions', []);
 
         foreach ($newFiles as $index => $file) {
-            if (!$file instanceof UploadedFile) {
+          if (!$file instanceof UploadedFile) {
                 continue;
             }
 
