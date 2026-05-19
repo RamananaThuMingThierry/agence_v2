@@ -47,8 +47,8 @@ export default function PublicHeader({
   const location = useLocation();
   const navigate = useNavigate();
   const languageOptions = [
-    { code: "fr", label: "FR" },
     { code: "en", label: "EN" },
+    { code: "fr", label: "FR" },
     { code: "es", label: "ES" },
     { code: "de", label: "DE" },
   ];

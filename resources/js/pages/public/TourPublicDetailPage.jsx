@@ -83,6 +83,7 @@ export default function TourPublicDetailPage() {
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState(initialReviewForm);
   const [reviewErrors, setReviewErrors] = useState({});
   const [reviewNotice, setReviewNotice] = useState("");
@@ -240,12 +241,46 @@ export default function TourPublicDetailPage() {
 
   useEffect(() => {
     setActiveImageIndex(0);
+    setLightboxOpen(false);
   }, [tourId, tourImages.length]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setLightboxOpen(false);
+      }
+
+      if (event.key === "ArrowLeft") {
+        goToImage(activeImageIndex - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        goToImage(activeImageIndex + 1);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeImageIndex, lightboxOpen, tourImages.length]);
 
   function goToImage(nextIndex) {
     if (tourImages.length === 0) return;
     const normalized = (nextIndex + tourImages.length) % tourImages.length;
     setActiveImageIndex(normalized);
+  }
+
+  function openLightbox(index) {
+    setActiveImageIndex(index);
+    setLightboxOpen(true);
   }
 
   function handleReviewChange(event) {
@@ -336,22 +371,48 @@ export default function TourPublicDetailPage() {
               <div className="grid gap-8 lg:grid-cols-3">
                 <div className="public-panel overflow-hidden rounded-3xl lg:col-span-2">
                   <div className="relative">
-                    {activeImage ? <img src={activeImage.image} alt={activeImage.caption || tour.title} className="h-[540px] w-full object-cover" /> : null}
+                    {activeImage ? (
+                      <button type="button" onClick={() => openLightbox(activeImageIndex)} className="block w-full text-left">
+                        <img src={activeImage.image} alt={activeImage.caption || tour.title} className="h-[320px] w-full object-cover sm:h-[460px] lg:h-[540px]" />
+                      </button>
+                    ) : null}
                     {tourImages.length > 1 ? (
                       <>
-                        <button type="button" onClick={() => goToImage(activeImageIndex - 1)} className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white"><ArrowIcon direction="left" className="h-6 w-6" /></button>
-                        <button type="button" onClick={() => goToImage(activeImageIndex + 1)} className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white"><ArrowIcon direction="right" className="h-6 w-6" /></button>
+                        <button type="button" onClick={() => goToImage(activeImageIndex - 1)} className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white sm:left-4 sm:h-12 sm:w-12"><ArrowIcon direction="left" className="h-6 w-6" /></button>
+                        <button type="button" onClick={() => goToImage(activeImageIndex + 1)} className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white sm:right-4 sm:h-12 sm:w-12"><ArrowIcon direction="right" className="h-6 w-6" /></button>
                       </>
                     ) : null}
                   </div>
                   {tourImages.length > 1 ? (
-                    <div className="grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-4">
-                      {tourImages.map((image, index) => (
-                        <button key={image.id} type="button" onClick={() => setActiveImageIndex(index)} className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-[color:var(--accent)]" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}>
-                          <img src={image.image} alt={image.caption || `${tour.title} ${index + 1}`} className="h-24 w-full object-cover" />
-                        </button>
-                      ))}
-                    </div>
+                    <>
+                      <div className="grid grid-cols-2 gap-3 p-4 md:hidden">
+                        {tourImages.map((image, index) => (
+                          <button
+                            key={image.id}
+                            type="button"
+                            onClick={() => openLightbox(index)}
+                            className={index === activeImageIndex ? "overflow-hidden rounded-3xl ring-4 ring-[color:var(--accent)]" : "overflow-hidden rounded-3xl opacity-95 transition hover:opacity-100"}
+                          >
+                            <img src={image.image} alt={image.caption || `${tour.title} ${index + 1}`} className="h-36 w-full object-cover" />
+                            <div className="bg-white px-4 py-3 text-left">
+                              <p className="text-sm font-bold text-[color:var(--accent-deep)]">
+                                {index + 1}/{tourImages.length}
+                              </p>
+                              <p className="mt-1 line-clamp-2 text-xs text-[color:var(--muted)]">
+                                {image.caption || tour.title}
+                              </p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="hidden gap-3 p-4 md:grid md:grid-cols-3 lg:grid-cols-4">
+                        {tourImages.map((image, index) => (
+                          <button key={image.id} type="button" onClick={() => openLightbox(index)} className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-[color:var(--accent)]" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}>
+                            <img src={image.image} alt={image.caption || `${tour.title} ${index + 1}`} className="h-24 w-full object-cover" />
+                          </button>
+                        ))}
+                      </div>
+                    </>
                   ) : null}
                   <div className="p-6 md:p-8">
                     <div className="mb-5 flex flex-wrap gap-3">
@@ -520,6 +581,58 @@ export default function TourPublicDetailPage() {
           )}
         </div>
       </section>
+      {lightboxOpen && activeImage ? (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/88 p-4 sm:p-6" onClick={() => setLightboxOpen(false)}>
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-2xl font-light text-white transition hover:bg-white/20"
+            aria-label="Close image preview"
+          >
+            ×
+          </button>
+          {tourImages.length > 1 ? (
+            <>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  goToImage(activeImageIndex - 1);
+                }}
+                className="absolute left-3 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white transition hover:bg-white/20 sm:left-6 sm:h-14 sm:w-14"
+                aria-label="Previous image"
+              >
+                <ArrowIcon direction="left" className="h-7 w-7" />
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  goToImage(activeImageIndex + 1);
+                }}
+                className="absolute right-3 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white transition hover:bg-white/20 sm:right-6 sm:h-14 sm:w-14"
+                aria-label="Next image"
+              >
+                <ArrowIcon direction="right" className="h-7 w-7" />
+              </button>
+            </>
+          ) : null}
+          <div className="relative w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
+            <img src={activeImage.image} alt={activeImage.caption || tour.title} className="max-h-[82vh] w-full rounded-3xl object-contain" />
+            <div className="mt-4 flex items-start justify-between gap-4 text-white">
+              <div>
+                <p className="text-sm font-bold">{tour.title}</p>
+                {activeImage.caption ? <p className="mt-1 text-sm text-white/75">{activeImage.caption}</p> : null}
+              </div>
+              {tourImages.length > 1 ? (
+                <div className="rounded-full bg-white/12 px-3 py-1 text-xs font-bold">
+                  {activeImageIndex + 1}/{tourImages.length}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      ) : null}
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
       <ScrollToTopButton />
     </div>

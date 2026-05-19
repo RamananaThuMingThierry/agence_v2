@@ -11,10 +11,10 @@ import frPublic from "../../../lang/fr/public.json";
 
 const I18nContext = createContext(null);
 const STORAGE_KEY = "public_lang";
-const DEFAULT_LANG = "fr";
-const FALLBACK_MESSAGES = { public: frPublic, admin: frAdmin };
+const DEFAULT_LANG = "en";
+const FALLBACK_MESSAGES = { public: enPublic, admin: enAdmin };
 const MESSAGES = {
-  fr: FALLBACK_MESSAGES,
+  fr: { public: frPublic, admin: frAdmin },
   en: { public: enPublic, admin: enAdmin },
   es: { public: esPublic, admin: esAdmin },
   de: { public: dePublic, admin: deAdmin },
