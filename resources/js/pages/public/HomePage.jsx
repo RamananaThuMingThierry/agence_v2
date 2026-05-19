@@ -331,9 +331,19 @@ export default function HomePage() {
 
         if (!active || !Array.isArray(items)) return;
 
-        const mappedTours = items.map((item) => mapTourToPublicItem(item, t));
+        const latestTours = [...items].sort((left, right) => {
+          const leftTime = left?.created_at ? new Date(left.created_at).getTime() : 0;
+          const rightTime = right?.created_at ? new Date(right.created_at).getTime() : 0;
+
+          if (leftTime !== rightTime) {
+            return rightTime - leftTime;
+          }
+
+          return Number(right?.id || 0) - Number(left?.id || 0);
+        });
+        const mappedTours = latestTours.map((item) => mapTourToPublicItem(item, t));
         setAllTours(mappedTours);
-        setFeaturedTours(mappedTours.slice(0, 3));
+        setFeaturedTours(mappedTours.slice(0, 6));
       } catch {
         if (active) {
           setAllTours([]);
@@ -361,8 +371,12 @@ export default function HomePage() {
       <HeroSection hero={hero} slides={slides}>
         <TrustStatsSection items={highlights} />
       </HeroSection>
-      <div className="bg-stone-50 px-4 pt-6 md:hidden">
-        <TrustStatsSection items={highlights} />
+      <div className="bg-stone-50 md:hidden">
+        <TrustStatsSection
+          items={highlights}
+          containerClassName="m-0 max-w-none px-0"
+          panelClassName="w-full rounded-none border-x-0 p-0"
+        />
       </div>
       <div className="hidden h-24 md:block" />
       <AboutSection founder={aboutFounder} />

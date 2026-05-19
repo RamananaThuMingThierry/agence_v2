@@ -74,16 +74,13 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
 
   return (
     <footer className="bg-[linear-gradient(135deg,var(--accent-deep),#2f1713)] py-10 text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[1.2fr_0.9fr_0.9fr_0.9fr_1fr]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-2 lg:grid-cols-5">
         <div>
           <a href="/#home" onClick={(event) => handleSectionLink(event, "/#home")} className="mb-3 inline-flex items-center gap-3">
             <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded-2xl bg-white p-1 object-contain" />
             <h3 className="text-xl font-extrabold text-[#f5d089]">{brand}</h3>
           </a>
           <p className="max-w-md text-white/60">{t("public.footer.description")}</p>
-          <a href="/login" className="mt-5 inline-flex rounded-full border border-white/16 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/12">
-            {t("public.auth.login.submit")}
-          </a>
         </div>
 
         <div>

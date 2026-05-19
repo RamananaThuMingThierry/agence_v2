@@ -39,12 +39,17 @@ export default function FeaturedToursSection({ tours }) {
             <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.home.featured_tours.eyebrow")}</p>
             <h2 className="public-heading text-3xl font-extrabold md:text-4xl">{t("public.home.featured_tours.title")}</h2>
           </div>
-          <Link to="/circuits" className="public-btn-secondary inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
+          <Link to="/circuits" className="public-btn-secondary hidden items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition md:inline-flex">
             {t("public.common.view_more")}
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
           {tours.map((tour) => <FeaturedTourCard key={tour.tourId || tour.id || tour.title} tour={tour} />)}
+        </div>
+        <div className="mt-8 md:hidden">
+          <Link to="/circuits" className="public-btn-secondary flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
+            {t("public.common.view_more")}
+          </Link>
         </div>
       </div>
     </section>

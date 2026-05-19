@@ -17,7 +17,7 @@ export default function GalleryPreviewSection({ items }) {
             title={t("public.home.gallery.title")}
             text={t("public.home.gallery.text")}
           />
-          <Link to="/galerie" className="public-btn-primary rounded-full px-6 py-3 font-bold transition">
+          <Link to="/galerie" className="public-btn-primary hidden rounded-full px-6 py-3 font-bold transition md:inline-flex md:items-center md:justify-center">
             {t("public.home.gallery.view_all")}
           </Link>
         </div>
@@ -39,6 +39,11 @@ export default function GalleryPreviewSection({ items }) {
               <p className="absolute bottom-4 left-4 font-bold text-white">{item.title}</p>
             </Link>
           ))}
+        </div>
+        <div className="mt-8 md:hidden">
+          <Link to="/galerie" className="public-btn-primary flex w-full items-center justify-center rounded-full px-6 py-3 font-bold transition">
+            {t("public.home.gallery.view_all")}
+          </Link>
         </div>
       </div>
     </section>

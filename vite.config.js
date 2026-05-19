@@ -17,7 +17,7 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
-        host: "192.168.1.174", // ton IP
+        host: "10.0.3.200", // ton IP
         port: 5173,
         },
     },

@@ -48,12 +48,12 @@ export default function TestimonialsSection({ testimonials = [], showMoreHref = 
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle eyebrow={t("public.home.testimonials.eyebrow")} title={t("public.home.testimonials.title")} center={false} />
-          <Link to={showMoreHref} className="public-btn-secondary inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
+          <Link to={showMoreHref} className="public-btn-secondary hidden items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition md:inline-flex">
             {t("public.home.testimonials.view_more")}
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
           {items.map((item, index) => (
             <article key={`${item.name}-${index}`} className="flex h-full flex-col rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-4">
@@ -75,6 +75,11 @@ export default function TestimonialsSection({ testimonials = [], showMoreHref = 
               <p className="mt-4 flex-1 leading-relaxed text-slate-600">"{item.message}"</p>
             </article>
           ))}
+        </div>
+        <div className="mt-8 md:hidden">
+          <Link to={showMoreHref} className="public-btn-secondary flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
+            {t("public.home.testimonials.view_more")}
+          </Link>
         </div>
       </div>
     </section>
