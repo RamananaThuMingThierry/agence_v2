@@ -12,6 +12,8 @@ import DashboardPage from "../pages/admin/DashboardPage";
 import GalleriesPage from "../pages/admin/gallery/GalleriesPage";
 import GalleryDetailsPage from "../pages/admin/gallery/GalleryDetailsPage";
 import FormGalleryPage from "../pages/admin/gallery/FormGalleryPage";
+import FormPlatformVideoPage from "../pages/admin/platform-videos/FormPlatformVideoPage";
+import PlatformVideosPage from "../pages/admin/platform-videos/PlatformVideosPage";
 import SettingsPage from "../pages/admin/settings/SettingsPage";
 import SlidesPage from "../pages/admin/slides/SlidesPage";
 import FormTestimonialPage from "../pages/admin/testimonials/FormTestimonialPage";
@@ -33,6 +35,7 @@ import HomePage from "../pages/public/HomePage";
 import TestimonialsListPage from "../pages/public/TestimonialsListPage";
 import ToursListPage from "../pages/public/ToursListPage";
 import TourPublicDetailPage from "../pages/public/TourPublicDetailPage";
+import VideosListPage from "../pages/public/VideosListPage";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +69,10 @@ export const router = createBrowserRouter([
           {
             path: "circuits/:tourId",
             element: <TourPublicDetailPage />,
+          },
+          {
+            path: "videos",
+            element: <VideosListPage />,
           },
           {
             path: "reservations/:tourId",
@@ -160,6 +167,18 @@ export const router = createBrowserRouter([
           {
             path: "galleries/:galleryId/edit",
             element: <FormGalleryPage />,
+          },
+          {
+            path: "platform-videos",
+            element: <PlatformVideosPage />,
+          },
+          {
+            path: "platform-videos/create",
+            element: <FormPlatformVideoPage />,
+          },
+          {
+            path: "platform-videos/:videoId/edit",
+            element: <FormPlatformVideoPage />,
           },
           {
             path: "users",

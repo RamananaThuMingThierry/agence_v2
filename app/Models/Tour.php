@@ -58,6 +58,11 @@ class Tour extends Model
         return $this->hasMany(TourReview::class)->orderByDesc('created_at')->orderByDesc('id');
     }
 
+    public function videos(): HasMany
+    {
+        return $this->hasMany(PlatformVideo::class, 'tour_id')->orderBy('order')->orderByDesc('id');
+    }
+
     protected function encryptedId(): Attribute
     {
         return Attribute::get(fn () => Crypt::encryptString((string) $this->id));

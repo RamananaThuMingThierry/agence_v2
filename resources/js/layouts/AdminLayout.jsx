@@ -89,6 +89,13 @@ function Icon({ name, className = "h-5 w-5" }) {
           <circle cx="9" cy="8" r="1.5" />
         </svg>
       );
+    case "video":
+      return (
+        <svg {...common}>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m10 9 5 3-5 3z" />
+        </svg>
+      );
     case "users":
       return (
         <svg {...common}>
@@ -199,6 +206,7 @@ const NAV = [
 
   { to: "/admin/slides", icon: "slides", labelKey: "layout.nav.slides" },
   { to: "/admin/galleries", icon: "gallery", labelKey: "layout.nav.galleries" },
+  { to: "/admin/platform-videos", icon: "video", labelKey: "layout.nav.platform_videos" },
   { to: "/admin/testimonials", icon: "testimonials", labelKey: "layout.nav.testimonials" },
 
   { to: "/admin/contact-forms", icon: "contact-forms", labelKey: "layout.nav.contact_forms" },
@@ -286,6 +294,7 @@ function getPageTitle(pathname, t) {
   if (pathname.startsWith("/admin/contact-forms")) return t("layout.page_titles.contact_forms");
   if (pathname.startsWith("/admin/bookings")) return t("layout.page_titles.bookings");
   if (pathname.startsWith("/admin/galleries")) return t("layout.page_titles.galleries");
+  if (pathname.startsWith("/admin/platform-videos")) return t("layout.page_titles.platform_videos");
   if (pathname.startsWith("/admin/slides")) return t("layout.page_titles.slides");
   if (pathname.startsWith("/admin/testimonials")) return t("layout.page_titles.testimonials");
   if (pathname.startsWith("/admin/dashboard")) return t("layout.page_titles.dashboard");

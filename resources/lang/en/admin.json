@@ -291,6 +291,7 @@
       "contact_forms": "Contact Forms",
       "slides": "Slides",
       "galleries": "Galleries",
+      "platform_videos": "Videos",
       "tours": "Tours",
       "testimonials": "Testimonials",
       "users": "Users",
@@ -305,6 +306,7 @@
       "contact_forms": "Contact Form Management",
       "bookings": "Booking Management",
       "galleries": "Gallery Management",
+      "platform_videos": "Video Management",
       "slides": "Slide Management",
       "testimonials": "Testimonial Management",
       "dashboard": "Dashboard",
@@ -1312,6 +1314,115 @@
         "description_placeholder": "Category description",
         "active": "Active",
         "active_help": "Show or hide this category."
+      }
+    }
+  },
+  "platform_videos": {
+    "status": {
+      "trashed": "Trash",
+      "inactive": "Inactive",
+      "active": "Active"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "permanent": "Permanent",
+      "new": "New video",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "saving": "Saving...",
+      "processing": "Processing..."
+    },
+    "list": {
+      "title": "Platform video management",
+      "description": "Manage promotional videos displayed on the public site.",
+      "load_error": "Unable to load platform videos.",
+      "delete_success": "Video deleted.",
+      "delete_error": "Failed to delete video.",
+      "restore_success": "Video restored.",
+      "restore_error": "Failed to restore video.",
+      "force_delete_success": "Video permanently deleted.",
+      "force_delete_error": "Failed to permanently delete video.",
+      "stats": {
+        "active": "Active",
+        "trashed": "Trash",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "trashed": "Trash"
+      },
+      "search_placeholder": "Search a video...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Videos are being loaded from the API.",
+      "empty_title": "No video found",
+      "empty_description": "No video matches the current search.",
+      "table": {
+        "preview": "Preview",
+        "title": "Title",
+        "placement": "Placement",
+        "related_tour": "Related tour",
+        "order": "Order",
+        "status": "Status",
+        "created_at": "Created at",
+        "actions": "Actions",
+        "no_title": "Untitled video",
+        "no_description": "No description"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total"
+      },
+      "confirm": {
+        "delete_title": "Delete video",
+        "delete_message": "Do you want to delete the video \":name\"?",
+        "delete_confirm": "Yes, delete",
+        "restore_title": "Restore video",
+        "restore_message": "Do you want to restore the video \":name\"?",
+        "restore_confirm": "Yes, restore",
+        "force_title": "Delete permanently",
+        "force_message": "Do you want to permanently delete the video \":name\"?",
+        "force_confirm": "Delete permanently"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load video.",
+      "create_success": "Video created.",
+      "update_success": "Video updated.",
+      "save_error": "Failed to save video.",
+      "loading": "Loading video...",
+      "create_title": "Add video",
+      "edit_title": "Edit video",
+      "description": "Configure a public promotional video for the homepage.",
+      "fields": {
+        "title": "Title",
+        "title_placeholder": "Madagascar in motion",
+        "description": "Description",
+        "description_placeholder": "Short text introducing the video and the travel atmosphere.",
+        "placement": "Placement",
+        "home_placement": "Homepage",
+        "memory_placement": "Memories section",
+        "related_tour": "Related tour",
+        "related_tour_none": "No related tour",
+        "source_type": "Source type",
+        "source_external": "External link",
+        "source_upload": "Uploaded file",
+        "video_url": "Video URL",
+        "video_url_placeholder": "https://www.youtube.com/watch?v=...",
+        "video_file": "Video file",
+        "thumbnail": "Thumbnail",
+        "thumbnail_alt": "Video thumbnail",
+        "thumbnail_empty": "No thumbnail",
+        "order": "Display order",
+        "active": "Active",
+        "active_help": "Show this video on the public site."
       }
     }
   }

@@ -158,6 +158,30 @@
       "text": "The gallery should show real photos: clients, guides, parks, animals, hotels, vehicles, and highlights of the trip.",
       "view_all": "View the full gallery"
     },
+    "video": {
+      "eyebrow": "Travel video",
+      "title": "See the journey before you book it",
+      "text": "A short video helps visitors discover the atmosphere, landscapes, and comfort of the experience before choosing a tour.",
+      "sidebar_title": "Why this helps travelers",
+      "sidebar_text": "A focused video can reassure visitors about the quality of the destination, the rhythm of the trip, and the local support they will receive.",
+      "points": {
+        "0": "Show real places, roads, lodges, and landscapes.",
+        "1": "Build trust with a more immersive presentation.",
+        "2": "Help visitors imagine their future trip more clearly."
+      },
+      "unavailable": "This video is currently unavailable."
+    },
+    "memories": {
+      "eyebrow": "Video memories",
+      "title": "Travel memories to keep the emotion alive",
+      "text": "This section highlights short videos that visitors can watch as travel souvenirs and inspiration for their next tour.",
+      "view_all": "View all videos",
+      "loading": "Loading videos...",
+      "empty": "No videos available yet.",
+      "card_title_fallback": "Travel memory",
+      "card_text_fallback": "A short memory from Madagascar to relive the atmosphere of the journey.",
+      "view_related_tour": "View related tour"
+    },
     "payments": {
       "eyebrow": "Secure payment",
       "title": "Several payment methods to reassure travelers",
@@ -298,27 +322,34 @@
       "empty": "No reviews published yet. Be the first to share your experience.",
       "recent": "Recent review"
     },
-    "review": {
-      "eyebrow": "Leave a review",
-      "title": "Share your experience",
-      "text": "Travelers can leave feedback directly on this page to help future visitors.",
+      "review": {
+        "eyebrow": "Leave a review",
+        "title": "Share your experience",
+        "text": "Travelers can leave feedback directly on this page to help future visitors.",
       "success": "Review sent successfully.",
       "error": "Unable to send your review right now.",
       "submitting": "Sending...",
       "submit": "Publish my review",
       "preview_alt": "Profile preview",
       "rating_label": "Give :count star",
-      "fields": {
-        "image": "Profile photo",
-        "image_help": "Optional. If no image is selected, a default profile image will be shown.",
-        "name": "Name",
-        "name_placeholder": "Your name",
-        "rating": "Rating",
-        "review": "Your review",
-        "review_placeholder": "Describe your experience on this tour."
+        "fields": {
+          "image": "Profile photo",
+          "image_help": "Optional. If no image is selected, a default profile image will be shown.",
+          "name": "Name",
+          "name_placeholder": "Your name",
+          "rating": "Rating",
+          "review": "Your review",
+          "review_placeholder": "Describe your experience on this tour."
+        }
+      },
+      "videos": {
+        "eyebrow": "Travel videos",
+        "title": "Watch this tour in real conditions",
+        "text": "These videos help visitors understand the atmosphere, pace, and highlights of this tour before booking.",
+        "card_title_fallback": "Tour video",
+        "card_text_fallback": "A short preview video related to this tour."
       }
-    }
-  },
+    },
   "gallery": {
     "fallbacks": {
       "title": "Gallery",

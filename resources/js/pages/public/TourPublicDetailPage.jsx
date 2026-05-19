@@ -1,14 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchPlatformSettings } from "../../api/platformSettings";
+import { fetchPublicPlatformVideos } from "../../api/platformVideos";
 import { createPublicTourReview, fetchPublicTour, fetchPublicTours } from "../../api/tours";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TopBar from "../../components/public/TopBar";
+import TourVideosSection from "../../components/public/TourVideosSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { formatUsd } from "../../utils/currency";
 import { buildImageUrl, mapTourToPublicItem } from "../../utils/publicTour";
+import { mapPlatformVideoToPublicItem } from "../../utils/publicVideo";
 import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
 function ArrowIcon({ direction = "left", className = "h-5 w-5" }) {
@@ -81,6 +84,7 @@ export default function TourPublicDetailPage() {
   });
   const [tour, setTour] = useState(null);
   const [related, setRelated] = useState([]);
+  const [tourVideos, setTourVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -175,15 +179,17 @@ export default function TourPublicDetailPage() {
       setLoading(true);
 
       try {
-        const [tourItem, allItems] = await Promise.all([
+        const [tourItem, allItems, videoItems] = await Promise.all([
           fetchPublicTour(tourId),
           fetchPublicTours(),
+          fetchPublicPlatformVideos(),
         ]);
 
         if (!active) return;
 
         const mappedTour = tourItem ? mapTourToPublicItem(tourItem, t) : null;
         const mappedItems = Array.isArray(allItems) ? allItems.map((item) => mapTourToPublicItem(item, t)) : [];
+        const mappedVideos = Array.isArray(videoItems) ? videoItems.map((item) => mapPlatformVideoToPublicItem(item)) : [];
 
         setTour(
           mappedTour
@@ -202,10 +208,12 @@ export default function TourPublicDetailPage() {
               formattedPrice: formatPrice(item.price, lang),
             })),
         );
+        setTourVideos(mappedVideos.filter((item) => String(item.relatedTour?.id || "") === String(mappedTour?.id || "")));
       } catch {
         if (active) {
           setTour(null);
           setRelated([]);
+          setTourVideos([]);
         }
       } finally {
         if (active) {
@@ -560,6 +568,8 @@ export default function TourPublicDetailPage() {
                   </form>
                 </section>
               </div>
+
+              <TourVideosSection videos={tourVideos} />
 
               {related.length > 0 ? (
                 <div className="mt-14">

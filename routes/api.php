@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ContactFormController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\PlatformSettingController;
+use App\Http\Controllers\Api\PlatformVideoController;
 use App\Http\Controllers\Api\SlideController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\TourController;
@@ -33,6 +34,7 @@ Route::get('public/galleries/{encryptedId}', [GalleryController::class, 'publicS
 Route::get('public/tours', [TourController::class, 'publicIndex']);
 Route::get('public/tours/{encryptedId}', [TourController::class, 'publicShow']);
 Route::post('public/tours/{encryptedId}/reviews', [TourController::class, 'publicStoreReview']);
+Route::get('public/platform-videos', [PlatformVideoController::class, 'publicIndex']);
 Route::post('public/bookings', [BookingController::class, 'publicStore']);
 Route::post('public/contact-forms', [ContactFormController::class, 'publicStore']);
 Route::get('platform-settings', [PlatformSettingController::class, 'show']);
@@ -48,6 +50,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::apiResource('contact-forms', ContactFormController::class)->only(['index', 'show', 'destroy']);
     Route::apiResource('galleries', GalleryController::class);
     Route::apiResource('payment-methods', PaymentMethodController::class)->except(['show']);
+    Route::apiResource('platform-videos', PlatformVideoController::class)->except(['destroy']);
+    Route::delete('platform-videos/{platform_video}', [PlatformVideoController::class, 'destroy']);
+    Route::post('platform-videos/{platform_video}/restore', [PlatformVideoController::class, 'restore']);
+    Route::delete('platform-videos/{platform_video}/force', [PlatformVideoController::class, 'forceDelete']);
     Route::apiResource('testimonials', TestimonialController::class)->except(['destroy']);
     Route::delete('testimonials/{testimonial}', [TestimonialController::class, 'destroy']);
     Route::post('testimonials/{testimonial}/restore', [TestimonialController::class, 'restore']);
@@ -73,5 +79,4 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('users/{user}/restore', [UserController::class, 'restore']);
     Route::delete('users/{user}/force', [UserController::class, 'forceDelete']);
 });
-
 

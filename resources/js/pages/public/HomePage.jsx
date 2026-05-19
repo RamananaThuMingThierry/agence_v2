@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { fetchPublicGalleries } from "../../api/galleries";
 import { fetchPlatformSettings } from "../../api/platformSettings";
+import { fetchPublicPlatformVideos } from "../../api/platformVideos";
 import { fetchPublicSlides } from "../../api/slides";
 import { fetchPublishedTestimonials } from "../../api/testimonials";
 import { fetchPublicTours } from "../../api/tours";
@@ -13,6 +14,7 @@ import GalleryPreviewSection from "../../components/public/GalleryPreviewSection
 import HeroSection from "../../components/public/HeroSection";
 import LocationMapSection from "../../components/public/LocationMapSection";
 import PaymentMethodsSection from "../../components/public/PaymentMethodsSection";
+import PlatformVideoSection from "../../components/public/PlatformVideoSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
@@ -25,6 +27,7 @@ import { useI18n } from "../../hooks/admin/I18nContext";
 import { consumePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 import { mapTourToPublicItem } from "../../utils/publicTour";
+import { mapPlatformVideoToPublicItem } from "../../utils/publicVideo";
 
 export default function HomePage() {
   const { t } = useI18n();
@@ -53,6 +56,7 @@ export default function HomePage() {
   const [galleryPreview, setGalleryPreview] = useState([]);
   const [featuredTours, setFeaturedTours] = useState([]);
   const [allTours, setAllTours] = useState([]);
+  const [platformVideos, setPlatformVideos] = useState([]);
 
   useEffect(() => {
     const targetId = consumePublicSectionScroll();
@@ -325,6 +329,30 @@ export default function HomePage() {
   useEffect(() => {
     let active = true;
 
+    async function loadPlatformVideos() {
+      try {
+        const items = await fetchPublicPlatformVideos();
+
+        if (!active || !Array.isArray(items)) return;
+
+        setPlatformVideos(items.map((item) => mapPlatformVideoToPublicItem(item)));
+      } catch {
+        if (active) {
+          setPlatformVideos([]);
+        }
+      }
+    }
+
+    loadPlatformVideos();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
     async function loadTours() {
       try {
         const items = await fetchPublicTours();
@@ -379,8 +407,9 @@ export default function HomePage() {
         />
       </div>
       <div className="hidden h-24 md:block" />
-      <AboutSection founder={aboutFounder} />
       <WhyChooseSection items={reasons} />
+      <AboutSection founder={aboutFounder} />
+      <PlatformVideoSection videos={platformVideos} />
       <FeaturedToursSection tours={featuredTours} />
       <ToursCatalogSection tours={allTours} />
       <GalleryPreviewSection items={galleryPreview} />
