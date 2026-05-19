@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteCategory, fetchCategories } from "../../../api/categories";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
@@ -257,8 +258,8 @@ export default function CategoriesPage() {
                             <td className="px-5 py-4 text-sm text-slate-500">{category.created_at ? new Date(category.created_at).toLocaleDateString(locale) : "-"}</td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
-                                <Link to={`/admin/categories/${category.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("categories.common.edit")}</Link>
-                                <button type="button" onClick={() => setConfirmCategory(category)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("categories.common.delete")}</button>
+                                <ActionLink to={`/admin/categories/${category.encrypted_id}/edit`} title={t("categories.common.edit")} icon="edit" tone="dark" />
+                                <ActionButton onClick={() => setConfirmCategory(category)} title={t("categories.common.delete")} icon="delete" tone="danger" />
                               </div>
                             </td>
                           </tr>

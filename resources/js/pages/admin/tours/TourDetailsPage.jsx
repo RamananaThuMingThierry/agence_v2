@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteTourReview, fetchTour, updateTourReview } from "../../../api/tours";
+import { ActionButton } from "../../../components/admin/TableActions";
 
 function buildImageUrl(path) {
   if (!path) return "/images/profil.png";
@@ -269,8 +270,8 @@ export default function TourDetailsPage() {
                   </div>
                   <p className="text-sm leading-7 text-slate-700">{review.review || "-"}</p>
                   <div className="flex flex-wrap justify-end gap-2">
-                    <button type="button" onClick={() => setReviewStatusModal(review)} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("tours.common.edit")}</button>
-                    <button type="button" onClick={() => openDeleteReview(review)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("tours.common.delete")}</button>
+                    <ActionButton onClick={() => setReviewStatusModal(review)} title={t("tours.common.edit")} icon="edit" tone="dark" />
+                    <ActionButton onClick={() => openDeleteReview(review)} title={t("tours.common.delete")} icon="delete" tone="danger" />
                   </div>
                 </div>
               </div>

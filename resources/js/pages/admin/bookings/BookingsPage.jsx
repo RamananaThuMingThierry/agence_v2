@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteBooking, fetchBookings } from "../../../api/bookings";
 import { useI18n } from "../../../hooks/admin/I18nContext";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
@@ -260,12 +261,8 @@ export default function BookingsPage() {
                             </td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
-                                <Link to={`/admin/bookings/${booking.encrypted_id}`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">
-                                  {t("bookings.common.details")}
-                                </Link>
-                                <button type="button" onClick={() => setConfirmBooking(booking)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">
-                                  {t("bookings.common.delete")}
-                                </button>
+                                <ActionLink to={`/admin/bookings/${booking.encrypted_id}`} title={t("bookings.common.details")} icon="details" />
+                                <ActionButton onClick={() => setConfirmBooking(booking)} title={t("bookings.common.delete")} icon="delete" tone="danger" />
                               </div>
                             </td>
                           </tr>

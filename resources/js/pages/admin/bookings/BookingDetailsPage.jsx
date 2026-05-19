@@ -9,6 +9,7 @@ import {
 } from "../../../api/bookings";
 import { fetchPaymentMethods } from "../../../api/paymentMethods";
 import { useI18n } from "../../../hooks/admin/I18nContext";
+import { ActionButton } from "../../../components/admin/TableActions";
 
 const EMPTY_PAYMENT_FORM = {
   payment_method_id: "",
@@ -422,12 +423,8 @@ export default function BookingDetailsPage() {
                         <td className="px-5 py-4 text-sm text-slate-700">{payment.reference || "-"}</td>
                         <td className="px-5 py-4">
                           <div className="flex flex-wrap justify-end gap-2">
-                            <button type="button" onClick={() => handleEditPayment(payment)} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">
-                              {t("bookings.common.edit")}
-                            </button>
-                            <button type="button" onClick={() => handleDeletePayment(payment)} disabled={paymentSaving} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-60">
-                              {t("bookings.common.delete")}
-                            </button>
+                            <ActionButton onClick={() => handleEditPayment(payment)} title={t("bookings.common.edit")} icon="edit" />
+                            <ActionButton onClick={() => handleDeletePayment(payment)} title={t("bookings.common.delete")} icon="delete" tone="danger" disabled={paymentSaving} />
                           </div>
                         </td>
                       </tr>

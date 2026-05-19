@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteSlide, fetchSlides, forceDeleteSlide, restoreSlide } from "../../../api/slides";
 import { useI18n } from "../../../hooks/admin/I18nContext";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function buildImageUrl(path) {
   if (!path) return null;
@@ -334,13 +335,13 @@ export default function SlidesPage() {
                               <div className="flex flex-wrap justify-end gap-2">
                                 {!slide.deleted_at ? (
                                   <>
-                                    <Link to={`/admin/slides/${slide.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("slides.common.edit")}</Link>
-                                    <button type="button" onClick={() => openConfirm("delete", slide)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("slides.common.delete")}</button>
+                                    <ActionLink to={`/admin/slides/${slide.encrypted_id}/edit`} title={t("slides.common.edit")} icon="edit" tone="dark" />
+                                    <ActionButton onClick={() => openConfirm("delete", slide)} title={t("slides.common.delete")} icon="delete" tone="danger" />
                                   </>
                                 ) : (
                                   <>
-                                    <button type="button" onClick={() => openConfirm("restore", slide)} className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50">{t("slides.common.restore")}</button>
-                                    <button type="button" onClick={() => openConfirm("force", slide)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50">{t("slides.common.permanent")}</button>
+                                    <ActionButton onClick={() => openConfirm("restore", slide)} title={t("slides.common.restore")} icon="restore" tone="warning" />
+                                    <ActionButton onClick={() => openConfirm("force", slide)} title={t("slides.common.permanent")} icon="force" tone="subtleDanger" />
                                   </>
                                 )}
                               </div>

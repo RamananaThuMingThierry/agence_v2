@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { useAuth } from "../../hooks/admin/AuthContext";
 import { useI18n } from "../../hooks/admin/I18nContext";
@@ -171,6 +171,12 @@ export default function LoginPage() {
             >
               {submitting ? t("public.auth.login.submitting") : t("public.auth.login.submit")}
             </button>
+            <Link
+              to="/"
+              className="inline-flex w-full items-center justify-center rounded-sm border border-[var(--line)] bg-white px-6 py-4 text-sm font-bold uppercase tracking-[0.18em] text-[var(--ink)] transition hover:border-[var(--accent)] hover:text-[var(--accent-dark)]"
+            >
+              {t("public.auth.login.back_to_site")}
+            </Link>
           </form>
         </section>
       </div>

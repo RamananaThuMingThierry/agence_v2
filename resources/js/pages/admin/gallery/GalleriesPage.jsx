@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteGallery, fetchGalleries } from "../../../api/galleries";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function buildImageUrl(path) {
   if (!path) return "/images/profil.png";
@@ -273,9 +274,9 @@ export default function GalleriesPage() {
                               <td className="px-5 py-4 text-sm text-slate-500">{gallery.created_at ? new Date(gallery.created_at).toLocaleDateString(locale) : "-"}</td>
                               <td className="px-5 py-4">
                                 <div className="flex flex-wrap justify-end gap-2">
-                                  <Link to={`/admin/galleries/${gallery.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">{t("galleries.common.details")}</Link>
-                                  <Link to={`/admin/galleries/${gallery.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("galleries.common.edit")}</Link>
-                                  <button type="button" onClick={() => setConfirmGallery(gallery)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("galleries.common.delete")}</button>
+                                  <ActionLink to={`/admin/galleries/${gallery.encrypted_id}`} title={t("galleries.common.details")} icon="details" />
+                                  <ActionLink to={`/admin/galleries/${gallery.encrypted_id}/edit`} title={t("galleries.common.edit")} icon="edit" tone="dark" />
+                                  <ActionButton onClick={() => setConfirmGallery(gallery)} title={t("galleries.common.delete")} icon="delete" tone="danger" />
                                 </div>
                               </td>
                             </tr>

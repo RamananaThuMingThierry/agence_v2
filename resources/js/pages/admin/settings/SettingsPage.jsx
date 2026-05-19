@@ -6,6 +6,7 @@ import { fetchPlatformSettings, updatePlatformSettings } from "../../../api/plat
 import { deleteAuthenticatedUser, updateUser } from "../../../api/users";
 import { useAuth } from "../../../hooks/admin/AuthContext";
 import { useI18n } from "../../../hooks/admin/I18nContext";
+import { ActionButton } from "../../../components/admin/TableActions";
 
 const EMPTY_FORM = {
   pseudo: "",
@@ -955,20 +956,8 @@ export default function SettingsPage() {
                               </td>
                               <td className="px-5 py-4">
                                 <div className="flex flex-wrap justify-end gap-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => handleEditCategory(category)}
-                                    className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
-                                  >
-                                    {t("settings.common.edit")}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => setConfirmCategory(category)}
-                                    className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
-                                  >
-                                    {t("settings.common.delete")}
-                                  </button>
+                                  <ActionButton onClick={() => handleEditCategory(category)} title={t("settings.common.edit")} icon="edit" tone="dark" />
+                                  <ActionButton onClick={() => setConfirmCategory(category)} title={t("settings.common.delete")} icon="delete" tone="danger" />
                                 </div>
                               </td>
                             </tr>
@@ -1131,20 +1120,8 @@ export default function SettingsPage() {
                             </td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => handleEditPaymentMethod(paymentMethod)}
-                                  className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
-                                >
-                                  {t("settings.common.edit")}
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => setConfirmPaymentMethod(paymentMethod)}
-                                  className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
-                                >
-                                  {t("settings.common.delete")}
-                                </button>
+                                <ActionButton onClick={() => handleEditPaymentMethod(paymentMethod)} title={t("settings.common.edit")} icon="edit" tone="dark" />
+                                <ActionButton onClick={() => setConfirmPaymentMethod(paymentMethod)} title={t("settings.common.delete")} icon="delete" tone="danger" />
                               </div>
                             </td>
                           </tr>

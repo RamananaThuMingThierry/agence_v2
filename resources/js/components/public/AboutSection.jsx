@@ -6,6 +6,8 @@ export default function AboutSection({ founder }) {
 
   if (!founder) return null;
 
+  const safariBookingsParts = String(founder.safariBookingsText || "").split("SafariBookings.com");
+
   return (
     <section id="about" className="py-10">
       <div className="mx-auto max-w-7xl px-4">
@@ -43,7 +45,24 @@ export default function AboutSection({ founder }) {
 
             <div className="mt-8 rounded-3xl border border-[rgba(143,51,32,0.16)] bg-[rgba(255,244,239,0.72)] p-6">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-[color:var(--accent-dark)]">{t("public.home.about.reference")}</p>
-              <p className="mt-3 text-[15px] leading-7 text-[color:var(--ink-soft)]">{founder.safariBookingsText}</p>
+              <p className="mt-3 text-[15px] leading-7 text-[color:var(--ink-soft)]">
+                {safariBookingsParts.length > 1 ? (
+                  <>
+                    {safariBookingsParts[0]}
+                    <a
+                      href="https://www.safaribookings.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-[color:var(--accent-dark)] underline decoration-[rgba(143,51,32,0.35)] underline-offset-4 transition hover:text-[color:var(--accent-deep)]"
+                    >
+                      SafariBookings.com
+                    </a>
+                    {safariBookingsParts.slice(1).join("SafariBookings.com")}
+                  </>
+                ) : (
+                  founder.safariBookingsText
+                )}
+              </p>
             </div>
           </div>
         </div>

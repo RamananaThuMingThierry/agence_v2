@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteContactForm, fetchContactForms } from "../../../api/contactForms";
 import { useI18n } from "../../../hooks/admin/I18nContext";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function EmptyState({ title, description }) {
   return (
@@ -191,12 +192,8 @@ export default function ContactFormsPage() {
                           <td className="px-5 py-4 text-sm text-slate-500">{formatDate(contactForm.created_at, lang)}</td>
                           <td className="px-5 py-4">
                             <div className="flex flex-wrap justify-end gap-2">
-                              <Link to={`/admin/contact-forms/${contactForm.encrypted_id}`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">
-                                {t("contact_forms.common.details")}
-                              </Link>
-                              <button type="button" onClick={() => openConfirm(contactForm)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">
-                                {t("contact_forms.common.delete")}
-                              </button>
+                              <ActionLink to={`/admin/contact-forms/${contactForm.encrypted_id}`} title={t("contact_forms.common.details")} icon="details" />
+                              <ActionButton onClick={() => openConfirm(contactForm)} title={t("contact_forms.common.delete")} icon="delete" tone="danger" />
                             </div>
                           </td>
                         </tr>

@@ -6,6 +6,7 @@
       "error": "Login failed.",
       "submitting": "Signing in...",
       "submit": "Sign in",
+      "back_to_site": "Back to site",
       "fields": {
         "email": "Email",
         "email_placeholder": "admin@example.com",

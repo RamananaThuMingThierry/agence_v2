@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteTour, fetchTours, forceDeleteTour, restoreTour } from "../../../api/tours";
+import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
 
 function buildImageUrl(path) {
   if (!path) return "/images/profil.png";
@@ -303,7 +304,7 @@ export default function ToursPage() {
                               <td className="px-5 py-4 text-sm text-slate-600">{tour.images?.length || 0}</td>
                               <td className="px-5 py-4 text-sm text-slate-500">{tour.created_at ? new Date(tour.created_at).toLocaleDateString(locale) : "-"}</td>
                               <td className="px-5 py-4"><StatusBadge status={tour.status} deletedAt={tour.deleted_at} labels={{ active: t("tours.status.active"), inactive: t("tours.status.inactive"), trashed: t("tours.status.trashed") }} /></td>
-                              <td className="px-5 py-4"><div className="flex flex-wrap justify-end gap-2">{!tour.deleted_at ? <><Link to={`/admin/tours/${tour.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">{t("tours.common.details")}</Link><Link to={`/admin/tours/${tour.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("tours.common.edit")}</Link><button type="button" onClick={() => openConfirm("delete", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("tours.common.delete")}</button></> : <><button type="button" onClick={() => openConfirm("restore", tour)} className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50">{t("tours.common.restore")}</button><button type="button" onClick={() => openConfirm("force", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50">{t("tours.common.permanent")}</button></>}</div></td>
+                              <td className="px-5 py-4"><div className="flex flex-wrap justify-end gap-2">{!tour.deleted_at ? <><ActionLink to={`/admin/tours/${tour.encrypted_id}`} title={t("tours.common.details")} icon="details" /><ActionLink to={`/admin/tours/${tour.encrypted_id}/edit`} title={t("tours.common.edit")} icon="edit" tone="dark" /><ActionButton onClick={() => openConfirm("delete", tour)} title={t("tours.common.delete")} icon="delete" tone="danger" /></> : <><ActionButton onClick={() => openConfirm("restore", tour)} title={t("tours.common.restore")} icon="restore" tone="warning" /><ActionButton onClick={() => openConfirm("force", tour)} title={t("tours.common.permanent")} icon="force" tone="subtleDanger" /></>}</div></td>
                             </tr>
                           );
                         })}

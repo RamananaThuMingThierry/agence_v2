@@ -22,6 +22,7 @@ import ToursCatalogSection from "../../components/public/ToursCatalogSection";
 import TrustStatsSection from "../../components/public/TrustStatsSection";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { consumePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
@@ -52,6 +53,17 @@ export default function HomePage() {
   const [galleryPreview, setGalleryPreview] = useState([]);
   const [featuredTours, setFeaturedTours] = useState([]);
   const [allTours, setAllTours] = useState([]);
+
+  useEffect(() => {
+    const targetId = consumePublicSectionScroll();
+    if (!targetId) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      scrollToPublicSection(targetId);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const navLinks = useMemo(
     () => [

@@ -16,6 +16,7 @@
       "error": "Échec de la connexion.",
       "submitting": "Connexion...",
       "submit": "Se connecter",
+      "back_to_site": "Retour au site",
       "fields": {
         "email": "Email",
         "email_placeholder": "admin@example.com",

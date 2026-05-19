@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteActivityLog, fetchActivityLogs } from "../../../api/activityLogs";
+import { ActionButton } from "../../../components/admin/TableActions";
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
@@ -372,20 +373,8 @@ export default function ActivityLogsPage() {
                             </td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => setDetailsLog(log)}
-                                  className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
-                                >
-                                  {t("activity_logs.list.table.show_details")}
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => setConfirmLog(log)}
-                                  className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50"
-                                >
-                                  {t("activity_logs.common.delete")}
-                                </button>
+                                <ActionButton onClick={() => setDetailsLog(log)} title={t("activity_logs.list.table.show_details")} icon="details" tone="dark" />
+                                <ActionButton onClick={() => setConfirmLog(log)} title={t("activity_logs.common.delete")} icon="delete" tone="subtleDanger" />
                               </div>
                             </td>
                           </tr>

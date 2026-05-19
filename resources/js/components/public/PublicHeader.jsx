@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { normalizeSectionTarget, queuePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
 
 function MenuIcon() {
   return (
@@ -42,6 +44,8 @@ export default function PublicHeader({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { lang, setLang, t } = useI18n();
+  const location = useLocation();
+  const navigate = useNavigate();
   const languageOptions = [
     { code: "fr", label: "FR" },
     { code: "en", label: "EN" },
@@ -64,10 +68,26 @@ export default function PublicHeader({
     setMobileOpen(false);
   }
 
+  function handleSectionLink(event, href) {
+    const target = normalizeSectionTarget(href);
+    if (!target?.id) return;
+
+    event.preventDefault();
+    closeMenu();
+
+    if (location.pathname === target.path) {
+      scrollToPublicSection(target.id);
+      return;
+    }
+
+    queuePublicSectionScroll(target.id);
+    navigate(target.path);
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(255,250,245,0.92)] shadow-[0_16px_40px_rgba(72,33,24,0.08)] backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 md:py-4">
-        <a href={homeHref} className="flex min-w-0 items-center gap-3" onClick={closeMenu}>
+        <a href={homeHref} className="flex min-w-0 items-center gap-3" onClick={(event) => handleSectionLink(event, homeHref)}>
           <img src={logo} alt={`${brand} logo`} className="h-11 w-11 rounded-2xl bg-white p-1 object-contain shadow-[0_10px_22px_rgba(90,33,24,0.12)] sm:h-12 sm:w-12 md:h-14 md:w-14" />
           <div className="min-w-0">
             <h1 className="truncate text-sm font-extrabold leading-tight text-[color:var(--accent-dark)] sm:text-base md:text-lg">{brand}</h1>
@@ -77,7 +97,7 @@ export default function PublicHeader({
 
         <div className="hidden items-center gap-5 text-sm font-medium lg:flex">
           {links.map((link) => (
-            <a key={link.href} href={link.href} className="text-[color:var(--ink-soft)] transition hover:text-[color:var(--accent-dark)]">
+            <a key={link.href} href={link.href} onClick={(event) => handleSectionLink(event, link.href)} className="text-[color:var(--ink-soft)] transition hover:text-[color:var(--accent-dark)]">
               {link.label}
             </a>
           ))}
@@ -101,7 +121,7 @@ export default function PublicHeader({
               ))}
             </select>
           </label>
-          <a href={contactHref} className="public-btn-primary hidden rounded-full px-4 py-2.5 text-sm font-semibold transition md:inline-flex">
+          <a href={contactHref} onClick={(event) => handleSectionLink(event, contactHref)} className="public-btn-primary hidden rounded-full px-4 py-2.5 text-sm font-semibold transition md:inline-flex">
             {t("public.header.cta.plan_trip")}
           </a>
           <button
@@ -124,7 +144,7 @@ export default function PublicHeader({
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={closeMenu}
+                  onClick={(event) => handleSectionLink(event, link.href)}
                   className="block rounded-2xl px-4 py-3 text-sm font-semibold text-[color:var(--ink-soft)] transition hover:bg-[rgba(246,217,203,0.34)] hover:text-[color:var(--accent-dark)]"
                 >
                   {link.label}
@@ -152,7 +172,7 @@ export default function PublicHeader({
 
             <a
               href={contactHref}
-              onClick={closeMenu}
+              onClick={(event) => handleSectionLink(event, contactHref)}
               className="public-btn-primary mt-4 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition md:hidden"
             >
               {t("public.header.cta.plan_trip")}

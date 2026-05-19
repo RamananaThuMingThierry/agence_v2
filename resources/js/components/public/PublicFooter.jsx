@@ -1,5 +1,7 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { normalizeSectionTarget, queuePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
 
 function FacebookIcon() {
   return (
@@ -37,6 +39,8 @@ function WhatsAppIcon() {
 
 export default function PublicFooter({ footerLinks, logo = "/images/logo.png", brand = "Monde de Madagascar" }) {
   const { t } = useI18n();
+  const location = useLocation();
+  const navigate = useNavigate();
   const socialLinks = [
     { label: t("public.common.facebook"), href: "#", icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
     { label: t("public.common.instagram"), href: "#", icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white hover:opacity-90" },
@@ -53,11 +57,26 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
     t("public.home.payment_methods.5"),
   ];
 
+  function handleSectionLink(event, href) {
+    const target = normalizeSectionTarget(href);
+    if (!target?.id) return;
+
+    event.preventDefault();
+
+    if (location.pathname === target.path) {
+      scrollToPublicSection(target.id);
+      return;
+    }
+
+    queuePublicSectionScroll(target.id);
+    navigate(target.path);
+  }
+
   return (
     <footer className="bg-[linear-gradient(135deg,var(--accent-deep),#2f1713)] py-10 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[1.2fr_0.9fr_0.9fr_0.9fr_1fr]">
         <div>
-          <a href="/#home" className="mb-3 inline-flex items-center gap-3">
+          <a href="/#home" onClick={(event) => handleSectionLink(event, "/#home")} className="mb-3 inline-flex items-center gap-3">
             <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded-2xl bg-white p-1 object-contain" />
             <h3 className="text-xl font-extrabold text-[#f5d089]">{brand}</h3>
           </a>
@@ -74,6 +93,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
               <a
                 key={item.href || item.label || item}
                 href={item.href || "#"}
+                onClick={(event) => handleSectionLink(event, item.href || "#")}
                 className="block transition hover:text-white"
               >
                 {item.label || item}

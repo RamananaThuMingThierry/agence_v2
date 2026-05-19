@@ -6,6 +6,7 @@
       "error": "Anmeldung fehlgeschlagen.",
       "submitting": "Anmeldung läuft...",
       "submit": "Anmelden",
+      "back_to_site": "Zur Website",
       "fields": {
         "email": "E-Mail",
         "email_placeholder": "admin@example.com",

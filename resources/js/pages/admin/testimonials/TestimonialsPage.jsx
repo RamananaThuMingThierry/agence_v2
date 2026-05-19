@@ -8,6 +8,7 @@ import {
   restoreTestimonial,
   updateTestimonial,
 } from "../../../api/testimonials";
+import { ActionButton } from "../../../components/admin/TableActions";
 
 function buildImageUrl(path) {
   if (!path) return null;
@@ -436,40 +437,16 @@ export default function TestimonialsPage() {
                             {testimonial.created_at ? new Date(testimonial.created_at).toLocaleDateString(locale) : "-"}
                           </td>
                           <td className="px-5 py-4">
-                            <div className="flex flex-wrap justify-end gap-2">
-                              {!testimonial.deleted_at ? (
-                                <>
-                                  <button
-                                    type="button"
-                                    onClick={() => setStatusModalTestimonial(testimonial)}
-                                    className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
-                                  >
-                                    {t("testimonials.common.edit")}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => openConfirm("delete", testimonial)}
-                                    className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
-                                  >
-                                    {t("testimonials.common.delete")}
-                                  </button>
+                                <div className="flex flex-wrap justify-end gap-2">
+                                  {!testimonial.deleted_at ? (
+                                    <>
+                                  <ActionButton onClick={() => setStatusModalTestimonial(testimonial)} title={t("testimonials.common.edit")} icon="edit" tone="dark" />
+                                  <ActionButton onClick={() => openConfirm("delete", testimonial)} title={t("testimonials.common.delete")} icon="delete" tone="danger" />
                                 </>
                               ) : (
                                 <>
-                                  <button
-                                    type="button"
-                                    onClick={() => openConfirm("restore", testimonial)}
-                                    className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50"
-                                  >
-                                    {t("testimonials.common.restore")}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => openConfirm("force", testimonial)}
-                                    className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50"
-                                  >
-                                    {t("testimonials.common.permanent")}
-                                  </button>
+                                  <ActionButton onClick={() => openConfirm("restore", testimonial)} title={t("testimonials.common.restore")} icon="restore" tone="warning" />
+                                  <ActionButton onClick={() => openConfirm("force", testimonial)} title={t("testimonials.common.permanent")} icon="force" tone="subtleDanger" />
                                 </>
                               )}
                             </div>

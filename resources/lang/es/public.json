@@ -6,6 +6,7 @@
       "error": "Error al iniciar sesión.",
       "submitting": "Conectando...",
       "submit": "Iniciar sesión",
+      "back_to_site": "Volver al sitio",
       "fields": {
         "email": "Correo",
         "email_placeholder": "admin@example.com",
