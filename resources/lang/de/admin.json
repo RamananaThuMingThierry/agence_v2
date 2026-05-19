@@ -13,12 +13,26 @@
       "users_help": "Admin- und Teamkonten",
       "activity_logs": "Aktivitätsprotokolle",
       "activity_logs_help": "Zuletzt geladene Aktivitäten",
+      "total_paid": "Insgesamt bezahlt",
+      "total_paid_help": "Gesamtbetrag aller bezahlten Buchungen",
+      "total_remaining": "Noch offen",
+      "total_remaining_help": "Gesamter Restbetrag aller Buchungen",
       "slides": "Slides",
       "slides_help": ":count aktiv",
       "tours": "Touren",
       "tours_help": ":count aktiv/veröffentlicht",
       "galleries": "Galerien",
       "galleries_help": ":count veröffentlicht"
+    },
+    "chart": {
+      "title": "Trend bei Buchungen und Restbeträgen",
+      "description": "Zusammenfassung der letzten 6 Monate mit Buchungsvolumen, bezahltem Betrag und offenem Rest.",
+      "bookings": "Buchungen",
+      "paid": "Bezahlt",
+      "remaining": "Offener Rest",
+      "bookings_short": "Buch.",
+      "paid_short": "Bezahlt: :amount",
+      "remaining_short": "Offen: :amount"
     },
     "quick_access": {
       "title": "Schnellzugriff",

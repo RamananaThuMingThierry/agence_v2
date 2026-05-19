@@ -193,15 +193,20 @@ function Icon({ name, className = "h-5 w-5" }) {
 
 const NAV = [
   { to: "/admin/dashboard", icon: "dashboard", labelKey: "layout.nav.dashboard" },
+
   { to: "/admin/bookings", icon: "bookings", labelKey: "layout.nav.bookings" },
-  { to: "/admin/contact-forms", icon: "contact-forms", labelKey: "layout.nav.contact_forms" },
+  { to: "/admin/tours", icon: "tours", labelKey: "layout.nav.tours" },
+
   { to: "/admin/slides", icon: "slides", labelKey: "layout.nav.slides" },
   { to: "/admin/galleries", icon: "gallery", labelKey: "layout.nav.galleries" },
-  { to: "/admin/tours", icon: "tours", labelKey: "layout.nav.tours" },
   { to: "/admin/testimonials", icon: "testimonials", labelKey: "layout.nav.testimonials" },
+
+  { to: "/admin/contact-forms", icon: "contact-forms", labelKey: "layout.nav.contact_forms" },
+
   { to: "/admin/users", icon: "users", labelKey: "layout.nav.users" },
-  { to: "/admin/settings", icon: "settings", labelKey: "layout.nav.settings" },
   { to: "/admin/activity-logs", icon: "activity", labelKey: "layout.nav.activity_logs" },
+  { to: "/admin/settings", icon: "settings", labelKey: "layout.nav.settings" },
+
   { action: "logout", icon: "logout", labelKey: "layout.nav.logout" },
 ];
 

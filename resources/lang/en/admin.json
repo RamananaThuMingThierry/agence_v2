@@ -13,12 +13,26 @@
       "users_help": "Admin and team accounts",
       "activity_logs": "Activity Logs",
       "activity_logs_help": "Latest loaded activity",
+      "total_paid": "Total collected",
+      "total_paid_help": "Total amount paid across all bookings",
+      "total_remaining": "Remaining to collect",
+      "total_remaining_help": "Total remaining balance across all bookings",
       "slides": "Slides",
       "slides_help": ":count active",
       "tours": "Tours",
       "tours_help": ":count active/published",
       "galleries": "Galleries",
       "galleries_help": ":count published"
+    },
+    "chart": {
+      "title": "Bookings and balances trend",
+      "description": "Summary of the last 6 months with booking volume, paid amount, and remaining balance.",
+      "bookings": "Bookings",
+      "paid": "Paid amount",
+      "remaining": "Remaining balance",
+      "bookings_short": "book.",
+      "paid_short": "Paid: :amount",
+      "remaining_short": "Left: :amount"
     },
     "quick_access": {
       "title": "Quick Access",

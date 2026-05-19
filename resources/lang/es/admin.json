@@ -13,12 +13,26 @@
       "users_help": "Cuentas de admin y del equipo",
       "activity_logs": "Registros de actividad",
       "activity_logs_help": "Última actividad cargada",
+      "total_paid": "Total cobrado",
+      "total_paid_help": "Importe total pagado en todas las reservas",
+      "total_remaining": "Pendiente de cobro",
+      "total_remaining_help": "Saldo total restante en todas las reservas",
       "slides": "Slides",
       "slides_help": ":count activos",
       "tours": "Tours",
       "tours_help": ":count activos/publicados",
       "galleries": "Galerías",
       "galleries_help": ":count publicadas"
+    },
+    "chart": {
+      "title": "Evolución de reservas y saldos",
+      "description": "Resumen de los últimos 6 meses con volumen de reservas, importe pagado y saldo restante.",
+      "bookings": "Reservas",
+      "paid": "Importe pagado",
+      "remaining": "Saldo restante",
+      "bookings_short": "res.",
+      "paid_short": "Pagado: :amount",
+      "remaining_short": "Resta: :amount"
     },
     "quick_access": {
       "title": "Accesos rápidos",

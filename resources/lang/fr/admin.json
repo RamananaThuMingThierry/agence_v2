@@ -13,12 +13,26 @@
       "users_help": "Comptes admin et équipe",
       "activity_logs": "Journaux d'activité",
       "activity_logs_help": "Dernières activités chargées",
+      "total_paid": "Total encaissé",
+      "total_paid_help": "Montant total payé sur toutes les réservations",
+      "total_remaining": "Reste à payer",
+      "total_remaining_help": "Montant total restant sur toutes les réservations",
       "slides": "Slides",
       "slides_help": ":count actifs",
       "tours": "Circuits",
       "tours_help": ":count actifs/publiés",
       "galleries": "Galeries",
       "galleries_help": ":count publiées"
+    },
+    "chart": {
+      "title": "Évolution des réservations et des soldes",
+      "description": "Vue synthétique des 6 derniers mois avec le volume des réservations, le montant payé et le solde restant.",
+      "bookings": "Réservations",
+      "paid": "Montant payé",
+      "remaining": "Solde restant",
+      "bookings_short": "résa.",
+      "paid_short": "Payé : :amount",
+      "remaining_short": "Reste : :amount"
     },
     "quick_access": {
       "title": "Accès rapides",
