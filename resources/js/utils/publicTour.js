@@ -1,4 +1,6 @@
-﻿export function buildImageUrl(path) {
+import { formatUsd } from "./currency";
+
+export function buildImageUrl(path) {
   if (!path) return "/images/profil.png";
   if (/^https?:\/\//i.test(path)) return path;
   return `/${String(path).replace(/^\/+/, "")}`;
@@ -37,7 +39,7 @@ export function mapTourToPublicItem(tour, t = null) {
     categoryTone: getTourTone(tour?.category),
     duration: tour?.duration || "-",
     price: Number(tour?.price || 0),
-    formattedPrice: Number(tour?.price || 0).toLocaleString("fr-FR", { style: "currency", currency: "USD" }),
+    formattedPrice: formatUsd(tour?.price || 0, "fr-FR"),
     departure: tour?.start_location || "-",
     arrival: tour?.end_location || "-",
     programs: Array.isArray(tour?.programs) ? tour.programs : [],

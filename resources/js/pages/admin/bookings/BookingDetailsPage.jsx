@@ -10,6 +10,7 @@ import {
 import { fetchPaymentMethods } from "../../../api/paymentMethods";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { ActionButton } from "../../../components/admin/TableActions";
+import { formatUsd } from "../../../utils/currency";
 
 const EMPTY_PAYMENT_FORM = {
   payment_method_id: "",
@@ -98,7 +99,7 @@ function formatDateTime(value, lang) {
 }
 
 function formatCurrency(value, lang) {
-  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "USD" });
+  return formatUsd(value, getLocale(lang));
 }
 
 export default function BookingDetailsPage() {

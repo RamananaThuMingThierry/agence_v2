@@ -8,6 +8,7 @@ import { useI18n } from "../../hooks/admin/I18nContext";
 import { fetchSlides } from "../../api/slides";
 import { fetchTours } from "../../api/tours";
 import { fetchUsers } from "../../api/users";
+import { formatUsd } from "../../utils/currency";
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
@@ -111,7 +112,7 @@ function sumCompletedPayments(payments = []) {
 }
 
 function formatCurrency(value, lang) {
-  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "USD" });
+  return formatUsd(value, getLocale(lang));
 }
 
 function buildBookingChartData(bookings, lang) {

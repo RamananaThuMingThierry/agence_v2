@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteBooking, fetchBookings } from "../../../api/bookings";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { ActionButton, ActionLink } from "../../../components/admin/TableActions";
+import { formatUsd } from "../../../utils/currency";
 
 function cn(...values) {
   return values.filter(Boolean).join(" ");
@@ -72,7 +73,7 @@ function formatDate(value, lang) {
 }
 
 function formatCurrency(value, lang) {
-  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "USD" });
+  return formatUsd(value, getLocale(lang));
 }
 
 export default function BookingsPage() {

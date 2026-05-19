@@ -7,6 +7,7 @@ import PublicHeader from "../../components/public/PublicHeader";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TopBar from "../../components/public/TopBar";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { formatUsd } from "../../utils/currency";
 import { buildImageUrl, mapTourToPublicItem } from "../../utils/publicTour";
 import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
@@ -57,10 +58,7 @@ const initialReviewForm = {
 
 function formatPrice(price, lang) {
   const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return Number(price || 0).toLocaleString(localeMap[lang] || "fr-FR", {
-    style: "currency",
-    currency: "USD",
-  });
+  return formatUsd(price, localeMap[lang] || "fr-FR");
 }
 
 function formatDate(value, lang) {

@@ -8,6 +8,7 @@ import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import SectionTitle from "../../components/public/SectionTitle";
 import TopBar from "../../components/public/TopBar";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { formatUsd } from "../../utils/currency";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
 function TourCard({ tour, t }) {
@@ -43,10 +44,7 @@ function TourCard({ tour, t }) {
 
 function formatPrice(price, lang) {
   const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return Number(price || 0).toLocaleString(localeMap[lang] || "fr-FR", {
-    style: "currency",
-    currency: "USD",
-  });
+  return formatUsd(price, localeMap[lang] || "fr-FR");
 }
 
 export default function ToursListPage() {
