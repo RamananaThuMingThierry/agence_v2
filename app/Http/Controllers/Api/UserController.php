@@ -175,6 +175,42 @@ class UserController extends Controller
 
         $validated = $request->validated();
 
+        if (
+            (int) $request->user()?->id === (int) $user->id
+            && array_key_exists('role', $validated)
+            && $validated['role'] !== $user->role
+        ) {
+            $this->activityLogService->logWarning(
+                $request,
+                'user_update_self_role_forbidden',
+                'Attempted to change the role of the currently authenticated user.',
+                $request->user(),
+                User::class,
+                $user->id,
+                403
+            );
+
+            return response()->json(['message' => 'You cannot change your own role.'], 403);
+        }
+
+        if (
+            (int) $request->user()?->id !== (int) $user->id
+            && array_key_exists('password', $validated)
+            && filled($validated['password'])
+        ) {
+            $this->activityLogService->logWarning(
+                $request,
+                'user_update_other_password_forbidden',
+                'Attempted to change the password of another user.',
+                $request->user(),
+                User::class,
+                $user->id,
+                403
+            );
+
+            return response()->json(['message' => 'You cannot change another user password.'], 403);
+        }
+
         if(array_key_exists('avatar', $validated) && $validated['avatar'] instanceof UploadedFile) {
             $validated['avatar'] = $this->uploadFile($request, 'avatar', 'uploads/users', $user->avatar);
         }

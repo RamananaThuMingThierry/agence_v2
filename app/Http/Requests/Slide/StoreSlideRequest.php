@@ -14,7 +14,7 @@ class StoreSlideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'description' => ['nullable', 'string'],

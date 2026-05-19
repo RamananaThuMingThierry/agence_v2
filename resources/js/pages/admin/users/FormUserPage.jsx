@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createUser, fetchUser, updateUser } from "../../../api/users";
+import { useAuth } from "../../../hooks/admin/AuthContext";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 
 const DEFAULT_AVATAR = "/images/profil.png";
@@ -44,14 +45,17 @@ function Icon({ name, className = "h-5 w-5" }) {
 
 export default function FormUserPage() {
   const { t } = useI18n();
+  const { user: currentUser } = useAuth();
   const { userId } = useParams();
   const navigate = useNavigate();
   const isEditMode = Boolean(userId);
   const [form, setForm] = useState(initialForm);
+  const [editedUser, setEditedUser] = useState(null);
   const [currentAvatar, setCurrentAvatar] = useState(DEFAULT_AVATAR);
   const [loading, setLoading] = useState(isEditMode);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const isCurrentUser = isEditMode && currentUser?.id === editedUser?.id;
 
   useEffect(() => {
     let active = true;
@@ -65,6 +69,7 @@ export default function FormUserPage() {
       try {
         const user = await fetchUser(userId);
         if (!active) return;
+        setEditedUser(user);
         setForm({
           pseudo: user?.pseudo || "",
           email: user?.email || "",
@@ -114,7 +119,12 @@ export default function FormUserPage() {
     setSaving(true);
     setError("");
     try {
-      if (isEditMode) await updateUser(userId, form);
+      const payload = isCurrentUser
+        ? { ...form, role: undefined }
+        : isEditMode
+          ? { ...form, password: "", password_confirmation: "" }
+          : form;
+      if (isEditMode) await updateUser(userId, payload);
       else await createUser(form);
       navigate("/admin/users", { replace: true, state: { notice: isEditMode ? t("users.form.update_success") : t("users.form.create_success") } });
     } catch (requestError) {
@@ -178,13 +188,20 @@ export default function FormUserPage() {
                   <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.address")}</span>
                   <input type="text" name="address" value={form.address} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("users.form.fields.address_placeholder")} />
                 </label>
-                <label className="space-y-2">
-                  <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.role")}</span>
-                  <select name="role" value={form.role} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
-                    <option value="user">{t("users.role.user")}</option>
-                    <option value="admin">{t("users.role.admin")}</option>
-                  </select>
-                </label>
+                {isCurrentUser ? (
+                  <label className="space-y-2">
+                    <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.role")}</span>
+                    <input type="text" value={t(`users.role.${form.role || "user"}`)} readOnly className="w-full rounded-sm border border-stone-200 bg-stone-100 px-4 py-3 text-sm text-slate-500 outline-none" />
+                  </label>
+                ) : (
+                  <label className="space-y-2">
+                    <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.role")}</span>
+                    <select name="role" value={form.role} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
+                      <option value="user">{t("users.role.user")}</option>
+                      <option value="admin">{t("users.role.admin")}</option>
+                    </select>
+                  </label>
+                )}
                 <label className="space-y-2">
                   <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.status")}</span>
                   <select name="status" value={form.status} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
@@ -195,16 +212,18 @@ export default function FormUserPage() {
               </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">{isEditMode ? t("users.form.fields.new_password") : t("users.form.fields.password")}</span>
-                <input type="password" name="password" required={!isEditMode} value={form.password} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("users.form.fields.password_placeholder")} />
-              </label>
-              <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.password_confirmation")}</span>
-                <input type="password" name="password_confirmation" required={!isEditMode || Boolean(form.password)} value={form.password_confirmation} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("users.form.fields.password_confirmation_placeholder")} />
-              </label>
-            </div>
+            {!isEditMode || isCurrentUser ? (
+              <div className="grid gap-6 md:grid-cols-2">
+                <label className="space-y-2">
+                  <span className="block text-sm font-bold text-slate-800">{isEditMode ? t("users.form.fields.new_password") : t("users.form.fields.password")}</span>
+                  <input type="password" name="password" required={!isEditMode} value={form.password} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("users.form.fields.password_placeholder")} />
+                </label>
+                <label className="space-y-2">
+                  <span className="block text-sm font-bold text-slate-800">{t("users.form.fields.password_confirmation")}</span>
+                  <input type="password" name="password_confirmation" required={!isEditMode || Boolean(form.password)} value={form.password_confirmation} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("users.form.fields.password_confirmation_placeholder")} />
+                </label>
+              </div>
+            ) : null}
           </div>
 
           <div className="border-t border-stone-200 bg-white px-4 py-4 sm:px-6">

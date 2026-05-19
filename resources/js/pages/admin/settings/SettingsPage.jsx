@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { createCategory, deleteCategory, fetchCategories, updateCategory } from "../../../api/categories";
 import { createPaymentMethod, deletePaymentMethod, fetchPaymentMethods, updatePaymentMethod } from "../../../api/paymentMethods";
 import { fetchPlatformSettings, updatePlatformSettings } from "../../../api/platformSettings";
-import { deleteAuthenticatedUser, updateUser } from "../../../api/users";
+import { updateUser } from "../../../api/users";
 import { useAuth } from "../../../hooks/admin/AuthContext";
 import { useI18n } from "../../../hooks/admin/I18nContext";
 import { ActionButton } from "../../../components/admin/TableActions";
@@ -62,67 +61,6 @@ function InfoCard({ title, description, children, className = "" }) {
       </div>
       <div className="px-6 py-6">{children}</div>
     </section>
-  );
-}
-
-function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel, onConfirm, t }) {
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button
-        type="button"
-        aria-label={t("settings.common.close")}
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
-        onClick={loading ? undefined : onCancel}
-      />
-
-      <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
-        <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">{t("settings.delete_account.modal.title")}</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            {t("settings.delete_account.modal.description")}
-          </p>
-        </div>
-
-        <label className="space-y-2">
-          <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.password")}</span>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => onChange(event.target.value)}
-            className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-            placeholder={t("settings.delete_account.modal.password_placeholder")}
-            disabled={loading}
-          />
-        </label>
-
-        {error ? (
-          <div className="mt-4 rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
-          </div>
-        ) : null}
-
-        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onCancel}
-            disabled={loading}
-          >
-            {t("settings.common.cancel")}
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onConfirm}
-            disabled={loading || !password}
-          >
-            {loading ? t("settings.common.deleting") : t("settings.delete_account.modal.confirm")}
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -222,8 +160,7 @@ function EmptyState({ title, description }) {
 }
 
 export default function SettingsPage() {
-  const navigate = useNavigate();
-  const { user, refreshUser, logout } = useAuth();
+  const { user, refreshUser } = useAuth();
   const { t } = useI18n();
   const [activeTab, setActiveTab] = useState("platform");
   const [form, setForm] = useState(EMPTY_FORM);
@@ -234,10 +171,6 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [platformSaving, setPlatformSaving] = useState(false);
   const [platformLoading, setPlatformLoading] = useState(true);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deletePassword, setDeletePassword] = useState("");
-  const [deleteError, setDeleteError] = useState("");
-  const [deleteLoading, setDeleteLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [categorySaving, setCategorySaving] = useState(false);
@@ -696,36 +629,6 @@ export default function SettingsPage() {
     } finally {
       setPaymentMethodDeleting(false);
     }
-  }
-
-  async function handleDeleteAccount() {
-    setDeleteLoading(true);
-    setDeleteError("");
-    setError("");
-    setNotice("");
-
-    try {
-      await deleteAuthenticatedUser(deletePassword);
-      await logout();
-      navigate("/login", { replace: true });
-    } catch (requestError) {
-      setDeleteError(requestError.response?.data?.message || t("settings.delete_account.messages.delete_error"));
-    } finally {
-      setDeleteLoading(false);
-    }
-  }
-
-  function openDeleteModal() {
-    setDeletePassword("");
-    setDeleteError("");
-    setDeleteOpen(true);
-  }
-
-  function closeDeleteModal() {
-    if (deleteLoading) return;
-    setDeleteOpen(false);
-    setDeletePassword("");
-    setDeleteError("");
   }
 
   const previewAvatar = selectedAvatar || currentAvatar;
@@ -1351,38 +1254,9 @@ export default function SettingsPage() {
               </div>
             </InfoCard>
 
-            <InfoCard
-              title={t("settings.delete_account.title")}
-              description={t("settings.delete_account.description")}
-              className="border-rose-200"
-            >
-              <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-4">
-                <p className="text-sm font-semibold text-rose-700">
-                  {t("settings.delete_account.warning")}
-                </p>
-                <button
-                  type="button"
-                  onClick={openDeleteModal}
-                  className="mt-4 inline-flex items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700"
-                >
-                  {t("settings.delete_account.button")}
-                </button>
-              </div>
-            </InfoCard>
           </div>
         </div>
       ) : null}
-
-      <ConfirmDeleteModal
-        open={deleteOpen}
-        password={deletePassword}
-        loading={deleteLoading}
-        error={deleteError}
-        onChange={setDeletePassword}
-        onCancel={closeDeleteModal}
-        onConfirm={handleDeleteAccount}
-        t={t}
-      />
 
       <ConfirmCategoryModal
         open={Boolean(confirmCategory)}

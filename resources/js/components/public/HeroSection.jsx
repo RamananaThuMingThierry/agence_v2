@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useI18n } from "../../hooks/admin/I18nContext";
 
+const SLIDE_AUTOPLAY_DELAY = 8000;
+
 function normalizeSlides(slides = [], fallbackHero) {
   if (Array.isArray(slides) && slides.length > 0) {
     return slides.map((slide, index) => ({
@@ -35,12 +37,12 @@ export default function HeroSection({ hero, slides = [], children = null }) {
   useEffect(() => {
     if (items.length <= 1) return undefined;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
       setCurrentIndex((current) => (current + 1) % items.length);
-    }, 5000);
+    }, SLIDE_AUTOPLAY_DELAY);
 
-    return () => window.clearInterval(timer);
-  }, [items.length]);
+    return () => window.clearTimeout(timer);
+  }, [currentIndex, items.length]);
 
   const activeSlide = items[currentIndex];
 

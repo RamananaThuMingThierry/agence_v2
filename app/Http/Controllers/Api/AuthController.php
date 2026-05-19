@@ -6,15 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use App\Services\ActivityLogService;
-use App\Traits\HasFileUpload;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use HasFileUpload;
-
     public function __construct(private ActivityLogService $activityLog){}
 
     public function login(LoginRequest $request): JsonResponse
@@ -106,49 +103,22 @@ class AuthController extends Controller
 
     public function deleteAccount(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'password' => ['required', 'string'],
-        ]);
-
         $user = $request->user();
 
         if (!$user) {
             return response()->json(['message' => 'Unauthenticated.'], 401);
         }
 
-        if (!Hash::check($validated['password'], $user->password)) {
-            $this->activityLog->logWarning(
-                $request,
-                'delete_account_invalid_password',
-                'Invalid password provided for self account deletion.',
-                $user,
-                User::class,
-                $user->id,
-                422
-            );
-
-            return response()->json(['message' => 'Mot de passe incorrect.'], 422);
-        }
-
-        $user->tokens()->delete();
-        $this->deleteFile($user->avatar, 'uploads/users');
-        $deletedUserId = $user->id;
-        $deletedUserEmail = $user->email;
-        $user->forceDelete();
-
         $this->activityLog->logWarning(
             $request,
-            'delete_account',
-            'Authenticated user deleted account successfully.',
-            null,
+            'delete_account_forbidden',
+            'Attempted to delete the currently authenticated account.',
+            $user,
             User::class,
-            $deletedUserId,
-            200,
-            ['deleted_user_email' => $deletedUserEmail]
+            $user->id,
+            403
         );
 
-        return response()->json([
-            'message' => 'Account deleted successfully.',
-        ]);
+        return response()->json(['message' => 'You cannot delete your own authenticated account.'], 403);
     }
 }

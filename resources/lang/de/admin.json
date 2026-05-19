@@ -390,11 +390,12 @@
         "title": "Titel",
         "order": "Reihenfolge",
         "status": "Status",
-        "created_at": "Erstellt am",
-        "actions": "Aktionen",
-        "no_image": "Kein Bild",
-        "no_subtitle": "Kein Untertitel"
-      },
+          "created_at": "Erstellt am",
+          "actions": "Aktionen",
+          "no_image": "Kein Bild",
+          "no_title": "Ohne Titel",
+          "no_subtitle": "Kein Untertitel"
+        },
       "pagination": {
         "page_of": "Seite :current von :total",
         "first": "Anfang",

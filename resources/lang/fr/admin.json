@@ -385,16 +385,17 @@
       "loading_description": "Les slides sont en cours de récupération depuis l'API.",
       "empty_title": "Aucun slide trouvé",
       "empty_description": "Essayez de modifier la recherche ou ajoutez un nouveau slide depuis le bouton en haut à droite.",
-      "table": {
-        "slide": "Slide",
-        "title": "Titre",
-        "order": "Ordre",
-        "status": "Statut",
-        "created_at": "Création",
-        "actions": "Actions",
-        "no_image": "Pas d'image",
-        "no_subtitle": "Sans sous-titre"
-      },
+        "table": {
+          "slide": "Slide",
+          "title": "Titre",
+          "order": "Ordre",
+          "status": "Statut",
+          "created_at": "Création",
+          "actions": "Actions",
+          "no_image": "Pas d'image",
+          "no_title": "Sans titre",
+          "no_subtitle": "Sans sous-titre"
+        },
       "pagination": {
         "page_of": "Page :current sur :total",
         "first": "Début",

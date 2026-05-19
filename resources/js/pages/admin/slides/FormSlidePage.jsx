@@ -146,7 +146,7 @@ export default function FormSlidePage() {
             <div className="grid gap-6 lg:grid-cols-2">
               <label className="space-y-2">
                 <span className="block text-sm font-bold text-slate-800">{t("slides.form.fields.title")}</span>
-                <input type="text" name="title" required value={form.title} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-green-400" placeholder={t("slides.form.fields.title_placeholder")} />
+                <input type="text" name="title" value={form.title} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-green-400" placeholder={t("slides.form.fields.title_placeholder")} />
               </label>
               <label className="space-y-2">
                 <span className="block text-sm font-bold text-slate-800">{t("slides.form.fields.subtitle")}</span>

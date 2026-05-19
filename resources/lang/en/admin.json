@@ -390,11 +390,12 @@
         "title": "Title",
         "order": "Order",
         "status": "Status",
-        "created_at": "Created at",
-        "actions": "Actions",
-        "no_image": "No image",
-        "no_subtitle": "No subtitle"
-      },
+          "created_at": "Created at",
+          "actions": "Actions",
+          "no_image": "No image",
+          "no_title": "Untitled",
+          "no_subtitle": "No subtitle"
+        },
       "pagination": {
         "page_of": "Page :current of :total",
         "first": "First",

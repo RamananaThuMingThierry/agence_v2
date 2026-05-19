@@ -102,6 +102,10 @@ function formatDate(value, lang) {
   return new Date(value).toLocaleDateString(getLocale(lang));
 }
 
+function getSlideTitle(slide, t) {
+  return slide?.title?.trim() || t("slides.list.table.no_title");
+}
+
 export default function SlidesPage() {
   const { lang, t } = useI18n();
   const location = useLocation();
@@ -181,20 +185,21 @@ export default function SlidesPage() {
   }
 
   function openConfirm(action, slide) {
+    const slideTitle = getSlideTitle(slide, t);
     const config = {
       delete: {
         title: t("slides.list.confirm.delete_title"),
-        message: t("slides.list.confirm.delete_message", { name: slide.title }),
+        message: t("slides.list.confirm.delete_message", { name: slideTitle }),
         confirmText: t("slides.list.confirm.delete_confirm"),
       },
       restore: {
         title: t("slides.list.confirm.restore_title"),
-        message: t("slides.list.confirm.restore_message", { name: slide.title }),
+        message: t("slides.list.confirm.restore_message", { name: slideTitle }),
         confirmText: t("slides.list.confirm.restore_confirm"),
       },
       force: {
         title: t("slides.list.confirm.force_title"),
-        message: t("slides.list.confirm.force_message", { name: slide.title }),
+        message: t("slides.list.confirm.force_message", { name: slideTitle }),
         confirmText: t("slides.list.confirm.force_confirm"),
       },
     };
@@ -321,11 +326,11 @@ export default function SlidesPage() {
                           <tr key={slide.encrypted_id || slide.id} className="align-top">
                             <td className="px-5 py-4">
                               <div className="h-16 w-24 overflow-hidden rounded-sm bg-stone-100">
-                                {slide.image ? <img src={buildImageUrl(slide.image)} alt={slide.title} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">{t("slides.list.table.no_image")}</div>}
+                                {slide.image ? <img src={buildImageUrl(slide.image)} alt={getSlideTitle(slide, t)} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">{t("slides.list.table.no_image")}</div>}
                               </div>
                             </td>
                             <td className="px-5 py-4">
-                              <p className="font-extrabold text-slate-950">{slide.title}</p>
+                              <p className="font-extrabold text-slate-950">{getSlideTitle(slide, t)}</p>
                               <p className="mt-1 max-w-md text-sm text-slate-500">{slide.subtitle || t("slides.list.table.no_subtitle")}</p>
                             </td>
                             <td className="px-5 py-4 text-sm font-bold text-slate-700">{slide.order ?? 0}</td>

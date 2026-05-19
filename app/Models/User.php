@@ -33,7 +33,6 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'id',
         'password',
         'remember_token',
     ];
@@ -53,4 +52,3 @@ class User extends Authenticatable
         return $this->hasMany(ActivityLog::class);
     }
 }
-
