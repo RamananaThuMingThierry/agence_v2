@@ -300,7 +300,7 @@ export default function ToursPage() {
                               <td className="px-5 py-4"><div className="h-16 w-24 overflow-hidden rounded-sm bg-stone-100">{cover ? <img src={buildImageUrl(cover.image_url)} alt={tour.title} className="h-full w-full object-cover" /> : null}</div></td>
                               <td className="px-5 py-4"><p className="font-extrabold text-slate-950">{tour.title}</p><p className="mt-1 max-w-md text-sm text-slate-500">{tour.duration || "-"}</p></td>
                               <td className="px-5 py-4 text-sm font-bold text-slate-700">{tour.category}</td>
-                              <td className="px-5 py-4 text-sm font-bold text-slate-700">{Number(tour.price || 0).toLocaleString(locale, { style: "currency", currency: "EUR" })}</td>
+                              <td className="px-5 py-4 text-sm font-bold text-slate-700">{Number(tour.price || 0).toLocaleString(locale, { style: "currency", currency: "USD" })}</td>
                               <td className="px-5 py-4 text-sm text-slate-600">{tour.images?.length || 0}</td>
                               <td className="px-5 py-4 text-sm text-slate-500">{tour.created_at ? new Date(tour.created_at).toLocaleDateString(locale) : "-"}</td>
                               <td className="px-5 py-4"><StatusBadge status={tour.status} deletedAt={tour.deleted_at} labels={{ active: t("tours.status.active"), inactive: t("tours.status.inactive"), trashed: t("tours.status.trashed") }} /></td>

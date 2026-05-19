@@ -37,7 +37,7 @@ export function mapTourToPublicItem(tour, t = null) {
     categoryTone: getTourTone(tour?.category),
     duration: tour?.duration || "-",
     price: Number(tour?.price || 0),
-    formattedPrice: Number(tour?.price || 0).toLocaleString("fr-FR", { style: "currency", currency: "EUR" }),
+    formattedPrice: Number(tour?.price || 0).toLocaleString("fr-FR", { style: "currency", currency: "USD" }),
     departure: tour?.start_location || "-",
     arrival: tour?.end_location || "-",
     programs: Array.isArray(tour?.programs) ? tour.programs : [],

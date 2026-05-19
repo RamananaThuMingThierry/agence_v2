@@ -227,7 +227,7 @@ export default function TourDetailsPage() {
               <DetailCard label={t("tours.details.fields.slug")} value={tour?.slug} />
               <DetailCard label={t("tours.details.fields.category")} value={tour?.category} />
               <DetailCard label={t("tours.details.fields.duration")} value={tour?.duration} />
-              <DetailCard label={t("tours.details.fields.price")} value={Number(tour?.price || 0).toLocaleString(locale, { style: "currency", currency: "EUR" })} />
+              <DetailCard label={t("tours.details.fields.price")} value={Number(tour?.price || 0).toLocaleString(locale, { style: "currency", currency: "USD" })} />
               <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("tours.details.fields.status")}</p><div className="mt-2"><StatusBadge value={tour?.status} deletedAt={tour?.deleted_at} labels={{ active: t("tours.status.active"), inactive: t("tours.status.inactive"), trashed: t("tours.status.trashed") }} /></div></div>
               <DetailCard label={t("tours.details.fields.start_location")} value={tour?.start_location} />
               <DetailCard label={t("tours.details.fields.end_location")} value={tour?.end_location} />

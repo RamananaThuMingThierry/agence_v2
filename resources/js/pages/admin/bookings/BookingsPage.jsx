@@ -72,7 +72,7 @@ function formatDate(value, lang) {
 }
 
 function formatCurrency(value, lang) {
-  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "EUR" });
+  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "USD" });
 }
 
 export default function BookingsPage() {

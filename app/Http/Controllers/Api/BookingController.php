@@ -209,7 +209,7 @@ class BookingController extends Controller
             'Date de depart: ' . optional($booking->start_date)->format('d/m/Y'),
             'Date de retour: ' . optional($booking->end_date)->format('d/m/Y'),
             'Nombre de personnes: ' . $booking->number_of_people,
-            'Montant estime: ' . number_format((float) $booking->total_amount, 2, ',', ' ') . ' EUR',
+            'Montant estime: ' . number_format((float) $booking->total_amount, 2, ',', ' ') . ' USD',
             'Message: ' . ($booking->message ?: '-'),
         ]);
 

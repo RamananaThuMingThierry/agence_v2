@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td style="font-weight: bold;">Montant estime</td>
-            <td>{{ number_format((float) $booking->total_amount, 2, ',', ' ') }} EUR</td>
+            <td>{{ number_format((float) $booking->total_amount, 2, ',', ' ') }} USD</td>
         </tr>
         <tr>
             <td style="font-weight: bold; vertical-align: top;">Message</td>

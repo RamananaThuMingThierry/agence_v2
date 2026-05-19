@@ -45,7 +45,7 @@ function formatPrice(price, lang) {
   const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
   return Number(price || 0).toLocaleString(localeMap[lang] || "fr-FR", {
     style: "currency",
-    currency: "EUR",
+    currency: "USD",
   });
 }
 
