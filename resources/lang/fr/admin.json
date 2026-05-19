@@ -1,0 +1,1303 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "description": "Vue d'ensemble des réservations, demandes de contact, contenus publics et activités récentes.",
+    "refresh": "Rafraîchir",
+    "load_error": "Impossible de charger le tableau de bord.",
+    "stats": {
+      "bookings": "Réservations",
+      "bookings_help": ":booked en attente, :completed terminées",
+      "contact_forms": "Formulaires de contact",
+      "contact_forms_help": "Demandes reçues depuis le site public",
+      "users": "Utilisateurs",
+      "users_help": "Comptes admin et équipe",
+      "activity_logs": "Journaux d'activité",
+      "activity_logs_help": "Dernières activités chargées",
+      "slides": "Slides",
+      "slides_help": ":count actifs",
+      "tours": "Circuits",
+      "tours_help": ":count actifs/publiés",
+      "galleries": "Galeries",
+      "galleries_help": ":count publiées"
+    },
+    "quick_access": {
+      "title": "Accès rapides",
+      "description": "Raccourcis vers les modules admin les plus utiles.",
+      "bookings": "Voir les réservations",
+      "contacts": "Voir les contacts",
+      "slides": "Gérer les slides",
+      "settings": "Ouvrir les paramètres"
+    },
+    "recent_bookings": {
+      "title": "Dernières réservations",
+      "description": "Les demandes de réservation les plus récentes.",
+      "all": "Tout voir",
+      "loading_title": "Chargement...",
+      "loading_description": "Les réservations sont en cours de récupération.",
+      "empty_title": "Aucune réservation",
+      "empty_description": "Aucune réservation n'est encore disponible.",
+      "table": {
+        "client": "Client",
+        "tour": "Circuit",
+        "date": "Date",
+        "status": "Statut",
+        "action": "Action",
+        "details": "Détails"
+      }
+    },
+    "recent_contact_forms": {
+      "title": "Dernières demandes de contact",
+      "description": "Messages reçus via le formulaire public.",
+      "all": "Tout voir",
+      "loading_title": "Chargement...",
+      "loading_description": "Les formulaires de contact sont en cours de récupération.",
+      "empty_title": "Aucun message",
+      "empty_description": "Aucun formulaire de contact n'est encore disponible."
+    },
+    "recent_activity": {
+      "title": "Activité récente",
+      "description": "Derniers événements techniques et actions admin.",
+      "all": "Voir les logs",
+      "loading_title": "Chargement...",
+      "loading_description": "Les journaux d'activité sont en cours de récupération.",
+      "empty_title": "Aucune activité",
+      "empty_description": "Aucun log récent n'a été trouvé.",
+      "table": {
+        "action": "Action",
+        "message": "Message",
+        "user": "Utilisateur",
+        "date": "Date",
+        "system": "Système"
+      }
+    },
+    "status": {
+      "booked": "En attente",
+      "completed": "Terminée",
+      "cancelled": "Annulée",
+      "active": "Active",
+      "publish": "Publiée",
+      "inactive": "Inactive",
+      "draft": "Brouillon"
+    }
+  },
+  "bookings": {
+    "status": {
+      "booked": "En attente",
+      "completed": "Terminée",
+      "cancelled": "Annulée"
+    },
+    "payment_status": {
+      "pending": "En attente",
+      "completed": "Payé",
+      "failed": "Échoué"
+    },
+    "payment_type": {
+      "deposit": "Acompte",
+      "installment": "Échéance",
+      "balance": "Solde",
+      "adjustment": "Ajustement"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "details": "Détails",
+      "edit": "Modifier",
+      "select": "Sélectionner",
+      "all": "Tous"
+    },
+    "list": {
+      "title": "Gestion des réservations",
+      "description": "Suivez les réservations, leur statut et l'avancement des paiements.",
+      "load_error": "Impossible de charger les réservations.",
+      "delete_success": "Réservation supprimée.",
+      "delete_error": "Impossible de supprimer la réservation.",
+      "stats": {
+        "total": "Total",
+        "booked": "En attente",
+        "completed": "Terminées",
+        "cancelled": "Annulées"
+      },
+      "filters": {
+        "search_placeholder": "Rechercher une réservation..."
+      },
+      "loading_title": "Chargement...",
+      "loading_description": "Les réservations sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucune réservation",
+      "empty_description": "Aucune réservation ne correspond aux filtres actuels.",
+      "table": {
+        "client": "Client",
+        "tour": "Circuit",
+        "dates": "Dates",
+        "payment": "Paiement",
+        "status": "Statut",
+        "actions": "Actions",
+        "total": "Total : :amount",
+        "paid": "Payé : :amount",
+        "remaining": "Reste : :amount"
+      },
+      "delete_modal": {
+        "title": "Supprimer la réservation",
+        "message": "Voulez-vous supprimer la réservation de \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    },
+    "details": {
+      "loading": "Chargement de la réservation...",
+      "load_error": "Impossible de charger les détails de la réservation.",
+      "title": "Détails de la réservation",
+      "description": "Consultation de la réservation et gestion des paiements.",
+      "back": "Retour à la liste",
+      "status_updated": "Statut de la réservation mis à jour.",
+      "status_update_error": "Impossible de mettre à jour la réservation.",
+      "payment_added": "Paiement ajouté.",
+      "payment_updated": "Paiement mis à jour.",
+      "payment_save_error": "Impossible d'enregistrer le paiement.",
+      "payment_delete_confirm": "Supprimer ce paiement ?",
+      "payment_deleted": "Paiement supprimé.",
+      "payment_delete_error": "Impossible de supprimer le paiement.",
+      "client": "Client",
+      "email": "Email",
+      "phone": "Téléphone",
+      "tour": "Circuit",
+      "start_date": "Date de début",
+      "end_date": "Date de fin",
+      "number_of_people": "Nombre de personnes",
+      "status": "Statut",
+      "created_at": "Création",
+      "updated_at": "Dernière mise à jour",
+      "message": "Message",
+      "payment_summary": "Résumé paiement",
+      "total_amount": "Montant total",
+      "paid_amount": "Montant payé",
+      "remaining_amount": "Reste à payer",
+      "available_methods": "Méthodes disponibles",
+      "no_active_method": "Aucune méthode active",
+      "update_status": "Mettre à jour le statut",
+      "save_status": "Mettre à jour",
+      "payments_registered": "Paiements enregistrés",
+      "no_payments": "Aucun paiement enregistré.",
+      "payment_form_title_add": "Ajouter un paiement",
+      "payment_form_title_edit": "Modifier un paiement",
+      "payment_form_description": "Les méthodes disponibles proviennent des moyens de paiement actifs.",
+      "projected_paid": "Payé après validation",
+      "projected_remaining": "Reste après validation",
+      "overpayment": "Dépassement",
+      "difference": "Écart",
+      "overpayment_notice": "Le paiement dépasse le montant total de :amount. Utilisez un paiement de type \"ajustement\" si cet écart est volontaire.",
+      "remaining_notice": "Il restera :amount à payer après cet enregistrement.",
+      "payment_method": "Méthode de paiement",
+      "amount": "Montant",
+      "sort_order": "Ordre",
+      "type": "Type",
+      "due_date": "Date d'échéance",
+      "paid_at": "Date de paiement",
+      "reference": "Référence",
+      "note": "Note",
+      "no_active_payment_methods": "Aucune méthode de paiement active n'est disponible.",
+      "fully_paid_notice": "La réservation est entièrement réglée. L'ajout d'un nouveau paiement est désactivé.",
+      "save_payment_add": "Ajouter le paiement",
+      "save_payment_edit": "Mettre à jour le paiement",
+      "saving": "Enregistrement...",
+      "table": {
+        "type": "Type",
+        "method": "Méthode",
+        "amount": "Montant",
+        "status": "Statut",
+        "due_date": "Échéance",
+        "reference": "Référence",
+        "actions": "Actions"
+      }
+    }
+  },
+  "contact_forms": {
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "details": "Détails",
+      "confirm": "Confirmer"
+    },
+    "list": {
+      "title": "Gestion des formulaires de contact",
+      "description": "Consultez les demandes reçues depuis le site et supprimez celles qui ne sont plus utiles.",
+      "load_error": "Impossible de charger les formulaires de contact.",
+      "delete_success": "Formulaire de contact supprimé.",
+      "delete_error": "Impossible de supprimer le formulaire de contact.",
+      "stats": {
+        "total": "Total",
+        "with_subject": "Avec sujet"
+      },
+      "search_placeholder": "Rechercher une demande...",
+      "loading_title": "Chargement...",
+      "loading_description": "Les formulaires de contact sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucune demande trouvée",
+      "empty_description": "Ajustez la recherche ou vérifiez si de nouveaux formulaires ont été reçus.",
+      "table": {
+        "name_email": "Nom / Email",
+        "subject": "Sujet",
+        "message": "Message",
+        "created_at": "Création",
+        "actions": "Actions"
+      },
+      "delete_modal": {
+        "title": "Supprimer le formulaire",
+        "message": "Voulez-vous supprimer définitivement la demande de \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    },
+    "details": {
+      "loading": "Chargement du formulaire...",
+      "load_error": "Impossible de charger les détails du formulaire de contact.",
+      "delete_error": "Impossible de supprimer le formulaire de contact.",
+      "delete_success": "Formulaire de contact supprimé.",
+      "title": "Détails du formulaire de contact",
+      "description": "Consultation du message reçu depuis le site.",
+      "back": "Retour à la liste",
+      "name": "Nom",
+      "email": "Email / Contact",
+      "subject": "Sujet",
+      "created_at": "Création",
+      "updated_at": "Dernière mise à jour",
+      "message": "Message",
+      "delete_modal": {
+        "title": "Supprimer le formulaire",
+        "message": "Voulez-vous supprimer définitivement la demande de \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    }
+  },
+  "layout": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "bookings": "Réservations",
+      "contact_forms": "Formulaires de contact",
+      "slides": "Slides",
+      "galleries": "Galeries",
+      "tours": "Circuits",
+      "testimonials": "Témoignages",
+      "users": "Utilisateurs",
+      "settings": "Paramètres",
+      "activity_logs": "Journaux",
+      "logout": "Déconnexion"
+    },
+    "page_titles": {
+      "settings": "Paramètres",
+      "activity_logs": "Journaux d'activité",
+      "users": "Gestion des utilisateurs",
+      "contact_forms": "Gestion des formulaires de contact",
+      "bookings": "Gestion des réservations",
+      "galleries": "Gestion des galeries",
+      "slides": "Gestion des slides",
+      "testimonials": "Gestion des témoignages",
+      "dashboard": "Tableau de bord",
+      "default": "Administration"
+    },
+    "switcher": {
+      "back_to_site": "Retour site",
+      "open_menu": "Ouvrir le menu",
+      "close_menu": "Fermer le menu",
+      "expand_menu": "Étendre le menu",
+      "collapse_menu": "Réduire le menu"
+    },
+    "account": {
+      "profile": "Profil",
+      "my_account": "Mon compte"
+    },
+    "session": {
+      "checking": "Vérification de la session..."
+    },
+    "footer": {
+      "copyright": "© :year WORLD OF MADAGASCAR - Admin Dashboard",
+      "secure": "Sécurisé",
+      "responsive": "Responsive"
+    },
+    "logout_modal": {
+      "title": "Déconnexion",
+      "message": "Voulez-vous vraiment vous déconnecter ?",
+      "confirm": "Oui, se déconnecter",
+      "loading": "Déconnexion...",
+      "cancel": "Annuler"
+    }
+  },
+  "slides": {
+    "status": {
+      "trashed": "Corbeille",
+      "inactive": "Inactive",
+      "active": "Active"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "restore": "Restaurer",
+      "permanent": "Définitif",
+      "new": "Nouveau slide",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "processing": "Traitement...",
+      "saving": "Enregistrement..."
+    },
+    "list": {
+      "title": "Gestion des slides",
+      "description": "Liste des slides avec recherche, tri, pagination et actions rapides.",
+      "load_error": "Impossible de charger les slides.",
+      "delete_success": "Slide déplacé dans la corbeille.",
+      "delete_error": "Échec de la suppression du slide.",
+      "restore_success": "Slide restauré.",
+      "restore_error": "Échec de la restauration du slide.",
+      "force_delete_success": "Slide supprimé définitivement.",
+      "force_delete_error": "Échec de la suppression définitive du slide.",
+      "stats": {
+        "active": "Actifs",
+        "trashed": "Corbeille",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Tous",
+        "active": "Actifs",
+        "inactive": "Inactifs",
+        "trashed": "Corbeille"
+      },
+      "search_placeholder": "Rechercher un slide...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les slides sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucun slide trouvé",
+      "empty_description": "Essayez de modifier la recherche ou ajoutez un nouveau slide depuis le bouton en haut à droite.",
+      "table": {
+        "slide": "Slide",
+        "title": "Titre",
+        "order": "Ordre",
+        "status": "Statut",
+        "created_at": "Création",
+        "actions": "Actions",
+        "no_image": "Pas d'image",
+        "no_subtitle": "Sans sous-titre"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total",
+        "first": "Début",
+        "first_aria": "Aller à la première page",
+        "previous": "Précédent",
+        "previous_aria": "Aller à la page précédente",
+        "next": "Suivant",
+        "next_aria": "Aller à la page suivante",
+        "last": "Fin",
+        "last_aria": "Aller à la dernière page"
+      },
+      "confirm": {
+        "delete_title": "Supprimer le slide",
+        "delete_message": "Voulez-vous envoyer \":name\" dans la corbeille ?",
+        "delete_confirm": "Oui, supprimer",
+        "restore_title": "Restaurer le slide",
+        "restore_message": "Voulez-vous restaurer \":name\" ?",
+        "restore_confirm": "Oui, restaurer",
+        "force_title": "Suppression définitive",
+        "force_message": "Voulez-vous supprimer définitivement \":name\" et son image ?",
+        "force_confirm": "Oui, supprimer"
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger le slide.",
+      "create_success": "Slide créé.",
+      "update_success": "Slide mis à jour.",
+      "save_error": "Échec de l'enregistrement du slide.",
+      "loading": "Chargement du slide...",
+      "create_title": "Ajouter un slide",
+      "edit_title": "Modifier le slide",
+      "description": "Renseignez les informations du slide avec une structure claire et responsive.",
+      "fields": {
+        "title": "Titre",
+        "title_placeholder": "Titre principal du slide",
+        "subtitle": "Sous-titre",
+        "subtitle_placeholder": "Texte secondaire",
+        "description": "Description",
+        "description_placeholder": "Description affichée sur la bannière.",
+        "image": "Image",
+        "image_alt": "Aperçu du slide",
+        "order": "Ordre",
+        "active": "Active",
+        "active_help": "Active ou inactive pour l'affichage du slide."
+      }
+    }
+  },
+  "users": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "trashed": "Corbeille"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "details": "Détails",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "restore": "Restaurer",
+      "permanent": "Suppression définitive",
+      "new": "Nouveau user",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "processing": "Traitement...",
+      "saving": "Enregistrement..."
+    },
+    "list": {
+      "title": "Gestion des users",
+      "description": "Liste, recherche, tri, rôles, statuts et cycle de vie complet des utilisateurs.",
+      "load_error": "Impossible de charger les users.",
+      "delete_success": "User déplacé dans la corbeille.",
+      "delete_error": "Échec de la suppression du user.",
+      "restore_success": "User restauré.",
+      "restore_error": "Échec de la restauration du user.",
+      "force_delete_success": "User supprimé définitivement.",
+      "force_delete_error": "Échec de la suppression définitive du user.",
+      "stats": {
+        "active": "Actifs",
+        "admins": "Admins",
+        "trashed": "Corbeille",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Tous",
+        "active": "Actifs",
+        "inactive": "Inactifs",
+        "admins": "Admins",
+        "trashed": "Corbeille"
+      },
+      "search_placeholder": "Rechercher un user...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les users sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucun user trouvé",
+      "empty_description": "Ajustez les filtres ou créez un nouvel utilisateur depuis le bouton en haut à droite.",
+      "table": {
+        "profile": "Profil",
+        "email": "Email",
+        "role": "Rôle",
+        "status": "Statut",
+        "created_at": "Création",
+        "actions": "Actions",
+        "no_contact": "Aucun contact",
+        "no_address": "Sans adresse"
+      },
+      "sort": {
+        "by": "Trier par :label"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Supprimer le user",
+        "delete_message": "Voulez-vous envoyer \":name\" dans la corbeille ?",
+        "delete_confirm": "Oui, supprimer",
+        "restore_title": "Restaurer le user",
+        "restore_message": "Voulez-vous restaurer \":name\" ?",
+        "restore_confirm": "Oui, restaurer",
+        "force_title": "Suppression définitive",
+        "force_message": "Voulez-vous supprimer définitivement \":name\" ?",
+        "force_confirm": "Oui, supprimer"
+      }
+    },
+    "details": {
+      "load_error": "Impossible de charger les détails du user.",
+      "loading": "Chargement du user...",
+      "title": "Détails du user",
+      "description": "Consultation rapide du profil utilisateur.",
+      "profile_alt": "Profil",
+      "fields": {
+        "pseudo": "Pseudo",
+        "email": "Email",
+        "contact": "Contact",
+        "address": "Adresse",
+        "role": "Rôle",
+        "status": "Statut",
+        "created_at": "Création",
+        "updated_at": "Dernière mise à jour"
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger le user.",
+      "create_success": "User créé.",
+      "update_success": "User mis à jour.",
+      "save_error": "Échec de l'enregistrement du user.",
+      "loading": "Chargement du user...",
+      "create_title": "Ajouter un user",
+      "edit_title": "Modifier le user",
+      "description": "Renseignez le profil, le rôle, le statut et le mot de passe initial.",
+      "fields": {
+        "avatar": "Avatar",
+        "avatar_alt": "Avatar",
+        "pseudo": "Pseudo",
+        "pseudo_placeholder": "Pseudo utilisateur",
+        "email": "Email",
+        "email_placeholder": "email@domaine.com",
+        "contact": "Contact",
+        "contact_placeholder": "Téléphone",
+        "address": "Adresse",
+        "address_placeholder": "Adresse",
+        "role": "Rôle",
+        "status": "Statut",
+        "password": "Mot de passe",
+        "new_password": "Nouveau mot de passe",
+        "password_placeholder": "Minimum 8 caractères",
+        "password_confirmation": "Confirmation",
+        "password_confirmation_placeholder": "Confirmer le mot de passe"
+      }
+    }
+  },
+  "testimonials": {
+    "status": {
+      "publish": "Publié",
+      "archived": "Archivé",
+      "trashed": "Corbeille"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "restore": "Restaurer",
+      "permanent": "Définitif",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "close": "Fermer",
+      "saving": "Enregistrement..."
+    },
+    "list": {
+      "title": "Gestion des témoignages",
+      "description": "Pilotez les témoignages affichés sur la page d'accueil avec publication, archivage et corbeille.",
+      "load_error": "Impossible de charger les témoignages.",
+      "delete_success": "Témoignage déplacé dans la corbeille.",
+      "restore_success": "Témoignage restauré.",
+      "force_delete_success": "Témoignage supprimé définitivement.",
+      "action_error": "Opération impossible sur le témoignage.",
+      "status_updated": "Statut du témoignage mis à jour.",
+      "status_update_error": "Impossible de modifier le statut du témoignage.",
+      "stats": {
+        "published": "Publiés",
+        "archived": "Archivés",
+        "trashed": "Corbeille",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Tous",
+        "published": "Publiés",
+        "archived": "Archivés",
+        "trashed": "Corbeille"
+      },
+      "search_placeholder": "Rechercher un témoignage...",
+      "loading_title": "Chargement...",
+      "loading_description": "Les témoignages sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucun témoignage trouvé",
+      "empty_description": "Modifiez les filtres ou rafraîchissez la liste.",
+      "table": {
+        "client": "Client",
+        "message": "Message",
+        "rating": "Note",
+        "status": "Statut",
+        "created_at": "Création",
+        "actions": "Actions"
+      },
+      "confirm": {
+        "delete_title": "Supprimer le témoignage",
+        "delete_message": "Voulez-vous envoyer \":name\" dans la corbeille ?",
+        "delete_confirm": "Oui, supprimer",
+        "restore_title": "Restaurer le témoignage",
+        "restore_message": "Voulez-vous restaurer \":name\" ?",
+        "restore_confirm": "Oui, restaurer",
+        "force_title": "Suppression définitive",
+        "force_message": "Voulez-vous supprimer définitivement \":name\" et sa photo ?",
+        "force_confirm": "Oui, supprimer"
+      },
+      "status_modal": {
+        "title": "Modifier le statut",
+        "description": "Changez uniquement le statut de publication pour \":name\".",
+        "field": "Statut"
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger le témoignage.",
+      "create_success": "Témoignage créé.",
+      "update_success": "Témoignage mis à jour.",
+      "save_error": "Échec de l'enregistrement du témoignage.",
+      "loading": "Chargement du témoignage...",
+      "create_title": "Ajouter un témoignage",
+      "edit_title": "Modifier le témoignage",
+      "description": "Renseignez le témoignage client, la note, le statut de publication et son portrait.",
+      "fields": {
+        "name": "Nom",
+        "name_placeholder": "Nom du client",
+        "status": "Statut",
+        "message": "Message",
+        "message_placeholder": "Retour d'expérience du voyageur",
+        "image": "Photo",
+        "image_alt": "Aperçu du témoignage",
+        "rating": "Note",
+        "rating_option": ":count étoile(s)",
+        "rating_preview": "Aperçu note"
+      }
+    }
+  },
+  "tours": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "trashed": "Corbeille"
+    },
+    "review_status": {
+      "publish": "Publié",
+      "archived": "Archivé",
+      "trashed": "Corbeille"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "details": "Détails",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "restore": "Restaurer",
+      "permanent": "Définitif",
+      "new": "Nouveau circuit",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "processing": "Traitement...",
+      "saving": "Enregistrement...",
+      "close": "Fermer"
+    },
+    "list": {
+      "title": "Gestion des circuits",
+      "description": "Liste des circuits avec recherche, tri, pagination et corbeille.",
+      "load_error": "Impossible de charger les circuits.",
+      "delete_success": "Circuit déplacé dans la corbeille.",
+      "restore_success": "Circuit restauré.",
+      "force_delete_success": "Circuit supprimé définitivement.",
+      "action_error": "Échec de l'action sur le circuit.",
+      "stats": {
+        "active": "Actifs",
+        "trashed": "Corbeille",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Tous",
+        "active": "Actifs",
+        "inactive": "Inactifs",
+        "trashed": "Corbeille"
+      },
+      "search_placeholder": "Rechercher un circuit...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les circuits sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucun circuit trouvé",
+      "empty_description": "Essayez de modifier la recherche ou ajoutez un nouveau circuit.",
+      "table": {
+        "cover": "Cover",
+        "title": "Titre",
+        "category": "Catégorie",
+        "price": "Prix",
+        "images": "Images",
+        "created_at": "Création",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Supprimer le circuit",
+        "delete_message": "Voulez-vous envoyer \":name\" dans la corbeille ?",
+        "delete_confirm": "Oui, supprimer",
+        "restore_title": "Restaurer le circuit",
+        "restore_message": "Voulez-vous restaurer \":name\" ?",
+        "restore_confirm": "Oui, restaurer",
+        "force_title": "Suppression définitive",
+        "force_message": "Voulez-vous supprimer définitivement \":name\" et ses images ?",
+        "force_confirm": "Oui, supprimer"
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger le circuit.",
+      "image_required": "Ajoutez au moins une image pour le circuit.",
+      "create_success": "Circuit créé.",
+      "update_success": "Circuit mis à jour.",
+      "save_error": "Échec de l'enregistrement du circuit.",
+      "loading": "Chargement du circuit...",
+      "create_title": "Ajouter un circuit",
+      "edit_title": "Modifier le circuit",
+      "description": "Configurez le circuit, ses images et son programme.",
+      "fields": {
+        "title": "Titre",
+        "slug": "Slug",
+        "slug_placeholder": "Laisser vide pour auto-générer",
+        "price": "Prix",
+        "duration": "Durée",
+        "category": "Catégorie",
+        "status": "Statut",
+        "start_location": "Lieu de départ",
+        "end_location": "Lieu d'arrivée",
+        "description": "Description"
+      },
+      "program": {
+        "title": "Programme",
+        "day": "Jour",
+        "item_title": "Titre",
+        "item_description": "Description",
+        "activities": "Activités",
+        "remove_day": "Retirer ce jour",
+        "add_day": "Ajouter un jour"
+      },
+      "inclusions": {
+        "title": "Inclusions",
+        "add": "Ajouter"
+      },
+      "exclusions": {
+        "title": "Exclusions",
+        "add": "Ajouter"
+      },
+      "images": {
+        "title": "Images",
+        "description": "Choisissez la cover, ajoutez des légendes et téléchargez plusieurs images.",
+        "add_images": "Ajouter des images",
+        "existing_title": "Images existantes",
+        "new_title": "Nouvelles images",
+        "no_existing": "Aucune image existante.",
+        "no_new": "Aucune nouvelle image sélectionnée.",
+        "caption": "Légende",
+        "cover": "Cover",
+        "remove": "Retirer",
+        "image_alt": "Image du circuit"
+      }
+    },
+    "details": {
+      "loading": "Chargement du circuit...",
+      "load_error": "Impossible de charger les détails du circuit.",
+      "title": "Détails du circuit",
+      "description": "Consultation rapide du produit circuit.",
+      "cover": "Cover",
+      "image_alt": "Image du circuit",
+      "review_status_updated": "Statut de l'avis mis à jour.",
+      "review_status_update_error": "Impossible de modifier le statut de l'avis.",
+      "review_deleted": "Avis supprimé.",
+      "review_delete_error": "Impossible de supprimer l'avis.",
+      "fields": {
+        "title": "Titre",
+        "slug": "Slug",
+        "category": "Catégorie",
+        "duration": "Durée",
+        "price": "Prix",
+        "status": "Statut",
+        "start_location": "Départ",
+        "end_location": "Arrivée",
+        "created_at": "Création",
+        "updated_at": "Dernière mise à jour",
+        "description": "Description"
+      },
+      "program": {
+        "title": "Programme",
+        "empty": "Aucun programme.",
+        "day_label": "Jour :day",
+        "activities": "Activités : :value"
+      },
+      "inclusions": {
+        "title": "Inclusions",
+        "empty": "Aucune inclusion."
+      },
+      "exclusions": {
+        "title": "Exclusions",
+        "empty": "Aucune exclusion."
+      },
+      "images": {
+        "title": "Images du circuit",
+        "no_caption": "Sans légende"
+      },
+      "reviews": {
+        "title": "Avis du circuit",
+        "empty": "Aucun avis associé à ce circuit.",
+        "traveler": "Voyageur"
+      },
+      "review_modal": {
+        "title": "Modifier le statut",
+        "description": "Changez le statut de publication pour l'avis de \":name\".",
+        "field": "Statut"
+      },
+      "delete_review": {
+        "title": "Supprimer l'avis",
+        "message": "Voulez-vous supprimer l'avis de \":name\" ?",
+        "confirm": "Oui, supprimer"
+      }
+    }
+  },
+  "galleries": {
+    "status": {
+      "publish": "Publiée",
+      "draft": "Brouillon"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "details": "Détails",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "new": "Nouvelle galerie",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "saving": "Enregistrement...",
+      "close": "Fermer"
+    },
+    "list": {
+      "title": "Gestion des galeries",
+      "description": "Liste des galeries, statut de publication et images de couverture.",
+      "load_error": "Impossible de charger les galeries.",
+      "delete_success": "Galerie supprimée.",
+      "delete_error": "Échec de la suppression de la galerie.",
+      "stats": {
+        "total": "Galeries",
+        "published": "Publiées",
+        "drafts": "Brouillons"
+      },
+      "search_placeholder": "Rechercher une galerie...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les galeries sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucune galerie",
+      "empty_description": "Aucune galerie ne correspond à la recherche actuelle.",
+      "table": {
+        "cover": "Cover",
+        "title": "Titre",
+        "category": "Catégorie",
+        "status": "Statut",
+        "images": "Images",
+        "created_at": "Création",
+        "actions": "Actions",
+        "no_subtitle": "Sans sous-titre"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "delete_modal": {
+        "title": "Supprimer la galerie",
+        "message": "Voulez-vous supprimer la galerie \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    },
+    "details": {
+      "loading": "Chargement de la galerie...",
+      "load_error": "Impossible de charger les détails de la galerie.",
+      "title": "Détails de la galerie",
+      "description": "Consultation rapide de la galerie et de ses images.",
+      "cover": "Cover",
+      "image_alt": "Image de galerie",
+      "fields": {
+        "title": "Titre",
+        "category": "Catégorie",
+        "subtitle": "Sous-titre",
+        "place": "Lieu",
+        "tour": "Circuit lié",
+        "status": "Statut",
+        "images_count": "Nombre d'images",
+        "created_at": "Création",
+        "updated_at": "Dernière mise à jour",
+        "description": "Description"
+      },
+      "images": {
+        "title": "Images de la galerie",
+        "description": "Toutes les images associées, avec leur légende et indication de cover.",
+        "no_caption": "Sans légende"
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger la galerie.",
+      "image_required": "Ajoutez au moins une image pour la galerie.",
+      "create_success": "Galerie créée.",
+      "update_success": "Galerie mise à jour.",
+      "save_error": "Échec de l'enregistrement de la galerie.",
+      "loading": "Chargement de la galerie...",
+      "create_title": "Ajouter une galerie",
+      "edit_title": "Modifier la galerie",
+      "description": "Configurez les informations de la galerie et sa collection d'images.",
+      "fields": {
+        "title": "Titre",
+        "title_placeholder": "Titre de la galerie",
+        "subtitle": "Sous-titre",
+        "subtitle_placeholder": "Sous-titre",
+        "place": "Lieu",
+        "place_placeholder": "Ex: Morondava",
+        "category": "Catégorie",
+        "category_placeholder": "Sélectionner une catégorie",
+        "tour": "Circuit lié",
+        "tour_placeholder": "Aucun circuit lié",
+        "status": "Statut",
+        "description": "Description",
+        "description_placeholder": "Description de la galerie"
+      },
+      "images": {
+        "add_images": "Ajouter des images",
+        "existing_title": "Images existantes",
+        "existing_description": "Modifiez les légendes, choisissez la cover ou retirez des images.",
+        "new_title": "Nouvelles images",
+        "new_description": "Prévisualisez les nouvelles images avant enregistrement.",
+        "no_existing": "Aucune image existante.",
+        "no_new": "Aucune nouvelle image sélectionnée.",
+        "caption": "Légende",
+        "caption_placeholder": "Légende de l'image",
+        "cover": "Cover",
+        "remove": "Retirer",
+        "image_alt": "Image de galerie"
+      }
+    }
+  },
+  "activity_logs": {
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "close": "Fermer"
+    },
+    "list": {
+      "title": "Journaux d'activité",
+      "description": "Historique des actions administrateur avec message, utilisateur, route et statut.",
+      "load_error": "Impossible de charger les journaux d'activité.",
+      "delete_success": "Journal d'activité supprimé.",
+      "delete_error": "Échec de la suppression du journal.",
+      "search_placeholder": "Rechercher un log...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les journaux d'activité sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucun journal d'activité",
+      "empty_description": "Aucun log ne correspond à la recherche actuelle.",
+      "table": {
+        "action": "Action",
+        "message": "Message",
+        "user": "Utilisateur",
+        "status": "Statut",
+        "date": "Date",
+        "actions": "Actions",
+        "system": "Système",
+        "show_details": "Afficher détails"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total"
+      },
+      "delete_modal": {
+        "title": "Supprimer le log",
+        "message": "Voulez-vous supprimer le log \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    },
+    "details": {
+      "title": "Détails du log",
+      "description": "Informations complètes sur cette activité.",
+      "fields": {
+        "action": "Action",
+        "color": "Couleur",
+        "user": "Utilisateur",
+        "date": "Date",
+        "method": "Méthode",
+        "status_code": "Code statut",
+        "message": "Message",
+        "route": "Route",
+        "entity_type": "Type d'entité",
+        "metadata": "Métadonnées"
+      }
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Gérez les informations de la plateforme, les catégories, les méthodes de paiement et votre compte depuis une interface à onglets.",
+    "tabs": {
+      "platform": "Informations plateforme",
+      "categories": "Gestion catégories",
+      "payment_methods": "Méthodes de paiement",
+      "account": "Mon compte"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "delete": "Supprimer",
+      "deleting": "Suppression...",
+      "edit": "Modifier",
+      "loading": "Chargement...",
+      "saving": "Enregistrement..."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "platform": {
+      "title": "Informations plateforme",
+      "description": "Gérez le logo, le nom, le contact, l'email et l'adresse de la plateforme.",
+      "load_error": "Impossible de charger les informations de la plateforme.",
+      "save": "Enregistrer les informations",
+      "messages": {
+        "update_success": "Informations de la plateforme mises à jour.",
+        "update_error": "Impossible de mettre à jour la plateforme."
+      },
+      "fields": {
+        "logo": "Logo",
+        "platform_name": "Nom de la plateforme",
+        "platform_name_placeholder": "Nom de la plateforme",
+        "contact": "Contact",
+        "contact_placeholder": "Téléphone principal",
+        "email": "Email",
+        "email_placeholder": "Email principal",
+        "address": "Adresse",
+        "address_placeholder": "Adresse de la plateforme"
+      },
+      "preview": {
+        "title": "Aperçu plateforme",
+        "description": "Résumé rapide des informations actuellement configurées.",
+        "logo_alt": "Logo plateforme",
+        "platform": "Plateforme"
+      }
+    },
+    "categories": {
+      "title": "Gestion catégories",
+      "description": "Créez, modifiez et supprimez les catégories depuis les paramètres.",
+      "load_error": "Impossible de charger les catégories.",
+      "search_placeholder": "Rechercher une catégorie...",
+      "loading_description": "Les catégories sont en cours de récupération.",
+      "empty_title": "Aucune catégorie",
+      "empty_description": "Aucune catégorie ne correspond à la recherche actuelle.",
+      "stats": {
+        "total": "Total",
+        "active": "Actives",
+        "inactive": "Inactives"
+      },
+      "table": {
+        "name": "Nom",
+        "description": "Description",
+        "status": "Statut",
+        "actions": "Actions",
+        "no_description": "Sans description"
+      },
+      "messages": {
+        "create_success": "Catégorie créée.",
+        "update_success": "Catégorie mise à jour.",
+        "save_error": "Impossible d'enregistrer la catégorie.",
+        "delete_success": "Catégorie supprimée.",
+        "delete_error": "Impossible de supprimer la catégorie."
+      },
+      "delete_modal": {
+        "title": "Supprimer la catégorie",
+        "message": "Voulez-vous supprimer définitivement la catégorie \":name\" ?",
+        "confirm": "Oui, supprimer"
+      },
+      "form": {
+        "create_title": "Nouvelle catégorie",
+        "edit_title": "Modifier la catégorie",
+        "description": "Configurez le nom, la description et le statut de la catégorie.",
+        "fields": {
+          "name": "Nom",
+          "name_placeholder": "Nom de la catégorie",
+          "description": "Description",
+          "description_placeholder": "Description de la catégorie",
+          "active": "Active",
+          "active_help": "Affiche ou masque cette catégorie."
+        }
+      }
+    },
+    "payment_methods": {
+      "title": "Gestion des méthodes de paiement",
+      "description": "Créez, modifiez et supprimez les méthodes de paiement.",
+      "load_error": "Impossible de charger les méthodes de paiement.",
+      "search_placeholder": "Rechercher une méthode...",
+      "loading_description": "Les méthodes de paiement sont en cours de récupération.",
+      "empty_title": "Aucune méthode",
+      "empty_description": "Aucune méthode de paiement ne correspond à la recherche actuelle.",
+      "stats": {
+        "total": "Total",
+        "active": "Actives",
+        "inactive": "Inactives"
+      },
+      "table": {
+        "name": "Méthode",
+        "code": "Code",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "messages": {
+        "create_success": "Méthode de paiement créée.",
+        "update_success": "Méthode de paiement mise à jour.",
+        "save_error": "Impossible d'enregistrer la méthode de paiement.",
+        "delete_success": "Méthode de paiement supprimée.",
+        "delete_error": "Impossible de supprimer la méthode de paiement."
+      },
+      "delete_modal": {
+        "title": "Supprimer la méthode de paiement",
+        "message": "Voulez-vous supprimer définitivement la méthode \":name\" ?",
+        "confirm": "Oui, supprimer"
+      },
+      "form": {
+        "create_title": "Nouvelle méthode",
+        "edit_title": "Modifier la méthode",
+        "description": "Configurez le logo, le nom, le code et le statut de la méthode de paiement.",
+        "logo_alt": "Logo méthode",
+        "fields": {
+          "logo": "Logo",
+          "name": "Nom",
+          "name_placeholder": "Ex : Mvola",
+          "code": "Code",
+          "code_placeholder": "Ex : mvola",
+          "active": "Active",
+          "active_help": "Affiche ou masque cette méthode de paiement."
+        }
+      }
+    },
+    "account": {
+      "title": "Profil administrateur",
+      "description": "Mettez à jour les informations du compte actuellement connecté.",
+      "save": "Enregistrer les modifications",
+      "messages": {
+        "user_not_found": "Utilisateur introuvable.",
+        "update_success": "Informations du compte mises à jour.",
+        "update_error": "Impossible de mettre à jour le compte."
+      },
+      "fields": {
+        "avatar": "Avatar",
+        "pseudo": "Pseudo",
+        "pseudo_placeholder": "Votre pseudo",
+        "email": "Email",
+        "email_placeholder": "Votre email",
+        "contact": "Contact",
+        "contact_placeholder": "Numéro de téléphone",
+        "address": "Adresse",
+        "address_placeholder": "Adresse complète",
+        "password": "Mot de passe",
+        "new_password": "Nouveau mot de passe",
+        "new_password_placeholder": "Minimum 8 caractères",
+        "password_confirmation": "Confirmation",
+        "password_confirmation_placeholder": "Confirmer le mot de passe"
+      },
+      "password_section": {
+        "title": "Mot de passe",
+        "description": "Laissez les champs vides si vous ne souhaitez pas changer le mot de passe."
+      },
+      "session": {
+        "title": "Session",
+        "description": "Informations rapides sur le compte connecté.",
+        "role": "Rôle",
+        "status": "Statut"
+      }
+    },
+    "delete_account": {
+      "title": "Suppression du compte",
+      "description": "Cette action supprime définitivement le compte authentifié.",
+      "warning": "La suppression est irréversible. Vous devrez confirmer avec votre mot de passe actuel.",
+      "button": "Supprimer mon compte",
+      "messages": {
+        "delete_error": "Impossible de supprimer le compte."
+      },
+      "modal": {
+        "title": "Supprimer mon compte",
+        "description": "Cette suppression est définitive. Saisissez votre mot de passe pour confirmer.",
+        "password_placeholder": "Votre mot de passe actuel",
+        "confirm": "Supprimer définitivement"
+      }
+    }
+  },
+  "categories": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "common": {
+      "refresh": "Rafraîchir",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "new": "Nouvelle catégorie",
+      "back": "Retour à la liste",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "saving": "Enregistrement...",
+      "close": "Fermer"
+    },
+    "list": {
+      "title": "Gestion des catégories",
+      "description": "Liste, recherche, tri et actions rapides sur les catégories.",
+      "load_error": "Impossible de charger les catégories.",
+      "delete_success": "Catégorie supprimée.",
+      "delete_error": "Échec de la suppression de la catégorie.",
+      "stats": {
+        "active": "Actives",
+        "inactive": "Inactives",
+        "total": "Total"
+      },
+      "search_placeholder": "Rechercher une catégorie...",
+      "per_page": ":count / page",
+      "loading_title": "Chargement...",
+      "loading_description": "Les catégories sont en cours de récupération depuis l'API.",
+      "empty_title": "Aucune catégorie",
+      "empty_description": "Aucune catégorie ne correspond à la recherche actuelle.",
+      "table": {
+        "name": "Nom",
+        "description": "Description",
+        "status": "Statut",
+        "created_at": "Création",
+        "actions": "Actions",
+        "no_description": "Sans description"
+      },
+      "pagination": {
+        "page_of": "Page :current sur :total"
+      },
+      "delete_modal": {
+        "title": "Supprimer la catégorie",
+        "message": "Voulez-vous supprimer la catégorie \":name\" ?",
+        "confirm": "Oui, supprimer",
+        "loading": "Suppression..."
+      }
+    },
+    "form": {
+      "load_error": "Impossible de charger la catégorie.",
+      "create_success": "Catégorie créée.",
+      "update_success": "Catégorie mise à jour.",
+      "save_error": "Échec de l'enregistrement de la catégorie.",
+      "loading": "Chargement de la catégorie...",
+      "create_title": "Ajouter une catégorie",
+      "edit_title": "Modifier la catégorie",
+      "description": "Configurez le nom, la description et le statut de la catégorie.",
+      "fields": {
+        "name": "Nom",
+        "name_placeholder": "Nom de la catégorie",
+        "description": "Description",
+        "description_placeholder": "Description de la catégorie",
+        "active": "Active",
+        "active_help": "Affiche ou masque cette catégorie."
+      }
+    }
+  }
+}

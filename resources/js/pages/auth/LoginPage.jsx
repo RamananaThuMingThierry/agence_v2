@@ -2,9 +2,11 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { useAuth } from "../../hooks/admin/AuthContext";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
 export default function LoginPage() {
   const { login, isAuthenticated, loading } = useAuth();
+  const { t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -65,7 +67,7 @@ export default function LoginPage() {
       await login(form);
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed.");
+      setError(err.response?.data?.message || t("public.auth.login.error"));
     } finally {
       setSubmitting(false);
     }
@@ -95,8 +97,8 @@ export default function LoginPage() {
               <img src={platform.logo} alt={platform.platform_name} className="h-full w-full object-contain" />
             </div>
           </div>
-          <h2 className="mt-4 text-3xl font-black text-[var(--ink)]">Connexion administrateur</h2>
-          <p className="mt-3 text-sm text-[var(--muted)]">Utilisez votre email et votre mot de passe administrateur.</p>
+          <h2 className="mt-4 text-3xl font-black text-[var(--ink)]">{t("public.auth.login.title")}</h2>
+          <p className="mt-3 text-sm text-[var(--muted)]">{t("public.auth.login.description")}</p>
 
           {error ? (
             <div className="mt-6 rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
@@ -106,7 +108,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-5">
             <label className="block space-y-2">
-              <span className="text-sm font-semibold text-[var(--ink)]">Email</span>
+              <span className="text-sm font-semibold text-[var(--ink)]">{t("public.auth.login.fields.email")}</span>
               <input
                 type="email"
                 name="email"
@@ -114,12 +116,12 @@ export default function LoginPage() {
                 onChange={handleChange}
                 required
                 className="w-full rounded-sm border border-[var(--line)] bg-white/80 px-4 py-3 outline-none transition focus:border-[var(--accent)]"
-                placeholder="admin@example.com"
+                placeholder={t("public.auth.login.fields.email_placeholder")}
               />
             </label>
 
             <label className="block space-y-2">
-              <span className="text-sm font-semibold text-[var(--ink)]">Mot de passe</span>
+              <span className="text-sm font-semibold text-[var(--ink)]">{t("public.auth.login.fields.password")}</span>
               <input
                 type="password"
                 name="password"
@@ -127,7 +129,7 @@ export default function LoginPage() {
                 onChange={handleChange}
                 required
                 className="w-full rounded-sm border border-[var(--line)] bg-white/80 px-4 py-3 outline-none transition focus:border-[var(--accent)]"
-                placeholder="••••••••"
+                placeholder={t("public.auth.login.fields.password_placeholder")}
               />
             </label>
 
@@ -136,7 +138,7 @@ export default function LoginPage() {
               disabled={submitting}
               className="w-full rounded-sm bg-red-600 px-6 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white transition hover:bg-[var(--accent-dark)] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {submitting ? "Connexion..." : "Se connecter"}
+              {submitting ? t("public.auth.login.submitting") : t("public.auth.login.submit")}
             </button>
           </form>
         </section>

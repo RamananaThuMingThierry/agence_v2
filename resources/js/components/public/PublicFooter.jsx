@@ -1,4 +1,5 @@
 import React from "react";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
 function FacebookIcon() {
   return (
@@ -35,14 +36,22 @@ function WhatsAppIcon() {
 }
 
 export default function PublicFooter({ footerLinks, logo = "/images/logo.png", brand = "Monde de Madagascar" }) {
+  const { t } = useI18n();
   const socialLinks = [
-    { label: "Facebook", href: "#", icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
-    { label: "Instagram", href: "#", icon: <InstagramIcon />, tone: "bg-[#E4405F] text-white hover:bg-[#cc3754]" },
-    { label: "YouTube", href: "#", icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
-    { label: "WhatsApp", href: "https://wa.me/261380913703", icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
+    { label: t("public.common.facebook"), href: "#", icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
+    { label: t("public.common.instagram"), href: "#", icon: <InstagramIcon />, tone: "bg-[#E4405F] text-white hover:bg-[#cc3754]" },
+    { label: t("public.common.youtube"), href: "#", icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
+    { label: t("public.common.whatsapp"), href: "https://wa.me/261380913703", icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
   ];
 
-  const payments = ["Visa", "Mastercard", "American Express", "PayPal", "Virement bancaire", "Mobile Money"];
+  const payments = [
+    t("public.home.payment_methods.0"),
+    t("public.home.payment_methods.1"),
+    t("public.home.payment_methods.2"),
+    t("public.home.payment_methods.3"),
+    t("public.home.payment_methods.4"),
+    t("public.home.payment_methods.5"),
+  ];
 
   return (
     <footer className="bg-slate-950 py-10 text-white">
@@ -52,14 +61,14 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
             <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded bg-white p-1 object-contain" />
             <h3 className="text-xl font-extrabold text-red-500">{brand}</h3>
           </a>
-          <p className="max-w-md text-white/60">Agence locale specialisee dans les circuits prives et personnalises a Madagascar.</p>
+          <p className="max-w-md text-white/60">{t("public.footer.description")}</p>
           <a href="/login" className="mt-5 inline-flex rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
-            Se connecter
+            {t("public.auth.login.submit")}
           </a>
         </div>
 
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">Navigation</h4>
+          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.navigation")}</h4>
           <div className="space-y-2 text-sm text-white/60">
             {footerLinks.map((item) => (
               <a
@@ -74,7 +83,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
         </div>
 
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">Paiements</h4>
+          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.payments")}</h4>
           <div className="space-y-2 text-sm text-white/60">
             {payments.map((payment) => (
               <p key={payment}>{payment}</p>
@@ -83,16 +92,16 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
         </div>
 
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">Localisation</h4>
+          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.location")}</h4>
           <div className="space-y-2 text-sm text-white/60">
-            <p>Antananarivo, Madagascar</p>
-            <p>Ambavahaditokona, Antananarivo</p>
+            <p>{t("public.footer.location_city")}</p>
+            <p>{t("public.footer.location_area")}</p>
           </div>
         </div>
 
         <div className="space-y-8">
           <div>
-            <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">Reseaux sociaux</h4>
+            <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.social")}</h4>
             <div className="flex flex-wrap gap-3 text-sm text-white/60">
               {socialLinks.map((item) => (
                 <a
@@ -111,8 +120,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-8 max-w-7xl border-t border-white/10 px-4 pt-6 text-sm text-center text-white/50">&copy; 2026 Monde de Madagascar.</div>
+      <div className="mx-auto mt-8 max-w-7xl border-t border-white/10 px-4 pt-6 text-sm text-center text-white/50">{t("public.footer.copyright", { year: new Date().getFullYear() })}</div>
     </footer>
   );
 }
-

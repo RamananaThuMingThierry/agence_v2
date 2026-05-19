@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import { fetchCategories } from "../../../api/categories";
 import { createGallery, fetchGallery, updateGallery } from "../../../api/galleries";
 import { fetchTours } from "../../../api/tours";
@@ -33,6 +34,7 @@ function Icon({ name, className = "h-5 w-5" }) {
 export default function FormGalleryPage() {
   const { galleryId } = useParams();
   const navigate = useNavigate();
+  const { t } = useI18n();
   const isEditMode = Boolean(galleryId);
   const [form, setForm] = useState(initialForm);
   const [categories, setCategories] = useState([]);
@@ -82,7 +84,7 @@ export default function FormGalleryPage() {
         }
       } catch (requestError) {
         if (!active) return;
-        setError(requestError.response?.data?.message || "Impossible de charger la gallery.");
+        setError(requestError.response?.data?.message || t("galleries.form.load_error"));
       } finally {
         if (active) {
           setLoading(false);
@@ -95,7 +97,7 @@ export default function FormGalleryPage() {
     return () => {
       active = false;
     };
-  }, [galleryId, isEditMode]);
+  }, [galleryId, isEditMode, t]);
 
   const newPreviews = useMemo(() => newImages.map((file) => (file instanceof File ? URL.createObjectURL(file) : "")), [newImages]);
 
@@ -166,7 +168,7 @@ export default function FormGalleryPage() {
     setError("");
 
     if (existingImages.length + newImages.length === 0) {
-      setError("Ajoutez au moins une image pour la gallery.");
+      setError(t("galleries.form.image_required"));
       setSaving(false);
       return;
     }
@@ -190,16 +192,16 @@ export default function FormGalleryPage() {
       navigate("/admin/galleries", {
         replace: true,
         state: {
-          notice: isEditMode ? "Gallery mise a jour." : "Gallery creee.",
+          notice: isEditMode ? t("galleries.form.update_success") : t("galleries.form.create_success"),
         },
       });
     } catch (requestError) {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Echec de l'enregistrement de la gallery.");
+        setError(firstMessage || t("galleries.form.save_error"));
       } else {
-        setError(requestError.response?.data?.message || "Echec de l'enregistrement de la gallery.");
+        setError(requestError.response?.data?.message || t("galleries.form.save_error"));
       }
     } finally {
       setSaving(false);
@@ -207,7 +209,7 @@ export default function FormGalleryPage() {
   }
 
   if (loading) {
-    return <div className="rounded-sm border border-stone-200 bg-white p-8 text-sm font-semibold text-slate-500 shadow-sm">Chargement de la gallery...</div>;
+    return <div className="rounded-sm border border-stone-200 bg-white p-8 text-sm font-semibold text-slate-500 shadow-sm">{t("galleries.form.loading")}</div>;
   }
 
   return (
@@ -215,13 +217,13 @@ export default function FormGalleryPage() {
       <section className="rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="mt-2 text-3xl font-extrabold text-slate-950">{isEditMode ? "Modifier la gallery" : "Ajouter une gallery"}</h2>
-            <p className="mt-2 text-sm text-slate-500">Configurez les informations de la gallery et sa collection d'images.</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-slate-950">{isEditMode ? t("galleries.form.edit_title") : t("galleries.form.create_title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("galleries.form.description")}</p>
           </div>
 
           <Link to="/admin/galleries" className="inline-flex items-center justify-center gap-2 self-start rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:text-black">
             <Icon name="arrow-left" className="h-4 w-4" />
-            Retour a la liste
+            {t("galleries.common.back")}
           </Link>
         </div>
       </section>
@@ -233,26 +235,26 @@ export default function FormGalleryPage() {
           <div className="space-y-6 px-4 py-5 sm:px-6 sm:py-6">
             <div className="grid gap-6 lg:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Titre</span>
-                <input type="text" name="title" required value={form.title} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Titre de la gallery" />
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.title")}</span>
+                <input type="text" name="title" required value={form.title} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.fields.title_placeholder")} />
               </label>
 
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Sous-titre</span>
-                <input type="text" name="subtitle" value={form.subtitle} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Sous-titre" />
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.subtitle")}</span>
+                <input type="text" name="subtitle" value={form.subtitle} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.fields.subtitle_placeholder")} />
               </label>
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Lieu</span>
-                <input type="text" name="place" value={form.place} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Ex: Morondava" />
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.place")}</span>
+                <input type="text" name="place" value={form.place} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.fields.place_placeholder")} />
               </label>
 
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Categorie</span>
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.category")}</span>
                 <select name="category_id" required value={form.category_id} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
-                  <option value="">Selectionner une categorie</option>
+                  <option value="">{t("galleries.form.fields.category_placeholder")}</option>
                   {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                 </select>
               </label>
@@ -260,37 +262,37 @@ export default function FormGalleryPage() {
 
             <div className="grid gap-6 lg:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Circuit lie</span>
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.tour")}</span>
                 <select name="tour_id" value={form.tour_id} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
-                  <option value="">Aucun circuit lie</option>
+                  <option value="">{t("galleries.form.fields.tour_placeholder")}</option>
                   {tours.map((tour) => <option key={tour.id} value={tour.id}>{tour.title}</option>)}
                 </select>
               </label>
 
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Statut</span>
+                <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.status")}</span>
                 <select name="status" required value={form.status} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400">
-                  <option value="publish">Publie</option>
-                  <option value="draft">Brouillon</option>
+                  <option value="publish">{t("galleries.status.publish")}</option>
+                  <option value="draft">{t("galleries.status.draft")}</option>
                 </select>
               </label>
             </div>
 
             <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Description</span>
-              <textarea name="description" rows="6" value={form.description} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Description de la gallery" />
+              <span className="block text-sm font-bold text-slate-800">{t("galleries.form.fields.description")}</span>
+              <textarea name="description" rows="6" value={form.description} onChange={handleChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.fields.description_placeholder")} />
             </label>
 
             <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Ajouter des images</span>
+              <span className="block text-sm font-bold text-slate-800">{t("galleries.form.images.add_images")}</span>
               <input type="file" multiple accept="image/png,image/jpeg,image/webp" onChange={handleFilesChange} className="block w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 file:mr-4 file:rounded-sm file:border-0 file:bg-red-600 file:px-4 file:py-2 file:font-bold file:text-white" />
             </label>
           </div>
 
           <div className="border-t border-stone-200 bg-white px-4 py-4 sm:px-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-              <Link to="/admin/galleries" className="inline-flex w-full items-center justify-center rounded-sm border border-stone-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition sm:w-auto">Annuler</Link>
-              <button type="submit" disabled={saving} className="inline-flex w-full items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">{saving ? "Enregistrement..." : isEditMode ? "Mettre a jour" : "Enregistrer"}</button>
+              <Link to="/admin/galleries" className="inline-flex w-full items-center justify-center rounded-sm border border-stone-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition sm:w-auto">{t("galleries.common.cancel")}</Link>
+              <button type="submit" disabled={saving} className="inline-flex w-full items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">{saving ? t("galleries.common.saving") : isEditMode ? t("galleries.common.update") : t("galleries.common.save")}</button>
             </div>
           </div>
         </section>
@@ -298,25 +300,25 @@ export default function FormGalleryPage() {
         <section className="space-y-6">
           <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
             <div className="border-b border-stone-200 px-6 py-5">
-              <h3 className="text-lg font-extrabold text-slate-950">Images existantes</h3>
-              <p className="mt-2 text-sm text-slate-500">Modifiez les captions, choisissez la cover ou retirez des images.</p>
+              <h3 className="text-lg font-extrabold text-slate-950">{t("galleries.form.images.existing_title")}</h3>
+              <p className="mt-2 text-sm text-slate-500">{t("galleries.form.images.existing_description")}</p>
             </div>
             <div className="space-y-4 px-6 py-6">
-              {existingImages.length === 0 ? <p className="text-sm text-slate-500">Aucune image existante.</p> : existingImages.map((image) => (
+              {existingImages.length === 0 ? <p className="text-sm text-slate-500">{t("galleries.form.images.no_existing")}</p> : existingImages.map((image) => (
                 <div key={image.id} className="rounded-sm border border-stone-200 p-4">
                   <div className="flex gap-4">
-                    <img src={buildImageUrl(image.image_url)} alt={image.caption || form.title || "Gallery"} className="h-24 w-24 rounded-sm object-cover" />
+                    <img src={buildImageUrl(image.image_url)} alt={image.caption || form.title || t("galleries.form.images.image_alt")} className="h-24 w-24 rounded-sm object-cover" />
                     <div className="min-w-0 flex-1 space-y-3">
                       <label className="space-y-2">
-                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Caption</span>
-                        <input type="text" value={image.caption || ""} onChange={(event) => handleExistingCaptionChange(image.id, event.target.value)} className="w-full rounded-sm border border-stone-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Caption de l'image" />
+                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("galleries.form.images.caption")}</span>
+                        <input type="text" value={image.caption || ""} onChange={(event) => handleExistingCaptionChange(image.id, event.target.value)} className="w-full rounded-sm border border-stone-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.images.caption_placeholder")} />
                       </label>
                       <div className="flex flex-wrap gap-3">
                         <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
                           <input type="radio" name="cover-selection" checked={coverSelection.type === "existing" && coverSelection.value === image.id} onChange={() => setCoverSelection({ type: "existing", value: image.id })} />
-                          Cover
+                          {t("galleries.form.images.cover")}
                         </label>
-                        <button type="button" onClick={() => removeExistingImage(image.id)} className="text-sm font-bold text-rose-700 transition hover:text-rose-900">Retirer</button>
+                        <button type="button" onClick={() => removeExistingImage(image.id)} className="text-sm font-bold text-rose-700 transition hover:text-rose-900">{t("galleries.form.images.remove")}</button>
                       </div>
                     </div>
                   </div>
@@ -327,26 +329,26 @@ export default function FormGalleryPage() {
 
           <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
             <div className="border-b border-stone-200 px-6 py-5">
-              <h3 className="text-lg font-extrabold text-slate-950">Nouvelles images</h3>
-              <p className="mt-2 text-sm text-slate-500">Previsualisez les nouvelles images avant enregistrement.</p>
+              <h3 className="text-lg font-extrabold text-slate-950">{t("galleries.form.images.new_title")}</h3>
+              <p className="mt-2 text-sm text-slate-500">{t("galleries.form.images.new_description")}</p>
             </div>
             <div className="space-y-4 px-6 py-6">
-              {newImages.length === 0 ? <p className="text-sm text-slate-500">Aucune nouvelle image selectionnee.</p> : newImages.map((file, index) => (
+              {newImages.length === 0 ? <p className="text-sm text-slate-500">{t("galleries.form.images.no_new")}</p> : newImages.map((file, index) => (
                 <div key={`${file.name}-${index}`} className="rounded-sm border border-stone-200 p-4">
                   <div className="flex gap-4">
                     <img src={newPreviews[index]} alt={file.name} className="h-24 w-24 rounded-sm object-cover" />
                     <div className="min-w-0 flex-1 space-y-3">
                       <p className="truncate text-sm font-bold text-slate-900">{file.name}</p>
                       <label className="space-y-2">
-                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Caption</span>
-                        <input type="text" value={newCaptions[index] || ""} onChange={(event) => handleNewCaptionChange(index, event.target.value)} className="w-full rounded-sm border border-stone-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder="Caption de l'image" />
+                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("galleries.form.images.caption")}</span>
+                        <input type="text" value={newCaptions[index] || ""} onChange={(event) => handleNewCaptionChange(index, event.target.value)} className="w-full rounded-sm border border-stone-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-red-400" placeholder={t("galleries.form.images.caption_placeholder")} />
                       </label>
                       <div className="flex flex-wrap gap-3">
                         <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
                           <input type="radio" name="cover-selection" checked={coverSelection.type === "new" && coverSelection.value === index} onChange={() => setCoverSelection({ type: "new", value: index })} />
-                          Cover
+                          {t("galleries.form.images.cover")}
                         </label>
-                        <button type="button" onClick={() => removeNewImage(index)} className="text-sm font-bold text-rose-700 transition hover:text-rose-900">Retirer</button>
+                        <button type="button" onClick={() => removeNewImage(index)} className="text-sm font-bold text-rose-700 transition hover:text-rose-900">{t("galleries.form.images.remove")}</button>
                       </div>
                     </div>
                   </div>

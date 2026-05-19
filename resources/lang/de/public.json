@@ -1,0 +1,441 @@
+{
+  "auth": {
+    "login": {
+      "title": "Administrator-Anmeldung",
+      "description": "Verwenden Sie Ihre Administrator-E-Mail und Ihr Passwort.",
+      "error": "Anmeldung fehlgeschlagen.",
+      "submitting": "Anmeldung läuft...",
+      "submit": "Anmelden",
+      "fields": {
+        "email": "E-Mail",
+        "email_placeholder": "admin@example.com",
+        "password": "Passwort",
+        "password_placeholder": "••••••••"
+      }
+    }
+  },
+  "header": {
+    "language_switcher": {
+      "label": "Sprache ändern"
+    },
+    "cta": {
+      "plan_trip": "Meine Reise planen"
+    },
+    "menu": {
+      "open": "Menü öffnen",
+      "close": "Menü schließen"
+    }
+  },
+  "footer": {
+    "description": "Lokale Agentur, spezialisiert auf private und maßgeschneiderte Rundreisen in Madagaskar.",
+    "navigation": "Navigation",
+    "payments": "Zahlungen",
+    "location": "Standort",
+    "location_city": "Antananarivo, Madagaskar",
+    "location_area": "Ambavahaditokona, Antananarivo",
+    "social": "Soziale Netzwerke",
+    "copyright": "© :year Welt von Madagaskar."
+  },
+  "home": {
+    "meta": {
+      "tagline": "Tours",
+      "topbar_left": "Private Rundreisen in Madagaskar mit lokalen Guides"
+    },
+    "nav": {
+      "home": "Start",
+      "about": "Über uns",
+      "tours": "Rundreisen",
+      "gallery": "Galerie",
+      "why": "Warum wir",
+      "testimonials": "Bewertungen",
+      "contact": "Kontakt"
+    },
+    "hero": {
+      "title": "Private Rundreisen in Madagaskar mit lokalen Experten",
+      "text": "Entdecken Sie Lemuren, Baobabs, Nationalparks, Strände und madagassische Dörfer mit einem vertrauenswürdigen lokalen Team.",
+      "slide_label": "Zu Slide :index gehen",
+      "cta": {
+        "quote": "Kostenloses Angebot anfordern",
+        "tours": "Rundreisen ansehen"
+      },
+      "highlights": [
+        "Bewertungen von Reisenden",
+        "Private Rundreisen",
+        "Individuelle Reiserouten",
+        "WhatsApp-Unterstützung"
+      ]
+    },
+    "highlights": [
+      "Jahre Erfahrung",
+      "Private Rundreisen",
+      "Gesprochene Sprachen",
+      "Reiseunterstützung"
+    ],
+    "about": {
+      "eyebrow": "Über uns",
+      "title": "Entdecken Sie Madagaskar mit einem echten lokalen Guide",
+      "languages": "Gesprochene Sprachen",
+      "travelers": "Begleitete Reisende",
+      "reference": "Referenz",
+      "founder": {
+        "role": "Privater Reiseleiter (Gründer)",
+        "location": "Aus Antalaha, mit Sitz in Antananarivo",
+        "experience": "Seit 2015 im Tourismus, professioneller Guide seit 2017",
+        "languages": [
+          "Madagassisch",
+          "Französisch",
+          "Englisch",
+          "Deutsch (Grundkenntnisse)"
+        ],
+        "countries": [
+          "Deutschland",
+          "Russland",
+          "Italien",
+          "Vereinigte Staaten",
+          "Australien",
+          "China",
+          "Japan",
+          "Südafrika",
+          "Marokko",
+          "Frankreich"
+        ],
+        "paragraphs": [
+          "Hallo, ich heiße MILASOA Ricki Cardo, komme ursprünglich aus Antalaha in Madagaskar und lebe heute in Antananarivo. Ich arbeite seit 2015 im Tourismus und wurde 2017 professioneller Reiseleiter.",
+          "Ich spreche Madagassisch, Französisch, Englisch und ein wenig Deutsch. Mit mehreren Jahren Erfahrung in ganz Madagaskar habe ich Reisende aus vielen Ländern Europas, Asiens, Afrikas, Australiens und den Vereinigten Staaten begleitet.",
+          "Wir schaffen Erlebnisse, die Natur, Kultur, Geschichte und madagassische Biodiversität verbinden. Wir bieten auch Übersetzungsdienste und maßgeschneiderte Abendveranstaltungen an.",
+          "2024 haben wir ein Reisebüro mit Fahrern, Guides und einem Marketingverantwortlichen gegründet, um einen hochwertigeren Service anzubieten."
+        ],
+        "reference_text": "Wir sind auch auf SafariBookings.com gelistet, einer Referenzplattform für Safaris und Reiseveranstalter."
+      }
+    },
+    "why": {
+      "eyebrow": "Warum unsere Agentur wählen",
+      "title": "Eine lokale, flexible und beruhigende Erfahrung",
+      "text": "Wir gestalten Reisen passend zu Ihrem Rhythmus, Ihrem Budget und Ihren Interessen."
+    },
+    "reasons": [
+      {
+        "title": "Lokale Guides",
+        "text": "Guides, die die Parks, die Kultur und die besten Routen kennen."
+      },
+      {
+        "title": "Maßgeschneiderte Reisen",
+        "text": "Jede Reiseroute kann an Ihre Daten und Wünsche angepasst werden."
+      },
+      {
+        "title": "Natur und Kultur",
+        "text": "Lemuren, Baobabs, Tsingy, Isalo, Strände und lokale Begegnungen."
+      },
+      {
+        "title": "Einfacher Kontakt",
+        "text": "Schneller Austausch per WhatsApp vor und während der Reise."
+      }
+    ],
+    "featured_tours": {
+      "eyebrow": "Unsere beliebten Rundreisen",
+      "title": "Wählen Sie Ihr Abenteuer in Madagaskar"
+    },
+    "tours": {
+      "from": "Ab",
+      "description_coming": "Beschreibung folgt."
+    },
+    "tours_catalog": {
+      "eyebrow": "Vollständige Rundreisenliste",
+      "title": "Alle verfügbaren Reisen",
+      "text": "Dieser Bereich ermöglicht dem Kunden, Rundreisen schnell nach Dauer, Reiseziel, Stil und Preis zu vergleichen.",
+      "table": {
+        "tour": "Rundreise",
+        "duration": "Dauer",
+        "style": "Stil",
+        "departure": "Abfahrt",
+        "action": "Aktion"
+      }
+    },
+    "gallery": {
+      "eyebrow": "Fotogalerie",
+      "title": "Inspirieren Sie Reisende mit den schönsten Landschaften",
+      "text": "Die Galerie sollte echte Fotos zeigen: Kunden, Guides, Parks, Tiere, Hotels, Fahrzeuge und Höhepunkte der Reise.",
+      "view_all": "Gesamte Galerie ansehen"
+    },
+    "payments": {
+      "eyebrow": "Sichere Zahlung",
+      "title": "Mehrere Zahlungsmethoden zur Beruhigung der Reisenden",
+      "text": "Zeigen Sie die verfügbaren Zahlungsmöglichkeiten vor der Buchung klar an, um Unsicherheiten internationaler Kunden zu reduzieren."
+    },
+    "payment_methods": [
+      "Mastercard",
+      "Visa",
+      "PayPal",
+      "Banküberweisung",
+      "Barzahlung",
+      "Mobile Money"
+    ],
+    "custom_trip": {
+      "eyebrow": "Individuelle Reise",
+      "title": "Sie wissen nicht, welche Rundreise Sie wählen sollen?",
+      "text": "Senden Sie uns Ihre Daten, Ihr Budget und Ihre Wünsche. Wir erstellen eine passende Reiseroute für Ihren Aufenthalt in Madagaskar.",
+      "cta": "Kostenlosen Vorschlag erhalten",
+      "examples": "Reisebeispiele",
+      "items": [
+        "Wildlife & Lemurs Tour",
+        "Baobabs & Tsingy Adventure",
+        "RN7 Classic Road Trip",
+        "Beach & Island Escape"
+      ]
+    },
+    "testimonials": {
+      "eyebrow": "Kundenbewertungen",
+      "title": "Sie sind mit uns gereist",
+      "view_more": "Mehr Bewertungen ansehen",
+      "fallback": [
+        {
+          "quote": "Unglaubliche Reise! Der Guide war freundlich, professionell und hat uns wunderschöne Orte in Madagaskar gezeigt."
+        },
+        {
+          "quote": "Sehr flexible Reiseroute und ausgezeichnete Kommunikation vor der Tour. Sehr zu empfehlen."
+        },
+        {
+          "quote": "Wir haben die Lemuren, die Baobabs und die lokalen Dörfer geliebt. Alles war sehr gut organisiert."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Häufige Fragen",
+      "title": "Die Antworten, die Ihre Reisenden vor der Buchung suchen",
+      "text": "Dieser Bereich hilft Besuchern, ihre Zweifel schnell zu klären, bevor sie zum Kontaktformular gehen.",
+      "items": [
+        {
+          "question": "Wann ist die beste Zeit für eine schöne Reise nach Madagaskar?",
+          "answer": "Die beste Jahreszeit hängt von dem Erlebnis ab, das Sie suchen. Im Allgemeinen ist April bis November ideal, um Landschaften, Parks und große Rundreisen zu genießen."
+        },
+        {
+          "question": "Können Sie für uns eine 100% private und maßgeschneiderte Reise erstellen?",
+          "answer": "Ja, genau das ist unsere Spezialität. Wir gestalten Ihre Reise nach Ihrem Budget, Ihrer Aufenthaltsdauer, der Anzahl der Reisenden und Ihren Wünschen."
+        },
+        {
+          "question": "Was ist in Ihrem Preis enthalten, wenn wir ein Angebot anfordern?",
+          "answer": "Je nach gewählter Rundreise kann das Angebot Fahrzeug, Fahrer, Guide, Unterkünfte, Transfers und einige Eintritte enthalten."
+        },
+        {
+          "question": "Wie schnell können wir eine Antwort erhalten?",
+          "answer": "Wir antworten schnell nach Eingang Ihrer Nachricht. Wenn Sie eine WhatsApp-Nummer oder eine gültige E-Mail hinterlassen, können wir Ihnen rasch eine erste Antwort senden."
+        },
+        {
+          "question": "Können Sie die ganze Reise organisieren, nicht nur die Rundreise?",
+          "answer": "Ja. Wir können die gesamte Organisation übernehmen: Fahrer, lokale Guides, Transfers, Unterkünfte und individuelles Programm."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "Kontakt",
+      "title": "Planen Sie Ihre Reise nach Madagaskar",
+      "text": "Erzählen Sie uns von Ihrem Reiseprojekt. Sie können uns auch direkt über unsere offiziellen Kanäle kontaktieren.",
+      "address": "Adresse",
+      "form": {
+        "success": "Ihre Anfrage wurde gesendet.",
+        "email_sent": "Eine E-Mail-Benachrichtigung wurde ebenfalls an die Plattform gesendet.",
+        "whatsapp_opened": "Die vorausgefüllte WhatsApp-Nachricht wurde gerade geöffnet.",
+        "error": "Die Anfrage kann im Moment nicht gesendet werden.",
+        "submitting": "Wird gesendet...",
+        "submit": "Meine Anfrage senden",
+        "fields": {
+          "name": "Vollständiger Name",
+          "name_placeholder": "Ihr Name",
+          "subject": "Betreff",
+          "subject_placeholder": "Z. B. maßgeschneiderte Reise, Angebot, Information",
+          "email": "E-Mail oder WhatsApp",
+          "email_placeholder": "Ihre E-Mail oder Ihre Nummer",
+          "message": "Nachricht",
+          "message_placeholder": "Erklären Sie Ihre Anfrage, Ihre Daten, Ihr Budget und die Anzahl der Personen..."
+        }
+      }
+    },
+    "location": {
+      "map_title": "World of Madagascar Tour Karte",
+      "map_query": "World of Madagascar Tour Antananarivo Madagascar"
+    }
+  },
+  "common": {
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "view_more": "Mehr sehen",
+    "book": "Buchen",
+    "quote": "Anfrage"
+  },
+  "tours_list": {
+    "eyebrow": "Alle Rundreisen",
+    "title": "Entdecken Sie alle unsere Rundreisen in Kartenansicht",
+    "text": "Vergleichen Sie Reiseziele, Dauer und Preis, bevor Sie die vollständigen Details öffnen.",
+    "departure": "Abfahrt",
+    "description_coming": "Beschreibung folgt.",
+    "empty": "Zurzeit sind keine Rundreisen verfügbar."
+  },
+  "tour_detail": {
+    "loading": "Rundreise wird geladen...",
+    "not_found": "Rundreise nicht gefunden."
+  },
+  "gallery": {
+    "fallbacks": {
+      "title": "Galerie",
+      "place": "Madagaskar",
+      "category": "Ohne Kategorie"
+    },
+    "list": {
+      "title": "Mehr Reisefotos ansehen",
+      "text": "Diese Seite zeigt die vollständige Liste der verfügbaren Galerien mit Filtern für die öffentliche Navigation.",
+      "empty": "Für diesen Filter ist keine Galerie verfügbar.",
+      "filters": {
+        "all": "Alle"
+      }
+    },
+    "detail": {
+      "loading": "Galerie wird geladen...",
+      "not_found": "Galerie nicht gefunden.",
+      "counter": ":current / :total",
+      "description_fallback": "Ein Bild kann eine eigene Seite mit Beschreibung, Ort, verknüpfter Rundreise und einem Button zur Anfrage der passenden Reise haben.",
+      "place": "Ort",
+      "category": "Kategorie",
+      "related_tour": "Verknüpfte Rundreise",
+      "view_related_tour": "Verknüpfte Rundreise ansehen",
+      "request_trip": "Diese Reise anfragen",
+      "related": "Weitere Galerien"
+    }
+  },
+  "testimonials": {
+    "list": {
+      "eyebrow": "Erfahrungsberichte",
+      "title": "Alle Bewertungen unserer Reisenden",
+      "text": "Sehen Sie sich alle veröffentlichten Erfahrungsberichte an und hinterlassen Sie auch Ihre eigene Bewertung zu Ihrer Erfahrung.",
+      "count_label": "Veröffentlichte Bewertungen",
+      "loading": "Bewertungen werden geladen...",
+      "empty": "Zurzeit sind noch keine Bewertungen veröffentlicht.",
+      "traveler_fallback": "Reisender",
+      "recent": "Aktuelle Bewertung"
+    },
+    "form": {
+      "eyebrow": "Bewertung hinterlassen",
+      "title": "Teilen Sie Ihre Erfahrung",
+      "text": "Kunden können ihre Bewertung direkt auf dieser Seite veröffentlichen.",
+      "success": "Bewertung erfolgreich gesendet.",
+      "error": "Ihre Bewertung kann im Moment nicht gesendet werden.",
+      "submitting": "Wird gesendet...",
+      "submit": "Meine Bewertung veröffentlichen",
+      "preview_alt": "Profilvorschau",
+      "rating_label": ":count Stern geben",
+      "fields": {
+        "image": "Profilfoto",
+        "image_help": "Optional. Wenn kein Bild ausgewählt wird, wird ein Standard-Profilbild angezeigt.",
+        "name": "Name",
+        "name_placeholder": "Ihr Name",
+        "rating": "Bewertung",
+        "message": "Ihre Bewertung",
+        "message_placeholder": "Beschreiben Sie Ihre Erfahrung mit der Agentur."
+      }
+    }
+  },
+  "booking": {
+    "eyebrow": "Buchung",
+    "title": ":tour buchen",
+    "text": "Geben Sie Ihre Daten, die Anzahl der Reisenden und Ihre Anforderungen an. Die Agentur kann dann die Verfügbarkeit bestätigen und die passende Reise abschließen.",
+    "loading": "Formular wird geladen...",
+    "not_found": "Rundreise nicht gefunden.",
+    "form": {
+      "success": "Ihre Buchungsanfrage wurde gesendet.",
+      "email_sent": "Eine E-Mail-Benachrichtigung wurde ebenfalls an die Plattform gesendet.",
+      "whatsapp_opened": "Die vorausgefüllte WhatsApp-Nachricht wurde gerade geöffnet.",
+      "error": "Die Buchung kann im Moment nicht gesendet werden.",
+      "submitting": "Wird gesendet...",
+      "submit": "Buchung senden",
+      "fields": {
+        "name": "Vollständiger Name",
+        "name_placeholder": "Ihr Name",
+        "email": "E-Mail",
+        "email_placeholder": "sie@email.com",
+        "phone": "Telefon",
+        "phone_placeholder": "Ihre Nummer",
+        "people": "Anzahl der Reisenden",
+        "people_placeholder": "2",
+        "start_date": "Abreisedatum",
+        "end_date": "Rückreisedatum",
+        "message": "Nachricht",
+        "message_placeholder": "Geben Sie Ihre Erwartungen, Fragen oder nützliche Informationen an."
+      }
+    },
+    "summary": {
+      "title": "Reiseübersicht",
+      "duration": "Dauer",
+      "departure": "Abfahrt",
+      "arrival": "Ankunft",
+      "price_per_person": "Preis pro Person",
+      "selected_departure": "Gewählte Abfahrt",
+      "selected_return": "Gewählte Rückkehr",
+      "estimate": "Schätzung"
+    }
+  },
+  "tours": {
+    "fallbacks": {
+      "title": "Rundreise",
+      "category": "Rundreise",
+      "traveler": "Reisender"
+    }
+  },
+  "preview": {
+    "photo_detail": {
+      "breadcrumb": "Fotodetail",
+      "back": "Zurück zur vollständigen Galerie",
+      "badge": "Baobabs",
+      "title": "Avenue der Baobabs",
+      "place_value": "Morondava",
+      "category_value": "Foto / Natur",
+      "related_tour_value": "Baobab & Tsingy",
+      "related": "Ähnliche Fotos"
+    },
+    "tour_detail": {
+      "breadcrumb": "Rundreisedetail",
+      "back": "Zurück zur Rundreisenliste",
+      "title": "Andasibe Lemur Tour",
+      "description": "Eine kurze Rundreise, um Madagaskars tropischen Wald zu entdecken, Indri-Indri-Lemuren zu beobachten, Naturreservate zu besuchen und eine private Reise mit lokalem Guide zu genießen.",
+      "badges": {
+        "category": "Natur",
+        "duration": "3 Tage / 2 Nächte",
+        "departure": "Abfahrt Antananarivo"
+      },
+      "summary": {
+        "duration_value": "3 Tage",
+        "style_value": "Natur & Wildlife",
+        "price_value": "Ab $XXX"
+      },
+      "program": {
+        "day1_title": "Tag 1 - Antananarivo nach Andasibe",
+        "day1_text": "Abfahrt von Antananarivo, Fahrt nach Andasibe, Fotostopps und Nachtbesuch je nach Ankunftszeit.",
+        "day2_title": "Tag 2 - Nationalpark Andasibe",
+        "day2_text": "Geführter Besuch des Parks zur Beobachtung von Lemuren, Vögeln, Chamäleons und endemischen Pflanzen.",
+        "day3_title": "Tag 3 - Rückkehr nach Antananarivo",
+        "day3_text": "Optionale Besichtigung eines privaten Reservats und danach Rückkehr nach Antananarivo."
+      },
+      "included_items": [
+        "Privatfahrzeug mit Fahrer",
+        "Lokaler Guide",
+        "Eintritte laut Programm",
+        "WhatsApp-Unterstützung"
+      ],
+      "excluded_items": [
+        "Internationale Flüge",
+        "Nicht erwähnte Mahlzeiten",
+        "Persönliche Ausgaben",
+        "Trinkgelder"
+      ],
+      "sidebar": {
+        "title": "Diese Rundreise anfragen",
+        "text": "Der Kunde kann eine Frage stellen, die Verfügbarkeit prüfen oder eine individuelle Version anfragen.",
+        "days": "Tage",
+        "departure_value": "Tana",
+        "price_value": "$XXX",
+        "whatsapp": "Frage per WhatsApp"
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
 function normalizeSlides(slides = [], fallbackHero) {
   if (Array.isArray(slides) && slides.length > 0) {
@@ -23,6 +24,7 @@ function normalizeSlides(slides = [], fallbackHero) {
 }
 
 export default function HeroSection({ hero, slides = [], children = null }) {
+  const { t } = useI18n();
   const items = normalizeSlides(slides, hero);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -66,10 +68,10 @@ export default function HeroSection({ hero, slides = [], children = null }) {
           <p className="mb-8 text-lg leading-relaxed text-white/90 md:text-xl">{activeSlide.text}</p>
           <div className="flex flex-col gap-4 sm:flex-row">
             <a href="#contact" className="rounded-sm bg-amber-400 px-7 py-4 text-center font-bold text-slate-950 shadow-lg transition hover:bg-amber-300">
-              Demander un devis gratuit
+              {t("public.home.hero.cta.quote")}
             </a>
             <a href="#tours" className="rounded-sm border border-white/30 bg-white/15 px-7 py-4 text-center font-bold backdrop-blur transition hover:bg-white/25">
-              Voir les circuits
+              {t("public.home.hero.cta.tours")}
             </a>
           </div>
           <div className="mt-8 flex flex-wrap gap-4 text-sm text-white/90">
@@ -99,7 +101,7 @@ export default function HeroSection({ hero, slides = [], children = null }) {
               type="button"
               onClick={() => goToSlide(index)}
               className={`h-2.5 rounded-full transition ${index === currentIndex ? "w-10 bg-white" : "w-2.5 bg-white/45 hover:bg-white/70"}`}
-              aria-label={`Aller au slide ${index + 1}`}
+              aria-label={t("public.home.hero.slide_label", { index: index + 1 })}
             />
           ))}
         </div>
@@ -111,5 +113,16 @@ export default function HeroSection({ hero, slides = [], children = null }) {
         </div>
       ) : null}
     </section>
+  );
+}
+
+function ArrowIcon({ direction = "right", className = "h-6 w-6" }) {
+  const rotate = direction === "left" ? "rotate-180" : "";
+
+  return (
+    <svg viewBox="0 0 24 24" className={`${className} ${rotate}`} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="m13 5 7 7-7 7" />
+    </svg>
   );
 }

@@ -1,0 +1,441 @@
+{
+  "auth": {
+    "login": {
+      "title": "Inicio de sesión del administrador",
+      "description": "Usa tu correo y tu contraseña de administrador.",
+      "error": "Error al iniciar sesión.",
+      "submitting": "Conectando...",
+      "submit": "Iniciar sesión",
+      "fields": {
+        "email": "Correo",
+        "email_placeholder": "admin@example.com",
+        "password": "Contraseña",
+        "password_placeholder": "••••••••"
+      }
+    }
+  },
+  "header": {
+    "language_switcher": {
+      "label": "Cambiar idioma"
+    },
+    "cta": {
+      "plan_trip": "Planificar mi viaje"
+    },
+    "menu": {
+      "open": "Abrir menú",
+      "close": "Cerrar menú"
+    }
+  },
+  "footer": {
+    "description": "Agencia local especializada en circuitos privados y personalizados en Madagascar.",
+    "navigation": "Navegación",
+    "payments": "Pagos",
+    "location": "Ubicación",
+    "location_city": "Antananarivo, Madagascar",
+    "location_area": "Ambavahaditokona, Antananarivo",
+    "social": "Redes sociales",
+    "copyright": "© :year Mundo de Madagascar."
+  },
+  "home": {
+    "meta": {
+      "tagline": "Tours",
+      "topbar_left": "Circuitos privados en Madagascar con guías locales"
+    },
+    "nav": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "tours": "Circuitos",
+      "gallery": "Galería",
+      "why": "Por qué nosotros",
+      "testimonials": "Opiniones",
+      "contact": "Contacto"
+    },
+    "hero": {
+      "title": "Circuitos privados en Madagascar con expertos locales",
+      "text": "Descubre lémures, baobabs, parques nacionales, playas y pueblos malgaches con un equipo local de confianza.",
+      "slide_label": "Ir al slide :index",
+      "cta": {
+        "quote": "Solicitar un presupuesto gratuito",
+        "tours": "Ver los circuitos"
+      },
+      "highlights": [
+        "Opiniones de viajeros",
+        "Tours privados",
+        "Itinerarios personalizados",
+        "Asistencia por WhatsApp"
+      ]
+    },
+    "highlights": [
+      "Años de experiencia",
+      "Circuitos privados",
+      "Idiomas hablados",
+      "Asistencia de viaje"
+    ],
+    "about": {
+      "eyebrow": "Acerca de",
+      "title": "Descubre Madagascar con un verdadero guía local",
+      "languages": "Idiomas hablados",
+      "travelers": "Viajeros acompañados",
+      "reference": "Referencia",
+      "founder": {
+        "role": "Guía turístico privado (Fundador)",
+        "location": "Originario de Antalaha, con base en Antananarivo",
+        "experience": "En turismo desde 2015, guía profesional desde 2017",
+        "languages": [
+          "Malgache",
+          "Francés",
+          "Inglés",
+          "Alemán (nociones)"
+        ],
+        "countries": [
+          "Alemania",
+          "Rusia",
+          "Italia",
+          "Estados Unidos",
+          "Australia",
+          "China",
+          "Japón",
+          "Sudáfrica",
+          "Marruecos",
+          "Francia"
+        ],
+        "paragraphs": [
+          "Hola, me llamo MILASOA Ricki Cardo, soy originario de Antalaha en Madagascar y hoy vivo en Antananarivo. Trabajo en el turismo desde 2015 y me convertí en guía turístico profesional en 2017.",
+          "Hablo malgache, francés, inglés y un poco de alemán. Con varios años de experiencia por Madagascar, he acompañado a viajeros de muchos países de Europa, Asia, África, Australia y Estados Unidos.",
+          "Creamos experiencias que combinan naturaleza, cultura, historia y biodiversidad malgache. También ofrecemos servicios de traducción y organización de veladas a medida.",
+          "En 2024 lanzamos una agencia de viajes con conductores, guías y un responsable de marketing para ofrecer un servicio de mayor calidad. Nuestro objetivo es simple: hacerte descubrir Madagascar como si viajaras con un amigo."
+        ],
+        "reference_text": "También estamos registrados en SafariBookings.com, una plataforma de referencia para safaris y operadores turísticos."
+      }
+    },
+    "why": {
+      "eyebrow": "Por qué elegir nuestra agencia",
+      "title": "Una experiencia local, flexible y tranquilizadora",
+      "text": "Creamos viajes adaptados a tu ritmo, tu presupuesto y tus intereses."
+    },
+    "reasons": [
+      {
+        "title": "Guías locales",
+        "text": "Guías que conocen los parques, la cultura y las mejores rutas."
+      },
+      {
+        "title": "Viajes a medida",
+        "text": "Cada itinerario puede ajustarse según tus fechas y preferencias."
+      },
+      {
+        "title": "Naturaleza y cultura",
+        "text": "Lémures, baobabs, Tsingy, Isalo, playas y encuentros locales."
+      },
+      {
+        "title": "Contacto fácil",
+        "text": "Habla rápidamente por WhatsApp antes y durante el viaje."
+      }
+    ],
+    "featured_tours": {
+      "eyebrow": "Nuestros circuitos populares",
+      "title": "Elige tu aventura en Madagascar"
+    },
+    "tours": {
+      "from": "Desde",
+      "description_coming": "Descripción próximamente."
+    },
+    "tours_catalog": {
+      "eyebrow": "Lista completa de circuitos",
+      "title": "Todos los viajes disponibles",
+      "text": "Esta sección permite al cliente comparar rápidamente los circuitos según la duración, el destino, el estilo de viaje y el precio.",
+      "table": {
+        "tour": "Circuito",
+        "duration": "Duración",
+        "style": "Estilo",
+        "departure": "Salida",
+        "action": "Acción"
+      }
+    },
+    "gallery": {
+      "eyebrow": "Galería de fotos",
+      "title": "Inspira a los viajeros con los paisajes más hermosos",
+      "text": "La galería debe mostrar fotos reales: clientes, guías, parques, animales, hoteles, vehículos y momentos destacados del viaje.",
+      "view_all": "Ver toda la galería"
+    },
+    "payments": {
+      "eyebrow": "Pago seguro",
+      "title": "Varios métodos de pago para tranquilizar a los viajeros",
+      "text": "Muestra claramente las opciones de pago disponibles antes de reservar para reducir las dudas de los clientes internacionales."
+    },
+    "payment_methods": [
+      "Mastercard",
+      "Visa",
+      "PayPal",
+      "Transferencia bancaria",
+      "Efectivo",
+      "Mobile Money"
+    ],
+    "custom_trip": {
+      "eyebrow": "Viaje personalizado",
+      "title": "¿No sabes qué circuito elegir?",
+      "text": "Envíanos tus fechas, tu presupuesto y tus deseos. Prepararemos un itinerario adaptado para tu estancia en Madagascar.",
+      "cta": "Recibir una propuesta gratuita",
+      "examples": "Ejemplos de viajes",
+      "items": [
+        "Wildlife & Lemurs Tour",
+        "Baobabs & Tsingy Adventure",
+        "RN7 Classic Road Trip",
+        "Beach & Island Escape"
+      ]
+    },
+    "testimonials": {
+      "eyebrow": "Opiniones de clientes",
+      "title": "Han viajado con nosotros",
+      "view_more": "Ver más opiniones",
+      "fallback": [
+        {
+          "quote": "¡Viaje increíble! El guía fue amable, profesional y nos mostró lugares magníficos en Madagascar."
+        },
+        {
+          "quote": "Itinerario muy flexible y excelente comunicación antes del tour. Muy recomendable."
+        },
+        {
+          "quote": "Nos encantaron los lémures, los baobabs y los pueblos locales. Todo estuvo muy bien organizado."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Preguntas frecuentes",
+      "title": "Las respuestas que tus viajeros buscan antes de reservar",
+      "text": "Esta sección ayuda al visitante a resolver sus dudas rápidamente antes de pasar al formulario de contacto.",
+      "items": [
+        {
+          "question": "¿Cuál es la mejor época para un gran viaje a Madagascar?",
+          "answer": "La mejor temporada depende de la experiencia que buscas. En general, de abril a noviembre es ideal para disfrutar de los paisajes, los parques y los grandes circuitos."
+        },
+        {
+          "question": "¿Pueden crear un viaje 100% privado y a medida para nosotros?",
+          "answer": "Sí, esa es exactamente nuestra especialidad. Construimos tu viaje según tu presupuesto, la duración de la estancia, el número de personas y tus preferencias."
+        },
+        {
+          "question": "¿Qué incluye su tarifa cuando pedimos un presupuesto?",
+          "answer": "Según el circuito elegido, el presupuesto puede incluir el vehículo, el conductor, el guía, los alojamientos, los traslados y algunas entradas. Todo queda claramente detallado antes de la confirmación."
+        },
+        {
+          "question": "¿Cuánto tardamos en recibir una respuesta?",
+          "answer": "Respondemos rápidamente después de recibir tu mensaje. Si dejas un WhatsApp o un correo válido, podemos enviarte una primera respuesta y avanzar rápido con tu presupuesto."
+        },
+        {
+          "question": "¿Pueden organizar todo el viaje, no solo el circuito?",
+          "answer": "Sí. Podemos encargarnos de toda la organización: conductor, guías locales, traslados, alojamientos y programa personalizado."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "Contacto",
+      "title": "Planifica tu viaje a Madagascar",
+      "text": "Cuéntanos tu proyecto de viaje. También puedes contactarnos directamente por nuestros canales oficiales.",
+      "address": "Dirección",
+      "form": {
+        "success": "Tu solicitud ha sido enviada.",
+        "email_sent": "También se ha enviado una notificación por correo a la plataforma.",
+        "whatsapp_opened": "El mensaje de WhatsApp pre-rellenado acaba de abrirse.",
+        "error": "No se puede enviar la solicitud por ahora.",
+        "submitting": "Enviando...",
+        "submit": "Enviar mi solicitud",
+        "fields": {
+          "name": "Nombre completo",
+          "name_placeholder": "Tu nombre",
+          "subject": "Asunto",
+          "subject_placeholder": "Ej: viaje a medida, presupuesto, información",
+          "email": "Correo o WhatsApp",
+          "email_placeholder": "Tu correo o tu número",
+          "message": "Mensaje",
+          "message_placeholder": "Explica tu solicitud, tus fechas, tu presupuesto, el número de personas..."
+        }
+      }
+    },
+    "location": {
+      "map_title": "Mapa World of Madagascar Tour",
+      "map_query": "World of Madagascar Tour Antananarivo Madagascar"
+    }
+  },
+  "common": {
+    "email": "Correo",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "view_more": "Ver más",
+    "book": "Reservar",
+    "quote": "Presupuesto"
+  },
+  "tours_list": {
+    "eyebrow": "Todos los circuitos",
+    "title": "Explora todos nuestros circuitos en vista de tarjetas",
+    "text": "Compara destinos, duración y precio antes de abrir el detalle completo del circuito.",
+    "departure": "Salida",
+    "description_coming": "Descripción próximamente.",
+    "empty": "No hay circuitos disponibles por ahora."
+  },
+  "tour_detail": {
+    "loading": "Cargando circuito...",
+    "not_found": "Circuito no encontrado."
+  },
+  "gallery": {
+    "fallbacks": {
+      "title": "Galería",
+      "place": "Madagascar",
+      "category": "Sin categoría"
+    },
+    "list": {
+      "title": "Ver más fotos del viaje",
+      "text": "Esta página muestra la lista completa de galerías disponibles con filtros para la navegación pública.",
+      "empty": "No hay galerías disponibles para este filtro.",
+      "filters": {
+        "all": "Todos"
+      }
+    },
+    "detail": {
+      "loading": "Cargando galería...",
+      "not_found": "Galería no encontrada.",
+      "counter": ":current / :total",
+      "description_fallback": "Una imagen puede tener su propia página con descripción, lugar, circuito relacionado y un botón para solicitar el viaje correspondiente.",
+      "place": "Lugar",
+      "category": "Categoría",
+      "related_tour": "Circuito relacionado",
+      "view_related_tour": "Ver el circuito relacionado",
+      "request_trip": "Solicitar este viaje",
+      "related": "Otras galerías"
+    }
+  },
+  "testimonials": {
+    "list": {
+      "eyebrow": "Testimonios",
+      "title": "Todas las opiniones de nuestros viajeros",
+      "text": "Consulta todos los testimonios publicados y deja también tu propia opinión sobre tu experiencia.",
+      "count_label": "Opiniones publicadas",
+      "loading": "Cargando opiniones...",
+      "empty": "Todavía no hay opiniones publicadas.",
+      "traveler_fallback": "Viajero",
+      "recent": "Opinión reciente"
+    },
+    "form": {
+      "eyebrow": "Dejar una opinión",
+      "title": "Comparte tu experiencia",
+      "text": "Los clientes pueden publicar su opinión directamente desde esta página.",
+      "success": "Opinión enviada con éxito.",
+      "error": "No se puede enviar tu opinión en este momento.",
+      "submitting": "Enviando...",
+      "submit": "Publicar mi opinión",
+      "preview_alt": "Vista previa del perfil",
+      "rating_label": "Dar :count estrella",
+      "fields": {
+        "image": "Foto de perfil",
+        "image_help": "Opcional. Si no se elige ninguna imagen, se mostrará una imagen de perfil por defecto.",
+        "name": "Nombre",
+        "name_placeholder": "Tu nombre",
+        "rating": "Nota",
+        "message": "Tu opinión",
+        "message_placeholder": "Describe tu experiencia con la agencia."
+      }
+    }
+  },
+  "booking": {
+    "eyebrow": "Reserva",
+    "title": "Reservar :tour",
+    "text": "Indica tus fechas, el número de viajeros y tus necesidades. La agencia podrá confirmar la disponibilidad y finalizar el viaje correspondiente.",
+    "loading": "Cargando formulario...",
+    "not_found": "Circuito no encontrado.",
+    "form": {
+      "success": "Tu solicitud de reserva ha sido enviada.",
+      "email_sent": "También se ha enviado una notificación por correo a la plataforma.",
+      "whatsapp_opened": "El mensaje de WhatsApp prellenado acaba de abrirse.",
+      "error": "No se puede enviar la reserva en este momento.",
+      "submitting": "Enviando...",
+      "submit": "Enviar la reserva",
+      "fields": {
+        "name": "Nombre completo",
+        "name_placeholder": "Tu nombre",
+        "email": "Correo",
+        "email_placeholder": "tu@email.com",
+        "phone": "Teléfono",
+        "phone_placeholder": "Tu número",
+        "people": "Número de viajeros",
+        "people_placeholder": "2",
+        "start_date": "Fecha de salida",
+        "end_date": "Fecha de regreso",
+        "message": "Mensaje",
+        "message_placeholder": "Indica tus expectativas, tus preguntas o cualquier información útil."
+      }
+    },
+    "summary": {
+      "title": "Resumen del viaje",
+      "duration": "Duración",
+      "departure": "Salida",
+      "arrival": "Llegada",
+      "price_per_person": "Precio por persona",
+      "selected_departure": "Salida elegida",
+      "selected_return": "Regreso elegido",
+      "estimate": "Estimación"
+    }
+  },
+  "tours": {
+    "fallbacks": {
+      "title": "Circuito",
+      "category": "Circuito",
+      "traveler": "Viajero"
+    }
+  },
+  "preview": {
+    "photo_detail": {
+      "breadcrumb": "Detalle de la foto",
+      "back": "Volver a la galería completa",
+      "badge": "Baobabs",
+      "title": "Avenida de los Baobabs",
+      "place_value": "Morondava",
+      "category_value": "Foto / Naturaleza",
+      "related_tour_value": "Baobab & Tsingy",
+      "related": "Fotos similares"
+    },
+    "tour_detail": {
+      "breadcrumb": "Detalle del circuito",
+      "back": "Volver a la lista de circuitos",
+      "title": "Andasibe Lemur Tour",
+      "description": "Un circuito corto para descubrir el bosque tropical de Madagascar, observar los lémures Indri-Indri, visitar reservas naturales y disfrutar de un viaje privado con guía local.",
+      "badges": {
+        "category": "Naturaleza",
+        "duration": "3 días / 2 noches",
+        "departure": "Salida Antananarivo"
+      },
+      "summary": {
+        "duration_value": "3 días",
+        "style_value": "Naturaleza y Wildlife",
+        "price_value": "Desde $XXX"
+      },
+      "program": {
+        "day1_title": "Día 1 - Antananarivo a Andasibe",
+        "day1_text": "Salida desde Antananarivo, ruta hacia Andasibe, paradas para fotos y visita nocturna según la hora de llegada.",
+        "day2_title": "Día 2 - Parque nacional de Andasibe",
+        "day2_text": "Visita guiada del parque para observar lémures, aves, camaleones y plantas endémicas.",
+        "day3_title": "Día 3 - Regreso a Antananarivo",
+        "day3_text": "Visita opcional a una reserva privada y luego regreso a Antananarivo."
+      },
+      "included_items": [
+        "Coche privado con conductor",
+        "Guía local",
+        "Entradas según el programa",
+        "Asistencia por WhatsApp"
+      ],
+      "excluded_items": [
+        "Vuelos internacionales",
+        "Comidas no mencionadas",
+        "Gastos personales",
+        "Propinas"
+      ],
+      "sidebar": {
+        "title": "Solicitar este circuito",
+        "text": "El cliente puede hacer una pregunta, verificar la disponibilidad o pedir una versión personalizada.",
+        "days": "días",
+        "departure_value": "Tana",
+        "price_value": "$XXX",
+        "whatsapp": "Pregunta por WhatsApp"
+      }
+    }
+  }
+}

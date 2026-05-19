@@ -192,35 +192,29 @@ function Icon({ name, className = "h-5 w-5" }) {
 }
 
 const NAV = [
-  { to: "/admin/dashboard", icon: "dashboard", label: "Tableau de bord" },
-  { to: "/admin/bookings", icon: "bookings", label: "Bookings" },
-  { to: "/admin/contact-forms", icon: "contact-forms", label: "Contact Forms" },
-  { to: "/admin/slides", icon: "slides", label: "Slides" },
-  { to: "/admin/galleries", icon: "gallery", label: "Galerie" },
-  { to: "/admin/tours", icon: "tours", label: "Tours" },
-  { to: "/admin/testimonials", icon: "testimonials", label: "Testimonials" },
-  { to: "/admin/users", icon: "users", label: "Users" },
-  { to: "/admin/settings", icon: "settings", label: "Settings" },
-  { to: "/admin/activity-logs", icon: "activity", label: "Logs" },
-  { action: "logout", icon: "logout", label: "Logout" },
+  { to: "/admin/dashboard", icon: "dashboard", labelKey: "layout.nav.dashboard" },
+  { to: "/admin/bookings", icon: "bookings", labelKey: "layout.nav.bookings" },
+  { to: "/admin/contact-forms", icon: "contact-forms", labelKey: "layout.nav.contact_forms" },
+  { to: "/admin/slides", icon: "slides", labelKey: "layout.nav.slides" },
+  { to: "/admin/galleries", icon: "gallery", labelKey: "layout.nav.galleries" },
+  { to: "/admin/tours", icon: "tours", labelKey: "layout.nav.tours" },
+  { to: "/admin/testimonials", icon: "testimonials", labelKey: "layout.nav.testimonials" },
+  { to: "/admin/users", icon: "users", labelKey: "layout.nav.users" },
+  { to: "/admin/settings", icon: "settings", labelKey: "layout.nav.settings" },
+  { to: "/admin/activity-logs", icon: "activity", labelKey: "layout.nav.activity_logs" },
+  { action: "logout", icon: "logout", labelKey: "layout.nav.logout" },
 ];
 
-function SidebarItem({ item, collapsed, onAction, mobile = false }) {
-  const baseClass =
-    "group flex w-full items-center gap-3 rounded px-3 py-3 text-sm font-semibold transition";
+function SidebarItem({ item, label, collapsed, onAction, mobile = false }) {
+  const baseClass = "group flex w-full items-center gap-3 rounded px-3 py-3 text-sm font-semibold transition";
 
   if (item.action) {
     return (
-      <button
-        type="button"
-        title={collapsed ? item.label : undefined}
-        className={cn(baseClass, "text-red-50 bg-white/12 text-white")}
-        onClick={() => onAction(item.action)}
-      >
+      <button type="button" title={collapsed ? label : undefined} className={cn(baseClass, "text-red-50 bg-white/12 text-white")} onClick={() => onAction(item.action)}>
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-white/20 bg-white/10 text-white transition group-hover:border-white/40 group-hover:bg-white/20">
           <Icon name={item.icon} />
         </span>
-        {!collapsed || mobile ? <span className="truncate">{item.label}</span> : null}
+        {!collapsed || mobile ? <span className="truncate">{label}</span> : null}
       </button>
     );
   }
@@ -228,13 +222,11 @@ function SidebarItem({ item, collapsed, onAction, mobile = false }) {
   return (
     <NavLink
       to={item.to}
-      title={collapsed ? item.label : undefined}
+      title={collapsed ? label : undefined}
       className={({ isActive }) =>
         cn(
           baseClass,
-          isActive
-            ? "bg-white text-red-700 shadow-[0_18px_45px_rgba(220,38,38,0.22)]"
-            : "text-red-50 bg-white/20 hover:bg-white/40 hover:text-white",
+          isActive ? "bg-white text-red-700 shadow-[0_18px_45px_rgba(220,38,38,0.22)]" : "text-red-50 bg-white/20 hover:bg-white/40 hover:text-white",
         )
       }
     >
@@ -243,41 +235,25 @@ function SidebarItem({ item, collapsed, onAction, mobile = false }) {
           <span
             className={cn(
               "flex h-11 w-11 shrink-0 items-center justify-center rounded border transition",
-              isActive
-                ? "border-red-200 bg-red-50 text-red-700"
-                : "border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20",
+              isActive ? "border-red-200 bg-red-50 text-red-700" : "border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20",
             )}
           >
             <Icon name={item.icon} />
           </span>
 
-          {!collapsed || mobile ? (
-            <>
-              <span className="truncate">{item.label}</span>
-              {item.badge ? (
-                <span className="ml-auto rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white">
-                  {item.badge}
-                </span>
-              ) : null}
-            </>
-          ) : null}
+          {!collapsed || mobile ? <span className="truncate">{label}</span> : null}
         </>
       )}
     </NavLink>
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, labels, loading, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-      <button
-        type="button"
-        aria-label="Fermer"
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
-        onClick={loading ? undefined : onCancel}
-      />
+      <button type="button" aria-label={labels.cancel} className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
 
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
@@ -286,21 +262,11 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
         </div>
 
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-            <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onCancel}
-            disabled={loading}
-            >
-              Annuler
-            </button>
-          <button
-            type="button"
-            className="inline-flex btn-sm items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={onConfirm}
-            disabled={loading}
-          >
-            {loading ? "Deconnexion..." : confirmText}
+          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>
+            {labels.cancel}
+          </button>
+          <button type="button" className="inline-flex btn-sm items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>
+            {loading ? labels.loading : labels.confirm}
           </button>
         </div>
       </div>
@@ -308,44 +274,17 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
   );
 }
 
-function getPageTitle(pathname) {
-  if (pathname.startsWith("/admin/settings")) {
-    return "Settings";
-  }
-
-  if (pathname.startsWith("/admin/activity-logs")) {
-    return "Activity Logs";
-  }
-
-  if (pathname.startsWith("/admin/users")) {
-    return "Gestion des users";
-  }
-
-  if (pathname.startsWith("/admin/contact-forms")) {
-    return "Gestion des formulaires de contact";
-  }
-
-  if (pathname.startsWith("/admin/bookings")) {
-    return "Gestion des bookings";
-  }
-
-  if (pathname.startsWith("/admin/galleries")) {
-    return "Gestion des galleries";
-  }
-
-  if (pathname.startsWith("/admin/slides")) {
-    return "Gestion des slides";
-  }
-
-  if (pathname.startsWith("/admin/testimonials")) {
-    return "Gestion des testimonials";
-  }
-
-  if (pathname.startsWith("/admin/dashboard")) {
-    return "Dashboard";
-  }
-
-  return "Administration";
+function getPageTitle(pathname, t) {
+  if (pathname.startsWith("/admin/settings")) return t("layout.page_titles.settings");
+  if (pathname.startsWith("/admin/activity-logs")) return t("layout.page_titles.activity_logs");
+  if (pathname.startsWith("/admin/users")) return t("layout.page_titles.users");
+  if (pathname.startsWith("/admin/contact-forms")) return t("layout.page_titles.contact_forms");
+  if (pathname.startsWith("/admin/bookings")) return t("layout.page_titles.bookings");
+  if (pathname.startsWith("/admin/galleries")) return t("layout.page_titles.galleries");
+  if (pathname.startsWith("/admin/slides")) return t("layout.page_titles.slides");
+  if (pathname.startsWith("/admin/testimonials")) return t("layout.page_titles.testimonials");
+  if (pathname.startsWith("/admin/dashboard")) return t("layout.page_titles.dashboard");
+  return t("layout.page_titles.default");
 }
 
 function LanguageSwitcher({ lang, setLang }) {
@@ -366,11 +305,7 @@ function LanguageSwitcher({ lang, setLang }) {
 
   return (
     <div className="relative" data-language-switcher>
-      <button
-        type="button"
-        className="inline-flex items-center gap-2 rounded-sm border border-black bg-white px-4 py-2 text-sm font-bold text-black transition hover:border-red-400 hover:bg-red-50 hover:text-red-800"
-        onClick={() => setOpen((value) => !value)}
-      >
+      <button type="button" className="inline-flex items-center gap-2 rounded-sm border border-black bg-white px-4 py-2 text-sm font-bold text-black transition hover:border-red-400 hover:bg-red-50 hover:text-red-800" onClick={() => setOpen((value) => !value)}>
         <Icon name="translate" className="h-4 w-4" />
         {lang.toUpperCase()}
       </button>
@@ -381,10 +316,7 @@ function LanguageSwitcher({ lang, setLang }) {
             <button
               key={code}
               type="button"
-              className={cn(
-                "flex w-full items-center rounded px-3 py-1 text-sm font-semibold transition",
-                lang === code ? "bg-red-600 text-white" : "text-black hover:bg-black/5",
-              )}
+              className={cn("flex w-full items-center rounded px-3 py-1 text-sm font-semibold transition", lang === code ? "bg-red-600 text-white" : "text-black hover:bg-black/5")}
               onClick={() => {
                 setLang(code);
                 setOpen(false);
@@ -399,45 +331,27 @@ function LanguageSwitcher({ lang, setLang }) {
   );
 }
 
-function SidebarContent({ collapsed, onAction, mobile = false }) {
+function SidebarContent({ collapsed, onAction, t, mobile = false }) {
   return (
     <>
       <div className="mb-4">
-        <div
-          className={cn(
-            "flex items-center gap-3 overflow-hidden rounded-sm border border-white/15 bg-white px-3 py-2 shadow-[0_18px_40px_rgba(127,29,29,0.18)]",
-            collapsed && !mobile ? "justify-center px-2 py-2" : "",
-          )}
-        >
-          <img
-            src="/images/logo.png"
-            alt="World of Madagascar"
-            className={cn(
-              "block shrink-0 object-contain",
-              collapsed && !mobile ? "h-12 w-12" : "h-14 w-14",
-            )}
-          />
+        <div className={cn("flex items-center gap-3 overflow-hidden rounded-sm border border-white/15 bg-white px-3 py-2 shadow-[0_18px_40px_rgba(127,29,29,0.18)]", collapsed && !mobile ? "justify-center px-2 py-2" : "")}>
+          <img src="/images/logo.png" alt="World of Madagascar" className={cn("block shrink-0 object-contain", collapsed && !mobile ? "h-12 w-12" : "h-14 w-14")} />
 
           {!collapsed || mobile ? (
             <div className="min-w-0">
-              <div className="text-sm font-black leading-tight tracking-[0.14em] text-red-700">
-                WORLD OF MADAGASCAR
-              </div>
+              <div className="text-sm font-black leading-tight tracking-[0.14em] text-red-700">WORLD OF MADAGASCAR</div>
             </div>
           ) : null}
         </div>
       </div>
+
       <hr className="mb-5 border-white/15" />
+
       <div className="min-h-0 flex-1 overflow-y-auto pr-1">
         <nav className="space-y-2">
           {NAV.map((item) => (
-            <SidebarItem
-              key={item.to ?? item.action}
-              item={item}
-              collapsed={collapsed}
-              onAction={onAction}
-              mobile={mobile}
-            />
+            <SidebarItem key={item.to ?? item.action} item={item} label={t(item.labelKey)} collapsed={collapsed} onAction={onAction} mobile={mobile} />
           ))}
         </nav>
       </div>
@@ -445,14 +359,11 @@ function SidebarContent({ collapsed, onAction, mobile = false }) {
       <div className="pt-6">
         <a
           href="/"
-          className={cn(
-            "inline-flex items-center justify-center gap-3 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/20",
-            collapsed && !mobile ? "w-14 px-0" : "w-full",
-          )}
-          title={collapsed && !mobile ? "Retour site" : undefined}
+          className={cn("inline-flex items-center justify-center gap-3 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/20", collapsed && !mobile ? "w-14 px-0" : "w-full")}
+          title={collapsed && !mobile ? t("layout.switcher.back_to_site") : undefined}
         >
           <Icon name="arrow-left" className="h-4 w-4" />
-          {!collapsed || mobile ? <span>Retour site</span> : null}
+          {!collapsed || mobile ? <span>{t("layout.switcher.back_to_site")}</span> : null}
         </a>
       </div>
     </>
@@ -460,7 +371,7 @@ function SidebarContent({ collapsed, onAction, mobile = false }) {
 }
 
 export default function AdminLayout() {
-  const { lang, setLang } = useI18n();
+  const { lang, setLang, t } = useI18n();
   const { isAuthenticated, user, logout, loading } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -470,7 +381,11 @@ export default function AdminLayout() {
   const location = useLocation();
   const headerAvatar = buildAvatarUrl(user?.avatar);
   const sidebarWidth = useMemo(() => (collapsed ? "lg:w-24" : "lg:w-72"), [collapsed]);
-  const pageTitle = getPageTitle(location.pathname);
+  const pageTitle = getPageTitle(location.pathname, t);
+
+  useEffect(() => {
+    document.title = `${pageTitle} | WORLD OF MADAGASCAR`;
+  }, [pageTitle]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -519,7 +434,7 @@ export default function AdminLayout() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-stone-100 px-6 text-center text-sm font-semibold text-slate-500">
-        Verification de la session...
+        {t("layout.session.checking")}
       </div>
     );
   }
@@ -531,42 +446,23 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-white text-red-950">
       <div className="flex min-h-screen">
-        <aside
-          className={cn(
-            "sticky top-0 hidden h-screen shrink-0 border-r border-red-800 bg-red-700 p-5 text-white lg:flex lg:flex-col",
-            sidebarWidth,
-          )}
-        >
-          <SidebarContent collapsed={collapsed} onAction={handleAction} />
+        <aside className={cn("sticky top-0 hidden h-screen shrink-0 border-r border-red-800 bg-red-700 p-5 text-white lg:flex lg:flex-col", sidebarWidth)}>
+          <SidebarContent collapsed={collapsed} onAction={handleAction} t={t} />
         </aside>
 
         {drawerOpen ? (
-          <button
-            type="button"
-            aria-label="Fermer le menu"
-            className="fixed inset-0 z-40 bg-red-950/45 backdrop-blur-sm lg:hidden"
-            onClick={() => setDrawerOpen(false)}
-          />
+          <button type="button" aria-label={t("layout.switcher.close_menu")} className="fixed inset-0 z-40 bg-red-950/45 backdrop-blur-sm lg:hidden" onClick={() => setDrawerOpen(false)} />
         ) : null}
 
-        <aside
-          className={cn(
-            "fixed inset-y-0 left-0 z-50 flex h-screen w-[88vw] max-w-sm -translate-x-full flex-col border-r border-red-800 bg-red-700 p-5 text-white shadow-[0_30px_80px_rgba(127,29,29,0.35)] transition-transform duration-300 lg:hidden",
-            drawerOpen && "translate-x-0",
-          )}
-        >
+        <aside className={cn("fixed inset-y-0 left-0 z-50 flex h-screen w-[88vw] max-w-sm -translate-x-full flex-col border-r border-red-800 bg-red-700 p-5 text-white shadow-[0_30px_80px_rgba(127,29,29,0.35)] transition-transform duration-300 lg:hidden", drawerOpen && "translate-x-0")}>
           <div className="flex h-full flex-col">
             <div className="mb-5 flex justify-end">
-              <button
-                type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded border border-white/20 bg-white/10 text-white transition hover:bg-white/20"
-                onClick={() => setDrawerOpen(false)}
-              >
+              <button type="button" aria-label={t("layout.switcher.close_menu")} className="inline-flex h-11 w-11 items-center justify-center rounded border border-white/20 bg-white/10 text-white transition hover:bg-white/20" onClick={() => setDrawerOpen(false)}>
                 <Icon name="close" />
               </button>
             </div>
 
-            <SidebarContent collapsed={false} onAction={handleAction} mobile />
+            <SidebarContent collapsed={false} onAction={handleAction} t={t} mobile />
           </div>
         </aside>
 
@@ -574,11 +470,7 @@ export default function AdminLayout() {
           <header className="sticky top-0 z-30 border-b border-red-100 bg-white/95 backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-black bg-white text-black transition hover:border-red-400 hover:bg-red-50 hover:text-red-800 lg:hidden"
-                  onClick={() => setDrawerOpen(true)}
-                >
+                <button type="button" aria-label={t("layout.switcher.open_menu")} className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-black bg-white text-black transition hover:border-red-400 hover:bg-red-50 hover:text-red-800 lg:hidden" onClick={() => setDrawerOpen(true)}>
                   <Icon name="menu" />
                 </button>
 
@@ -586,7 +478,7 @@ export default function AdminLayout() {
                   type="button"
                   className="hidden h-11 w-11 items-center justify-center rounded-sm border border-black bg-white text-black transition hover:border-red-400 hover:bg-red-50 hover:text-red-800 lg:inline-flex"
                   onClick={() => setCollapsed((value) => !value)}
-                  title={collapsed ? "Etendre le menu" : "Reduire le menu"}
+                  title={collapsed ? t("layout.switcher.expand_menu") : t("layout.switcher.collapse_menu")}
                 >
                   <Icon name={collapsed ? "expand" : "collapse"} />
                 </button>
@@ -595,21 +487,17 @@ export default function AdminLayout() {
               <div className="flex flex-wrap items-center gap-3">
                 <LanguageSwitcher lang={lang} setLang={setLang} />
 
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 rounded-sm border border-red-200 bg-black px-2 py-1 btn-sm text-sm font-bold text-white shadow-[0_18px_40px_rgba(220,38,38,0.18)] transition hover:bg-black"
-                  onClick={() => nav("/admin/settings")}
-                >
+                <button type="button" className="inline-flex items-center gap-2 rounded-sm border border-red-200 bg-black px-2 py-1 btn-sm text-sm font-bold text-white shadow-[0_18px_40px_rgba(220,38,38,0.18)] transition hover:bg-black" onClick={() => nav("/admin/settings")}>
                   {headerAvatar ? (
                     <span className="flex h-9 w-9 overflow-hidden rounded-sm border border-white/30 bg-white/15">
-                      <img src={headerAvatar} alt={user?.pseudo || "Profil"} className="h-full w-full object-cover" />
+                      <img src={headerAvatar} alt={user?.pseudo || t("layout.account.profile")} className="h-full w-full object-cover" />
                     </span>
                   ) : (
                     <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/30 bg-white/15">
                       <Icon name="account" className="h-4 w-4" />
                     </span>
                   )}
-                  <span className="hidden sm:inline">Mon compte</span>
+                  <span className="hidden sm:inline">{t("layout.account.my_account")}</span>
                 </button>
               </div>
             </div>
@@ -621,15 +509,15 @@ export default function AdminLayout() {
 
           <footer className="border-t border-red-100 bg-red-50/70 backdrop-blur-xl">
             <div className="flex flex-col gap-3 px-4 py-5 text-sm text-red-700 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-              <p>Ã‚Â© {new Date().getFullYear()} WORLD OF MADAGASCAR - Admin Dashboard</p>
+              <p>{t("layout.footer.copyright", { year: new Date().getFullYear() })}</p>
               <div className="flex flex-wrap items-center gap-5">
                 <span className="inline-flex items-center gap-2">
                   <Icon name="shield" className="h-4 w-4" />
-                  Securise
+                  {t("layout.footer.secure")}
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <Icon name="bolt" className="h-4 w-4" />
-                  Responsive
+                  {t("layout.footer.responsive")}
                 </span>
               </div>
             </div>
@@ -639,9 +527,13 @@ export default function AdminLayout() {
 
       <ConfirmModal
         open={logoutOpen}
-        title="Deconnexion"
-        message="Voulez-vous vraiment vous deconnecter ?"
-        confirmText="Oui, se deconnecter"
+        title={t("layout.logout_modal.title")}
+        message={t("layout.logout_modal.message")}
+        labels={{
+          confirm: t("layout.logout_modal.confirm"),
+          loading: t("layout.logout_modal.loading"),
+          cancel: t("layout.logout_modal.cancel"),
+        }}
         loading={logoutLoading}
         onCancel={() => setLogoutOpen(false)}
         onConfirm={confirmLogout}
@@ -649,7 +541,3 @@ export default function AdminLayout() {
     </div>
   );
 }
-
-
-
-

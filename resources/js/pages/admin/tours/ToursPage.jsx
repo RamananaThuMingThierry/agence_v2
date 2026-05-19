@@ -1,5 +1,6 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteTour, fetchTours, forceDeleteTour, restoreTour } from "../../../api/tours";
 
 function buildImageUrl(path) {
@@ -21,20 +22,20 @@ function EmptyState({ title, description }) {
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, confirmText, cancelText, loadingText, loading, closeLabel, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" aria-label="Fermer" className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
+      <button type="button" aria-label={closeLabel} className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
           <h2 className="text-2xl font-extrabold text-slate-950">{title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">{message}</p>
         </div>
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>Annuler</button>
-          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? "Traitement..." : confirmText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>{cancelText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? loadingText : confirmText}</button>
         </div>
       </div>
     </div>
@@ -54,14 +55,14 @@ function SortableHead({ label, column, sortBy, sortDirection, onSort }) {
   );
 }
 
-function StatusBadge({ status, deletedAt }) {
+function StatusBadge({ status, deletedAt, labels }) {
   if (deletedAt) {
-    return <span className="inline-flex rounded-sm bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-rose-700">Corbeille</span>;
+    return <span className="inline-flex rounded-sm bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-rose-700">{labels.trashed}</span>;
   }
 
   return (
     <span className={cn("inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.2em]", status === "active" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700")}>
-      {status || "inactive"}
+      {status === "active" ? labels.active : labels.inactive}
     </span>
   );
 }
@@ -69,6 +70,7 @@ function StatusBadge({ status, deletedAt }) {
 export default function ToursPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, locale } = useI18n();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -108,7 +110,7 @@ export default function ToursPage() {
       setTours(items);
     } catch (requestError) {
       setTours([]);
-      setError(requestError.response?.data?.message || "Impossible de charger les tours.");
+      setError(requestError.response?.data?.message || t("tours.list.load_error"));
     } finally {
       setLoading(false);
     }
@@ -127,19 +129,19 @@ export default function ToursPage() {
   function openConfirm(action, tour) {
     const config = {
       delete: {
-        title: "Supprimer le tour",
-        message: `Voulez-vous envoyer "${tour.title}" dans la corbeille ?`,
-        confirmText: "Oui, supprimer",
+        title: t("tours.list.confirm.delete_title"),
+        message: t("tours.list.confirm.delete_message", { name: tour.title }),
+        confirmText: t("tours.list.confirm.delete_confirm"),
       },
       restore: {
-        title: "Restaurer le tour",
-        message: `Voulez-vous restaurer "${tour.title}" ?`,
-        confirmText: "Oui, restaurer",
+        title: t("tours.list.confirm.restore_title"),
+        message: t("tours.list.confirm.restore_message", { name: tour.title }),
+        confirmText: t("tours.list.confirm.restore_confirm"),
       },
       force: {
-        title: "Suppression definitive",
-        message: `Voulez-vous supprimer definitivement "${tour.title}" et ses images ?`,
-        confirmText: "Oui, supprimer",
+        title: t("tours.list.confirm.force_title"),
+        message: t("tours.list.confirm.force_message", { name: tour.title }),
+        confirmText: t("tours.list.confirm.force_confirm"),
       },
     };
 
@@ -154,19 +156,19 @@ export default function ToursPage() {
     try {
       if (confirmState.action === "delete") {
         await deleteTour(confirmState.tour.encrypted_id);
-        setNotice("Tour deplace dans la corbeille.");
+        setNotice(t("tours.list.delete_success"));
       } else if (confirmState.action === "restore") {
         await restoreTour(confirmState.tour.encrypted_id);
-        setNotice("Tour restaure.");
+        setNotice(t("tours.list.restore_success"));
       } else if (confirmState.action === "force") {
         await forceDeleteTour(confirmState.tour.encrypted_id);
-        setNotice("Tour supprime definitivement.");
+        setNotice(t("tours.list.force_delete_success"));
       }
 
       setConfirmState(null);
       await loadTours();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Echec de l'action sur le tour.");
+      setError(requestError.response?.data?.message || t("tours.list.action_error"));
     } finally {
       setActionLoading(false);
     }
@@ -234,33 +236,33 @@ export default function ToursPage() {
       <section className="overflow-hidden rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Gestion des tours</h2>
-            <p className="mt-2 text-sm text-slate-500">Liste des tours avec recherche, tri, pagination et corbeille.</p>
+            <h2 className="text-2xl font-extrabold text-slate-950">{t("tours.list.title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("tours.list.description")}</p>
           </div>
 
-          <Link to="/admin/tours/create" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">Nouveau tour</Link>
+          <Link to="/admin/tours/create" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">{t("tours.common.new")}</Link>
         </div>
 
         <div className="mt-3 grid gap-4 md:grid-cols-3">
-          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actifs</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.active}</p></div>
-          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Corbeille</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.trashed}</p></div>
-          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p></div>
+          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("tours.list.stats.active")}</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.active}</p></div>
+          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("tours.list.stats.trashed")}</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.trashed}</p></div>
+          <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("tours.list.stats.total")}</p><p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p></div>
         </div>
 
         <div className="mt-3 overflow-hidden rounded-sm border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <select value={filter === "trashed" ? "all" : filter} onChange={(event) => setFilter(event.target.value)} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">
-                <option value="all">Tous</option>
-                <option value="active">Actifs</option>
-                <option value="inactive">Inactifs</option>
+                <option value="all">{t("tours.list.filters.all")}</option>
+                <option value="active">{t("tours.list.filters.active")}</option>
+                <option value="inactive">{t("tours.list.filters.inactive")}</option>
               </select>
-              <button type="button" onClick={() => setFilter("trashed")} className={cn("rounded-sm px-4 py-3 text-sm font-bold transition", filter === "trashed" ? "bg-red-600 text-white" : "border border-stone-300 bg-white text-slate-700 hover:border-red-300 hover:text-red-800")}>Corbeille</button>
+              <button type="button" onClick={() => setFilter("trashed")} className={cn("rounded-sm px-4 py-3 text-sm font-bold transition", filter === "trashed" ? "bg-red-600 text-white" : "border border-stone-300 bg-white text-slate-700 hover:border-red-300 hover:text-red-800")}>{t("tours.list.filters.trashed")}</button>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Rechercher un tour..." className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
-              <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">{[5,10,25,50].map((size) => <option key={size} value={size}>{size} / page</option>)}</select>
-              <button type="button" onClick={loadTours} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">Rafraichir</button>
+              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("tours.list.search_placeholder")} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
+              <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">{[5, 10, 25, 50].map((size) => <option key={size} value={size}>{t("tours.list.per_page", { count: size })}</option>)}</select>
+              <button type="button" onClick={loadTours} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">{t("tours.common.refresh")}</button>
             </div>
           </div>
 
@@ -269,9 +271,9 @@ export default function ToursPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les tours sont en cours de recuperation depuis l'API." />
+              <EmptyState title={t("tours.list.loading_title")} description={t("tours.list.loading_description")} />
             ) : sortedTours.length === 0 ? (
-              <EmptyState title="Aucun tour trouve" description="Essayez de modifier la recherche ou ajoutez un nouveau tour." />
+              <EmptyState title={t("tours.list.empty_title")} description={t("tours.list.empty_description")} />
             ) : (
               <div className="space-y-4">
                 <div className="overflow-hidden rounded-sm border border-stone-200">
@@ -279,14 +281,14 @@ export default function ToursPage() {
                     <table className="min-w-full divide-y divide-stone-200">
                       <thead className="bg-light text-left text-xs uppercase tracking-[0.18em]">
                         <tr>
-                          <th className="px-5 py-4 text-slate-500">Cover</th>
-                          <SortableHead label="Titre" column="title" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Categorie" column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Prix" column="price" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Images" column="images" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Creation" column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <th className="px-5 py-4 text-slate-500">Statut</th>
-                          <th className="px-5 py-4 text-right text-slate-500">Actions</th>
+                          <th className="px-5 py-4 text-slate-500">{t("tours.list.table.cover")}</th>
+                          <SortableHead label={t("tours.list.table.title")} column="title" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("tours.list.table.category")} column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("tours.list.table.price")} column="price" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("tours.list.table.images")} column="images" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("tours.list.table.created_at")} column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <th className="px-5 py-4 text-slate-500">{t("tours.list.table.status")}</th>
+                          <th className="px-5 py-4 text-right text-slate-500">{t("tours.list.table.actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-200 bg-white">
@@ -297,11 +299,11 @@ export default function ToursPage() {
                               <td className="px-5 py-4"><div className="h-16 w-24 overflow-hidden rounded-sm bg-stone-100">{cover ? <img src={buildImageUrl(cover.image_url)} alt={tour.title} className="h-full w-full object-cover" /> : null}</div></td>
                               <td className="px-5 py-4"><p className="font-extrabold text-slate-950">{tour.title}</p><p className="mt-1 max-w-md text-sm text-slate-500">{tour.duration || "-"}</p></td>
                               <td className="px-5 py-4 text-sm font-bold text-slate-700">{tour.category}</td>
-                              <td className="px-5 py-4 text-sm font-bold text-slate-700">{Number(tour.price || 0).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</td>
+                              <td className="px-5 py-4 text-sm font-bold text-slate-700">{Number(tour.price || 0).toLocaleString(locale, { style: "currency", currency: "EUR" })}</td>
                               <td className="px-5 py-4 text-sm text-slate-600">{tour.images?.length || 0}</td>
-                              <td className="px-5 py-4 text-sm text-slate-500">{tour.created_at ? new Date(tour.created_at).toLocaleDateString("fr-FR") : "-"}</td>
-                              <td className="px-5 py-4"><StatusBadge status={tour.status} deletedAt={tour.deleted_at} /></td>
-                              <td className="px-5 py-4"><div className="flex flex-wrap justify-end gap-2">{!tour.deleted_at ? <><Link to={`/admin/tours/${tour.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">Details</Link><Link to={`/admin/tours/${tour.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">Modifier</Link><button type="button" onClick={() => openConfirm("delete", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">Supprimer</button></> : <><button type="button" onClick={() => openConfirm("restore", tour)} className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50">Restaurer</button><button type="button" onClick={() => openConfirm("force", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50">Definitif</button></>}</div></td>
+                              <td className="px-5 py-4 text-sm text-slate-500">{tour.created_at ? new Date(tour.created_at).toLocaleDateString(locale) : "-"}</td>
+                              <td className="px-5 py-4"><StatusBadge status={tour.status} deletedAt={tour.deleted_at} labels={{ active: t("tours.status.active"), inactive: t("tours.status.inactive"), trashed: t("tours.status.trashed") }} /></td>
+                              <td className="px-5 py-4"><div className="flex flex-wrap justify-end gap-2">{!tour.deleted_at ? <><Link to={`/admin/tours/${tour.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">{t("tours.common.details")}</Link><Link to={`/admin/tours/${tour.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("tours.common.edit")}</Link><button type="button" onClick={() => openConfirm("delete", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("tours.common.delete")}</button></> : <><button type="button" onClick={() => openConfirm("restore", tour)} className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50">{t("tours.common.restore")}</button><button type="button" onClick={() => openConfirm("force", tour)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50">{t("tours.common.permanent")}</button></>}</div></td>
                             </tr>
                           );
                         })}
@@ -311,13 +313,13 @@ export default function ToursPage() {
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm text-slate-500">Page <span className="font-bold text-slate-800">{currentPage}</span> sur <span className="font-bold text-slate-800">{totalPages}</span></p>
+                  <p className="text-sm text-slate-500">{t("tours.list.pagination.page_of", { current: currentPage, total: totalPages })}</p>
                   <div className="inline-flex overflow-hidden rounded-sm border border-stone-300 bg-white">
-                    <button type="button" onClick={() => setPage(1)} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<<"}</button>
-                    <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<"}</button>
+                    <button type="button" onClick={() => setPage(1)} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("tours.list.pagination.first")}</button>
+                    <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("tours.list.pagination.previous")}</button>
                     <div className="inline-flex min-w-24 items-center justify-center border-l border-stone-300 px-3 text-sm font-bold text-slate-700">{currentPage} / {totalPages}</div>
-                    <button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{">"}</button>
-                    <button type="button" onClick={() => setPage(totalPages)} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{">>"}</button>
+                    <button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("tours.list.pagination.next")}</button>
+                    <button type="button" onClick={() => setPage(totalPages)} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("tours.list.pagination.last")}</button>
                   </div>
                 </div>
               </div>
@@ -326,7 +328,7 @@ export default function ToursPage() {
         </div>
       </section>
 
-      <ConfirmModal open={Boolean(confirmState)} title={confirmState?.title || ""} message={confirmState?.message || ""} confirmText={confirmState?.confirmText || "Confirmer"} loading={actionLoading} onCancel={() => (actionLoading ? undefined : setConfirmState(null))} onConfirm={handleConfirmAction} />
+      <ConfirmModal open={Boolean(confirmState)} title={confirmState?.title || ""} message={confirmState?.message || ""} confirmText={confirmState?.confirmText || t("tours.common.confirm")} cancelText={t("tours.common.cancel")} loadingText={t("tours.common.processing")} closeLabel={t("tours.common.close")} loading={actionLoading} onCancel={() => (actionLoading ? undefined : setConfirmState(null))} onConfirm={handleConfirmAction} />
     </div>
   );
 }

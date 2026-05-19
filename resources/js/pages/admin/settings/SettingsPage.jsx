@@ -5,13 +5,7 @@ import { createPaymentMethod, deletePaymentMethod, fetchPaymentMethods, updatePa
 import { fetchPlatformSettings, updatePlatformSettings } from "../../../api/platformSettings";
 import { deleteAuthenticatedUser, updateUser } from "../../../api/users";
 import { useAuth } from "../../../hooks/admin/AuthContext";
-
-const TABS = [
-  { id: "platform", label: "Information plateforme" },
-  { id: "categories", label: "Gestion categorie" },
-  { id: "payment-methods", label: "Gestion methode de paiement" },
-  { id: "account", label: "Mon compte" },
-];
+import { useI18n } from "../../../hooks/admin/I18nContext";
 
 const EMPTY_FORM = {
   pseudo: "",
@@ -70,34 +64,34 @@ function InfoCard({ title, description, children, className = "" }) {
   );
 }
 
-function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel, onConfirm }) {
+function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel, onConfirm, t }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={t("settings.common.close")}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
 
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">Supprimer mon compte</h2>
+          <h2 className="text-2xl font-extrabold text-slate-950">{t("settings.delete_account.modal.title")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Cette suppression est definitive. Saisissez votre mot de passe pour confirmer.
+            {t("settings.delete_account.modal.description")}
           </p>
         </div>
 
         <label className="space-y-2">
-          <span className="block text-sm font-bold text-slate-800">Mot de passe</span>
+          <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.password")}</span>
           <input
             type="password"
             value={password}
             onChange={(event) => onChange(event.target.value)}
             className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-            placeholder="Votre mot de passe actuel"
+            placeholder={t("settings.delete_account.modal.password_placeholder")}
             disabled={loading}
           />
         </label>
@@ -115,7 +109,7 @@ function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {t("settings.common.cancel")}
           </button>
           <button
             type="button"
@@ -123,7 +117,7 @@ function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel
             onClick={onConfirm}
             disabled={loading || !password}
           >
-            {loading ? "Suppression..." : "Supprimer definitivement"}
+            {loading ? t("settings.common.deleting") : t("settings.delete_account.modal.confirm")}
           </button>
         </div>
       </div>
@@ -131,23 +125,23 @@ function ConfirmDeleteModal({ open, password, loading, error, onChange, onCancel
   );
 }
 
-function ConfirmCategoryModal({ open, category, loading, onCancel, onConfirm }) {
+function ConfirmCategoryModal({ open, category, loading, onCancel, onConfirm, t }) {
   if (!open || !category) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={t("settings.common.close")}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
 
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">Supprimer la categorie</h2>
+          <h2 className="text-2xl font-extrabold text-slate-950">{t("settings.categories.delete_modal.title")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Voulez-vous supprimer definitivement la categorie "{category.name}" ?
+            {t("settings.categories.delete_modal.message", { name: category.name })}
           </p>
         </div>
 
@@ -158,7 +152,7 @@ function ConfirmCategoryModal({ open, category, loading, onCancel, onConfirm }) 
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {t("settings.common.cancel")}
           </button>
           <button
             type="button"
@@ -166,7 +160,7 @@ function ConfirmCategoryModal({ open, category, loading, onCancel, onConfirm }) 
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? "Suppression..." : "Oui, supprimer"}
+            {loading ? t("settings.common.deleting") : t("settings.categories.delete_modal.confirm")}
           </button>
         </div>
       </div>
@@ -174,23 +168,23 @@ function ConfirmCategoryModal({ open, category, loading, onCancel, onConfirm }) 
   );
 }
 
-function ConfirmPaymentMethodModal({ open, paymentMethod, loading, onCancel, onConfirm }) {
+function ConfirmPaymentMethodModal({ open, paymentMethod, loading, onCancel, onConfirm, t }) {
   if (!open || !paymentMethod) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={t("settings.common.close")}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
 
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">Supprimer la methode de paiement</h2>
+          <h2 className="text-2xl font-extrabold text-slate-950">{t("settings.payment_methods.delete_modal.title")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Voulez-vous supprimer definitivement la methode "{paymentMethod.name}" ?
+            {t("settings.payment_methods.delete_modal.message", { name: paymentMethod.name })}
           </p>
         </div>
 
@@ -201,7 +195,7 @@ function ConfirmPaymentMethodModal({ open, paymentMethod, loading, onCancel, onC
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {t("settings.common.cancel")}
           </button>
           <button
             type="button"
@@ -209,7 +203,7 @@ function ConfirmPaymentMethodModal({ open, paymentMethod, loading, onCancel, onC
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? "Suppression..." : "Oui, supprimer"}
+            {loading ? t("settings.common.deleting") : t("settings.payment_methods.delete_modal.confirm")}
           </button>
         </div>
       </div>
@@ -229,6 +223,7 @@ function EmptyState({ title, description }) {
 export default function SettingsPage() {
   const navigate = useNavigate();
   const { user, refreshUser, logout } = useAuth();
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState("platform");
   const [form, setForm] = useState(EMPTY_FORM);
   const [platformForm, setPlatformForm] = useState(EMPTY_PLATFORM_FORM);
@@ -259,6 +254,15 @@ export default function SettingsPage() {
   const [editingPaymentMethod, setEditingPaymentMethod] = useState(null);
   const [paymentMethodCurrentImage, setPaymentMethodCurrentImage] = useState("");
   const [confirmPaymentMethod, setConfirmPaymentMethod] = useState(null);
+  const tabs = useMemo(
+    () => [
+      { id: "platform", label: t("settings.tabs.platform") },
+      { id: "categories", label: t("settings.tabs.categories") },
+      { id: "payment-methods", label: t("settings.tabs.payment_methods") },
+      { id: "account", label: t("settings.tabs.account") },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     if (!user) return;
@@ -294,7 +298,7 @@ export default function SettingsPage() {
         setPlatformCurrentLogo(buildAssetUrl(settings?.logo, "/images/logo.png"));
       } catch (requestError) {
         if (active) {
-          setError(requestError.response?.data?.message || "Impossible de charger les informations plateforme.");
+          setError(requestError.response?.data?.message || t("settings.platform.load_error"));
         }
       } finally {
         if (active) {
@@ -423,7 +427,7 @@ export default function SettingsPage() {
       setCategories(items);
     } catch (requestError) {
       setCategories([]);
-      setError(requestError.response?.data?.message || "Impossible de charger les categories.");
+      setError(requestError.response?.data?.message || t("settings.categories.load_error"));
     } finally {
       setCategoryLoading(false);
     }
@@ -438,7 +442,7 @@ export default function SettingsPage() {
       setPaymentMethods(items);
     } catch (requestError) {
       setPaymentMethods([]);
-      setError(requestError.response?.data?.message || "Impossible de charger les methodes de paiement.");
+      setError(requestError.response?.data?.message || t("settings.payment_methods.load_error"));
     } finally {
       setPaymentMethodLoading(false);
     }
@@ -534,7 +538,7 @@ export default function SettingsPage() {
     event.preventDefault();
 
     if (!user?.encrypted_id) {
-      setError("Utilisateur introuvable.");
+      setError(t("settings.account.messages.user_not_found"));
       return;
     }
 
@@ -550,15 +554,15 @@ export default function SettingsPage() {
         password_confirmation: "",
         avatar: null,
       }));
-      setNotice("Informations du compte mises a jour.");
+      setNotice(t("settings.account.messages.update_success"));
       setActiveTab("account");
     } catch (requestError) {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Impossible de mettre a jour le compte.");
+        setError(firstMessage || t("settings.account.messages.update_error"));
       } else {
-        setError(requestError.response?.data?.message || "Impossible de mettre a jour le compte.");
+        setError(requestError.response?.data?.message || t("settings.account.messages.update_error"));
       }
     } finally {
       setSaving(false);
@@ -577,15 +581,15 @@ export default function SettingsPage() {
         logo: null,
       }));
       setPlatformCurrentLogo(buildAssetUrl(settings?.logo, "/images/logo.png"));
-      setNotice("Informations plateforme mises a jour.");
+      setNotice(t("settings.platform.messages.update_success"));
       setActiveTab("platform");
     } catch (requestError) {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Impossible de mettre a jour la plateforme.");
+        setError(firstMessage || t("settings.platform.messages.update_error"));
       } else {
-        setError(requestError.response?.data?.message || "Impossible de mettre a jour la plateforme.");
+        setError(requestError.response?.data?.message || t("settings.platform.messages.update_error"));
       }
     } finally {
       setPlatformSaving(false);
@@ -600,10 +604,10 @@ export default function SettingsPage() {
     try {
       if (editingCategory?.encrypted_id) {
         await updateCategory(editingCategory.encrypted_id, categoryForm);
-        setNotice("Categorie mise a jour.");
+        setNotice(t("settings.categories.messages.update_success"));
       } else {
         await createCategory(categoryForm);
-        setNotice("Categorie creee.");
+        setNotice(t("settings.categories.messages.create_success"));
       }
 
       resetCategoryForm();
@@ -612,9 +616,9 @@ export default function SettingsPage() {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Impossible d'enregistrer la categorie.");
+        setError(firstMessage || t("settings.categories.messages.save_error"));
       } else {
-        setError(requestError.response?.data?.message || "Impossible d'enregistrer la categorie.");
+        setError(requestError.response?.data?.message || t("settings.categories.messages.save_error"));
       }
     } finally {
       setCategorySaving(false);
@@ -629,14 +633,14 @@ export default function SettingsPage() {
 
     try {
       await deleteCategory(confirmCategory.encrypted_id);
-      setNotice("Categorie supprimee.");
+      setNotice(t("settings.categories.messages.delete_success"));
       if (editingCategory?.encrypted_id === confirmCategory.encrypted_id) {
         resetCategoryForm();
       }
       setConfirmCategory(null);
       await loadCategories();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de supprimer la categorie.");
+      setError(requestError.response?.data?.message || t("settings.categories.messages.delete_error"));
     } finally {
       setCategoryDeleting(false);
     }
@@ -651,10 +655,10 @@ export default function SettingsPage() {
       if (editingPaymentMethod?.encrypted_id) {
         const updated = await updatePaymentMethod(editingPaymentMethod.encrypted_id, paymentMethodForm);
         setPaymentMethodCurrentImage(buildAssetUrl(updated?.image, "/images/logo.png"));
-        setNotice("Methode de paiement mise a jour.");
+        setNotice(t("settings.payment_methods.messages.update_success"));
       } else {
         await createPaymentMethod(paymentMethodForm);
-        setNotice("Methode de paiement creee.");
+        setNotice(t("settings.payment_methods.messages.create_success"));
       }
 
       resetPaymentMethodForm();
@@ -663,9 +667,9 @@ export default function SettingsPage() {
       const validationErrors = requestError.response?.data?.errors;
       if (validationErrors) {
         const firstMessage = Object.values(validationErrors).flat()[0];
-        setError(firstMessage || "Impossible d'enregistrer la methode de paiement.");
+        setError(firstMessage || t("settings.payment_methods.messages.save_error"));
       } else {
-        setError(requestError.response?.data?.message || "Impossible d'enregistrer la methode de paiement.");
+        setError(requestError.response?.data?.message || t("settings.payment_methods.messages.save_error"));
       }
     } finally {
       setPaymentMethodSaving(false);
@@ -680,14 +684,14 @@ export default function SettingsPage() {
 
     try {
       await deletePaymentMethod(confirmPaymentMethod.encrypted_id);
-      setNotice("Methode de paiement supprimee.");
+      setNotice(t("settings.payment_methods.messages.delete_success"));
       if (editingPaymentMethod?.encrypted_id === confirmPaymentMethod.encrypted_id) {
         resetPaymentMethodForm();
       }
       setConfirmPaymentMethod(null);
       await loadPaymentMethods();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de supprimer la methode de paiement.");
+      setError(requestError.response?.data?.message || t("settings.payment_methods.messages.delete_error"));
     } finally {
       setPaymentMethodDeleting(false);
     }
@@ -704,7 +708,7 @@ export default function SettingsPage() {
       await logout();
       navigate("/login", { replace: true });
     } catch (requestError) {
-      setDeleteError(requestError.response?.data?.message || "Impossible de supprimer le compte.");
+      setDeleteError(requestError.response?.data?.message || t("settings.delete_account.messages.delete_error"));
     } finally {
       setDeleteLoading(false);
     }
@@ -726,22 +730,25 @@ export default function SettingsPage() {
   const previewAvatar = selectedAvatar || currentAvatar;
   const previewPlatformLogo = selectedPlatformLogo || platformCurrentLogo || "/images/logo.png";
   const previewPaymentMethodImage = selectedPaymentMethodImage || paymentMethodCurrentImage || "/images/logo.png";
+  const rawUserStatusKey = user?.status ? `settings.status.${user.status}` : "settings.status.active";
+  const translatedUserStatus = t(rawUserStatusKey);
+  const userStatusLabel = user?.status && translatedUserStatus === rawUserStatusKey ? user.status : translatedUserStatus;
 
   return (
     <div className="space-y-6">
       <section className="rounded-2xl bg-white/90">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-3xl font-extrabold text-slate-950">Settings</h2>
+            <h2 className="text-3xl font-extrabold text-slate-950">{t("settings.title")}</h2>
             <p className="mt-2 max-w-3xl text-sm text-slate-500">
-              Gerez les informations plateforme, les categories et votre compte depuis une interface a onglets.
+              {t("settings.description")}
             </p>
           </div>
         </div>
       </section>
 
       <div className="flex flex-wrap gap-3 rounded-sm border border-stone-200 bg-white p-3 shadow-sm">
-        {TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -763,15 +770,15 @@ export default function SettingsPage() {
 
       {activeTab === "platform" ? (
         <form onSubmit={handlePlatformSubmit} className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)]">
-          <InfoCard
-            title="Information plateforme"
-            description="Gerez le logo, le nom, le contact, l'email et l'adresse de la plateforme."
+            <InfoCard
+            title={t("settings.platform.title")}
+            description={t("settings.platform.description")}
           >
             <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
               <div className="space-y-3">
-                <span className="block text-sm font-bold text-slate-800">Logo</span>
+                <span className="block text-sm font-bold text-slate-800">{t("settings.platform.fields.logo")}</span>
                 <div className="flex h-44 items-center justify-center overflow-hidden rounded-sm border border-stone-200 bg-stone-50">
-                  <img src={previewPlatformLogo} alt={platformForm.platform_name || "Logo plateforme"} className="h-full w-full object-cover" />
+                  <img src={previewPlatformLogo} alt={platformForm.platform_name || t("settings.platform.preview.logo_alt")} className="h-full w-full object-cover" />
                 </div>
                 <input
                   type="file"
@@ -784,50 +791,50 @@ export default function SettingsPage() {
 
               <div className="grid gap-6 md:grid-cols-2">
                 <label className="space-y-2 md:col-span-2">
-                  <span className="block text-sm font-bold text-slate-800">Nom de la plateforme</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.platform.fields.platform_name")}</span>
                   <input
                     type="text"
                     name="platform_name"
                     value={platformForm.platform_name}
                     onChange={handlePlatformChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Nom de la plateforme"
+                    placeholder={t("settings.platform.fields.platform_name_placeholder")}
                   />
                 </label>
 
                 <label className="space-y-2">
-                  <span className="block text-sm font-bold text-slate-800">Contact</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.platform.fields.contact")}</span>
                   <input
                     type="text"
                     name="contact"
                     value={platformForm.contact}
                     onChange={handlePlatformChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Telephone principal"
+                    placeholder={t("settings.platform.fields.contact_placeholder")}
                   />
                 </label>
 
                 <label className="space-y-2">
-                  <span className="block text-sm font-bold text-slate-800">Email</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.platform.fields.email")}</span>
                   <input
                     type="email"
                     name="email"
                     value={platformForm.email}
                     onChange={handlePlatformChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Email principal"
+                    placeholder={t("settings.platform.fields.email_placeholder")}
                   />
                 </label>
 
                 <label className="space-y-2 md:col-span-2">
-                  <span className="block text-sm font-bold text-slate-800">Adresse</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.platform.fields.address")}</span>
                   <input
                     type="text"
                     name="address"
                     value={platformForm.address}
                     onChange={handlePlatformChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Adresse de la plateforme"
+                    placeholder={t("settings.platform.fields.address_placeholder")}
                   />
                 </label>
               </div>
@@ -839,34 +846,34 @@ export default function SettingsPage() {
                 disabled={platformSaving || platformLoading}
                 className="inline-flex items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {platformSaving ? "Enregistrement..." : "Enregistrer les informations"}
+                {platformSaving ? t("settings.common.saving") : t("settings.platform.save")}
               </button>
             </div>
           </InfoCard>
 
           <InfoCard
-            title="Apercu plateforme"
-            description="Resume rapide des informations actuellement configurees."
+            title={t("settings.platform.preview.title")}
+            description={t("settings.platform.preview.description")}
           >
             <div className="space-y-4">
               <div className="flex items-center gap-4 rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                <img src={previewPlatformLogo} alt="Logo plateforme" className="h-16 w-16 rounded-sm object-contain" />
+                <img src={previewPlatformLogo} alt={t("settings.platform.preview.logo_alt")} className="h-16 w-16 rounded-sm object-contain" />
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Plateforme</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.platform.preview.platform")}</p>
                   <p className="mt-1 text-lg font-extrabold text-red-700">{platformForm.platform_name || "WORLD OF MADAGASCAR"}</p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Contact</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.platform.fields.contact")}</p>
                   <p className="mt-2 text-sm font-semibold text-slate-900">{platformForm.contact || "-"}</p>
                 </div>
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Email</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.platform.fields.email")}</p>
                   <p className="mt-2 text-sm font-semibold text-slate-900">{platformForm.email || "-"}</p>
                 </div>
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3 md:col-span-2">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Adresse</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.platform.fields.address")}</p>
                   <p className="mt-2 text-sm font-semibold text-slate-900">{platformForm.address || "-"}</p>
                 </div>
               </div>
@@ -878,21 +885,21 @@ export default function SettingsPage() {
       {activeTab === "categories" ? (
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)]">
             <InfoCard
-              title="Gestion categorie"
-              description="Creez, modifiez et supprimez les categories depuis les settings."
+              title={t("settings.categories.title")}
+              description={t("settings.categories.description")}
             >
               <div className="space-y-5">
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.stats.total")}</p>
                     <p className="mt-2 text-2xl font-extrabold text-slate-950">{categoryCounts.total}</p>
                   </div>
                   <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actives</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.stats.active")}</p>
                     <p className="mt-2 text-2xl font-extrabold text-slate-950">{categoryCounts.active}</p>
                   </div>
                   <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Inactives</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.stats.inactive")}</p>
                     <p className="mt-2 text-2xl font-extrabold text-slate-950">{categoryCounts.inactive}</p>
                   </div>
                 </div>
@@ -902,7 +909,7 @@ export default function SettingsPage() {
                     type="search"
                     value={categorySearch}
                     onChange={(event) => setCategorySearch(event.target.value)}
-                    placeholder="Rechercher une categorie..."
+                    placeholder={t("settings.categories.search_placeholder")}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition lg:max-w-sm"
                   />
                   <button
@@ -911,31 +918,31 @@ export default function SettingsPage() {
                     disabled={categoryLoading}
                     className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {categoryLoading ? "Chargement..." : "Rafraichir"}
+                    {categoryLoading ? t("settings.common.loading") : t("settings.common.refresh")}
                   </button>
                 </div>
 
                 {categoryLoading ? (
-                  <EmptyState title="Chargement..." description="Les categories sont en cours de recuperation." />
+                  <EmptyState title={t("settings.common.loading")} description={t("settings.categories.loading_description")} />
                 ) : filteredCategories.length === 0 ? (
-                  <EmptyState title="Aucune categorie" description="Aucune categorie ne correspond a la recherche actuelle." />
+                  <EmptyState title={t("settings.categories.empty_title")} description={t("settings.categories.empty_description")} />
                 ) : (
                   <div className="overflow-hidden rounded-sm border border-stone-200">
                     <div className="overflow-x-auto">
                       <table className="min-w-full divide-y divide-stone-200">
                         <thead className="bg-stone-50 text-left">
                           <tr>
-                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Nom</th>
-                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Description</th>
-                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</th>
-                            <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actions</th>
+                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.table.name")}</th>
+                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.table.description")}</th>
+                            <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.table.status")}</th>
+                            <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.categories.table.actions")}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-stone-200 bg-white">
                           {filteredCategories.map((category) => (
                             <tr key={category.encrypted_id || category.id} className="align-top">
                               <td className="px-5 py-4 text-sm font-bold text-slate-900">{category.name}</td>
-                              <td className="px-5 py-4 text-sm text-slate-600">{category.description || "Sans description"}</td>
+                              <td className="px-5 py-4 text-sm text-slate-600">{category.description || t("settings.categories.table.no_description")}</td>
                               <td className="px-5 py-4">
                                 <span
                                   className={cn(
@@ -943,7 +950,7 @@ export default function SettingsPage() {
                                     category.is_active ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700",
                                   )}
                                 >
-                                  {category.is_active ? "Active" : "Inactive"}
+                                  {category.is_active ? t("settings.status.active") : t("settings.status.inactive")}
                                 </span>
                               </td>
                               <td className="px-5 py-4">
@@ -953,14 +960,14 @@ export default function SettingsPage() {
                                     onClick={() => handleEditCategory(category)}
                                     className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
                                   >
-                                    Modifier
+                                    {t("settings.common.edit")}
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => setConfirmCategory(category)}
                                     className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
                                   >
-                                    Supprimer
+                                    {t("settings.common.delete")}
                                   </button>
                                 </div>
                               </td>
@@ -976,12 +983,12 @@ export default function SettingsPage() {
 
             <form onSubmit={handleCategorySubmit} className="space-y-6">
               <InfoCard
-                title={editingCategory ? "Modifier la categorie" : "Nouvelle categorie"}
-                description="Configurez le nom, la description et le statut de la categorie."
+                title={editingCategory ? t("settings.categories.form.edit_title") : t("settings.categories.form.create_title")}
+                description={t("settings.categories.form.description")}
               >
                 <div className="space-y-6">
                   <label className="space-y-2">
-                    <span className="block text-sm font-bold text-slate-800">Nom</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.categories.form.fields.name")}</span>
                     <input
                       type="text"
                       name="name"
@@ -989,19 +996,19 @@ export default function SettingsPage() {
                       value={categoryForm.name}
                       onChange={handleCategoryChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Nom de la categorie"
+                      placeholder={t("settings.categories.form.fields.name_placeholder")}
                     />
                   </label>
 
                   <label className="space-y-2">
-                    <span className="block text-sm font-bold text-slate-800">Description</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.categories.form.fields.description")}</span>
                     <textarea
                       name="description"
                       rows="6"
                       value={categoryForm.description}
                       onChange={handleCategoryChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Description de la categorie"
+                      placeholder={t("settings.categories.form.fields.description_placeholder")}
                     />
                   </label>
 
@@ -1014,8 +1021,8 @@ export default function SettingsPage() {
                       className="h-4 w-4 rounded border-stone-300 text-red-600 focus:ring-red-500"
                     />
                     <div>
-                      <span className="block text-sm font-bold text-slate-800">Active</span>
-                      <span className="block text-xs text-slate-500">Affiche ou masque cette categorie.</span>
+                      <span className="block text-sm font-bold text-slate-800">{t("settings.categories.form.fields.active")}</span>
+                      <span className="block text-xs text-slate-500">{t("settings.categories.form.fields.active_help")}</span>
                     </div>
                   </label>
                 </div>
@@ -1027,7 +1034,7 @@ export default function SettingsPage() {
                       onClick={resetCategoryForm}
                       className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-stone-50"
                     >
-                      Annuler
+                      {t("settings.common.cancel")}
                     </button>
                   ) : null}
                   <button
@@ -1035,7 +1042,7 @@ export default function SettingsPage() {
                     disabled={categorySaving}
                     className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {categorySaving ? "Enregistrement..." : editingCategory ? "Mettre a jour" : "Enregistrer"}
+                    {categorySaving ? t("settings.common.saving") : editingCategory ? t("settings.common.update") : t("settings.common.save")}
                   </button>
                 </div>
               </InfoCard>
@@ -1047,21 +1054,21 @@ export default function SettingsPage() {
       {activeTab === "payment-methods" ? (
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)]">
           <InfoCard
-            title="Gestion payment methods"
-            description="Creez, modifiez et supprimez les methodes de paiement."
+            title={t("settings.payment_methods.title")}
+            description={t("settings.payment_methods.description")}
           >
             <div className="space-y-5">
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.stats.total")}</p>
                   <p className="mt-2 text-2xl font-extrabold text-slate-950">{paymentMethodCounts.total}</p>
                 </div>
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actives</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.stats.active")}</p>
                   <p className="mt-2 text-2xl font-extrabold text-slate-950">{paymentMethodCounts.active}</p>
                 </div>
                 <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Inactives</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.stats.inactive")}</p>
                   <p className="mt-2 text-2xl font-extrabold text-slate-950">{paymentMethodCounts.inactive}</p>
                 </div>
               </div>
@@ -1071,7 +1078,7 @@ export default function SettingsPage() {
                   type="search"
                   value={paymentMethodSearch}
                   onChange={(event) => setPaymentMethodSearch(event.target.value)}
-                  placeholder="Rechercher une methode..."
+                  placeholder={t("settings.payment_methods.search_placeholder")}
                   className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition lg:max-w-sm"
                 />
                 <button
@@ -1080,24 +1087,24 @@ export default function SettingsPage() {
                   disabled={paymentMethodLoading}
                   className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {paymentMethodLoading ? "Chargement..." : "Rafraichir"}
+                  {paymentMethodLoading ? t("settings.common.loading") : t("settings.common.refresh")}
                 </button>
               </div>
 
               {paymentMethodLoading ? (
-                <EmptyState title="Chargement..." description="Les methodes de paiement sont en cours de recuperation." />
+                <EmptyState title={t("settings.common.loading")} description={t("settings.payment_methods.loading_description")} />
               ) : filteredPaymentMethods.length === 0 ? (
-                <EmptyState title="Aucune methode" description="Aucune methode de paiement ne correspond a la recherche actuelle." />
+                <EmptyState title={t("settings.payment_methods.empty_title")} description={t("settings.payment_methods.empty_description")} />
               ) : (
                 <div className="overflow-hidden rounded-sm border border-stone-200">
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-stone-200">
                       <thead className="bg-stone-50 text-left">
                         <tr>
-                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Methode</th>
-                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Code</th>
-                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</th>
-                          <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actions</th>
+                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.table.name")}</th>
+                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.table.code")}</th>
+                          <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.table.status")}</th>
+                          <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.payment_methods.table.actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-200 bg-white">
@@ -1119,7 +1126,7 @@ export default function SettingsPage() {
                                   paymentMethod.is_active ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700",
                                 )}
                               >
-                                {paymentMethod.is_active ? "Active" : "Inactive"}
+                                {paymentMethod.is_active ? t("settings.status.active") : t("settings.status.inactive")}
                               </span>
                             </td>
                             <td className="px-5 py-4">
@@ -1129,14 +1136,14 @@ export default function SettingsPage() {
                                   onClick={() => handleEditPaymentMethod(paymentMethod)}
                                   className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
                                 >
-                                  Modifier
+                                  {t("settings.common.edit")}
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setConfirmPaymentMethod(paymentMethod)}
                                   className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
                                 >
-                                  Supprimer
+                                  {t("settings.common.delete")}
                                 </button>
                               </div>
                             </td>
@@ -1152,15 +1159,15 @@ export default function SettingsPage() {
 
           <form onSubmit={handlePaymentMethodSubmit} className="space-y-6">
             <InfoCard
-              title={editingPaymentMethod ? "Modifier la methode" : "Nouvelle methode"}
-              description="Configurez le logo, le nom, le code et le statut de la methode de paiement."
+              title={editingPaymentMethod ? t("settings.payment_methods.form.edit_title") : t("settings.payment_methods.form.create_title")}
+              description={t("settings.payment_methods.form.description")}
             >
               <div className="space-y-6">
                 <div className="grid gap-6 lg:grid-cols-[140px_minmax(0,1fr)]">
                   <div className="space-y-3">
-                    <span className="block text-sm font-bold text-slate-800">Logo</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.payment_methods.form.fields.logo")}</span>
                     <div className="flex h-28 items-center justify-center overflow-hidden rounded-sm border border-stone-200 bg-stone-50">
-                      <img src={previewPaymentMethodImage} alt={paymentMethodForm.name || "Logo methode"} className="h-full w-full object-contain" />
+                      <img src={previewPaymentMethodImage} alt={paymentMethodForm.name || t("settings.payment_methods.form.logo_alt")} className="h-full w-full object-contain" />
                     </div>
                     <input
                       type="file"
@@ -1173,7 +1180,7 @@ export default function SettingsPage() {
 
                   <div className="space-y-6">
                     <label className="space-y-2">
-                      <span className="block text-sm font-bold text-slate-800">Nom</span>
+                      <span className="block text-sm font-bold text-slate-800">{t("settings.payment_methods.form.fields.name")}</span>
                       <input
                         type="text"
                         name="name"
@@ -1181,12 +1188,12 @@ export default function SettingsPage() {
                         value={paymentMethodForm.name}
                         onChange={handlePaymentMethodChange}
                         className="w-full mb-2 rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                        placeholder="Ex: Mvola"
+                        placeholder={t("settings.payment_methods.form.fields.name_placeholder")}
                       />
                     </label>
 
                     <label className="space-y-2">
-                      <span className="block text-sm font-bold text-slate-800">Code</span>
+                      <span className="block text-sm font-bold text-slate-800">{t("settings.payment_methods.form.fields.code")}</span>
                       <input
                         type="text"
                         name="code"
@@ -1194,7 +1201,7 @@ export default function SettingsPage() {
                         value={paymentMethodForm.code}
                         onChange={handlePaymentMethodChange}
                         className="w-full mb-2 rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                        placeholder="Ex: mvola"
+                        placeholder={t("settings.payment_methods.form.fields.code_placeholder")}
                       />
                     </label>
 
@@ -1207,8 +1214,8 @@ export default function SettingsPage() {
                         className="h-4 w-4 rounded border-stone-300 text-red-600 focus:ring-red-500"
                       />
                       <div>
-                        <span className="block text-sm font-bold text-slate-800">Active</span>
-                        <span className="block text-xs text-slate-500">Affiche ou masque cette methode de paiement.</span>
+                        <span className="block text-sm font-bold text-slate-800">{t("settings.payment_methods.form.fields.active")}</span>
+                        <span className="block text-xs text-slate-500">{t("settings.payment_methods.form.fields.active_help")}</span>
                       </div>
                     </label>
                   </div>
@@ -1222,7 +1229,7 @@ export default function SettingsPage() {
                     onClick={resetPaymentMethodForm}
                     className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-stone-50"
                   >
-                    Annuler
+                    {t("settings.common.cancel")}
                   </button>
                 ) : null}
                 <button
@@ -1230,7 +1237,7 @@ export default function SettingsPage() {
                   disabled={paymentMethodSaving}
                   className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {paymentMethodSaving ? "Enregistrement..." : editingPaymentMethod ? "Mettre a jour" : "Enregistrer"}
+                  {paymentMethodSaving ? t("settings.common.saving") : editingPaymentMethod ? t("settings.common.update") : t("settings.common.save")}
                 </button>
               </div>
             </InfoCard>
@@ -1242,14 +1249,14 @@ export default function SettingsPage() {
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)]">
           <form onSubmit={handleSubmit} className="space-y-6">
             <InfoCard
-              title="Profil administrateur"
-              description="Mettez a jour les informations du compte actuellement connecte."
+              title={t("settings.account.title")}
+              description={t("settings.account.description")}
             >
               <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
                 <div className="space-y-3">
-                  <span className="block text-sm font-bold text-slate-800">Avatar</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.avatar")}</span>
                   <div className="flex h-44 items-center justify-center overflow-hidden rounded-sm border border-stone-200 bg-stone-50">
-                    <img src={previewAvatar} alt={form.pseudo || "Avatar"} className="h-full w-full object-cover" />
+                    <img src={previewAvatar} alt={form.pseudo || t("settings.account.fields.avatar")} className="h-full w-full object-cover" />
                   </div>
                   <input
                     type="file"
@@ -1262,50 +1269,50 @@ export default function SettingsPage() {
 
                 <div className="grid gap-6 md:grid-cols-2">
                   <label className="space-y-2">
-                    <span className="block text-sm font-bold text-slate-800">Pseudo</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.pseudo")}</span>
                     <input
                       type="text"
                       name="pseudo"
                       value={form.pseudo}
                       onChange={handleChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Votre pseudo"
+                      placeholder={t("settings.account.fields.pseudo_placeholder")}
                     />
                   </label>
 
                   <label className="space-y-2">
-                    <span className="block text-sm font-bold text-slate-800">Email</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.email")}</span>
                     <input
                       type="email"
                       name="email"
                       value={form.email}
                       onChange={handleChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Votre email"
+                      placeholder={t("settings.account.fields.email_placeholder")}
                     />
                   </label>
 
                   <label className="space-y-2">
-                    <span className="block text-sm font-bold text-slate-800">Contact</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.contact")}</span>
                     <input
                       type="text"
                       name="contact"
                       value={form.contact}
                       onChange={handleChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Numero de telephone"
+                      placeholder={t("settings.account.fields.contact_placeholder")}
                     />
                   </label>
 
                   <label className="space-y-2 md:col-span-2">
-                    <span className="block text-sm font-bold text-slate-800">Adresse</span>
+                    <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.address")}</span>
                     <input
                       type="text"
                       name="address"
                       value={form.address}
                       onChange={handleChange}
                       className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                      placeholder="Adresse complete"
+                      placeholder={t("settings.account.fields.address_placeholder")}
                     />
                   </label>
                 </div>
@@ -1313,31 +1320,31 @@ export default function SettingsPage() {
             </InfoCard>
 
             <InfoCard
-              title="Mot de passe"
-              description="Laissez les champs vides si vous ne souhaitez pas changer le mot de passe."
+              title={t("settings.account.password_section.title")}
+              description={t("settings.account.password_section.description")}
             >
               <div className="grid gap-6 md:grid-cols-2">
                 <label className="space-y-2">
-                  <span className="block text-sm font-bold text-slate-800">Nouveau mot de passe</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.new_password")}</span>
                   <input
                     type="password"
                     name="password"
                     value={form.password}
                     onChange={handleChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Minimum 8 caracteres"
+                    placeholder={t("settings.account.fields.new_password_placeholder")}
                   />
                 </label>
 
                 <label className="space-y-2">
-                  <span className="block text-sm font-bold text-slate-800">Confirmation</span>
+                  <span className="block text-sm font-bold text-slate-800">{t("settings.account.fields.password_confirmation")}</span>
                   <input
                     type="password"
                     name="password_confirmation"
                     value={form.password_confirmation}
                     onChange={handleChange}
                     className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400"
-                    placeholder="Confirmer le mot de passe"
+                    placeholder={t("settings.account.fields.password_confirmation_placeholder")}
                   />
                 </label>
               </div>
@@ -1349,39 +1356,39 @@ export default function SettingsPage() {
                 disabled={saving}
                 className="inline-flex items-center justify-center rounded-sm bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {saving ? "Enregistrement..." : "Enregistrer les modifications"}
+                {saving ? t("settings.common.saving") : t("settings.account.save")}
               </button>
             </div>
           </form>
 
           <div className="space-y-6">
             <InfoCard
-              title="Session"
-              description="Informations rapides sur le compte connecte."
+              title={t("settings.account.session.title")}
+              description={t("settings.account.session.description")}
             >
               <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-4">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Role</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.account.session.role")}</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900">{user?.role || "admin"}</p>
-                <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</p>
-                <p className="mt-2 text-sm font-semibold text-slate-900">{user?.status || "active"}</p>
+                <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("settings.account.session.status")}</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">{userStatusLabel}</p>
               </div>
             </InfoCard>
 
             <InfoCard
-              title="Suppression du compte"
-              description="Cette action supprime definitivement le compte authentifie."
+              title={t("settings.delete_account.title")}
+              description={t("settings.delete_account.description")}
               className="border-rose-200"
             >
               <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-4">
                 <p className="text-sm font-semibold text-rose-700">
-                  La suppression est irreversible. Vous devrez confirmer avec votre mot de passe actuel.
+                  {t("settings.delete_account.warning")}
                 </p>
                 <button
                   type="button"
                   onClick={openDeleteModal}
                   className="mt-4 inline-flex items-center justify-center rounded-sm bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-700"
                 >
-                  Supprimer mon compte
+                  {t("settings.delete_account.button")}
                 </button>
               </div>
             </InfoCard>
@@ -1397,6 +1404,7 @@ export default function SettingsPage() {
         onChange={setDeletePassword}
         onCancel={closeDeleteModal}
         onConfirm={handleDeleteAccount}
+        t={t}
       />
 
       <ConfirmCategoryModal
@@ -1405,6 +1413,7 @@ export default function SettingsPage() {
         loading={categoryDeleting}
         onCancel={() => (categoryDeleting ? undefined : setConfirmCategory(null))}
         onConfirm={handleDeleteCategory}
+        t={t}
       />
 
       <ConfirmPaymentMethodModal
@@ -1413,6 +1422,7 @@ export default function SettingsPage() {
         loading={paymentMethodDeleting}
         onCancel={() => (paymentMethodDeleting ? undefined : setConfirmPaymentMethod(null))}
         onConfirm={handleDeletePaymentMethod}
+        t={t}
       />
     </div>
   );

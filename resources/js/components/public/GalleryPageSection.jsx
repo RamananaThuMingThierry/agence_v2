@@ -1,22 +1,35 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import SectionTitle from "./SectionTitle";
 
 export default function GalleryPageSection({ filters, items }) {
-  const [activeFilter, setActiveFilter] = useState(filters[0] || "Tous");
+  const { t } = useI18n();
+  const allFilterLabel = t("public.gallery.list.filters.all");
+  const [activeFilter, setActiveFilter] = useState(filters[0] || allFilterLabel);
+
+  useEffect(() => {
+    if (!filters.includes(activeFilter)) {
+      setActiveFilter(filters[0] || allFilterLabel);
+    }
+  }, [activeFilter, allFilterLabel, filters]);
 
   const visibleItems = useMemo(() => {
-    if (activeFilter === "Tous") {
+    if (activeFilter === allFilterLabel) {
       return items;
     }
 
     return items.filter((item) => item.category === activeFilter);
-  }, [activeFilter, items]);
+  }, [activeFilter, allFilterLabel, items]);
 
   return (
     <section id="page-gallery" className="bg-white py-10">
       <div className="mx-auto max-w-7xl">
-        <SectionTitle title="Voir plus de photos du voyage" text="Cette page affiche la liste complete des galleries disponibles avec les filtres prevus pour la navigation publique." center />
+        <SectionTitle
+          title={t("public.gallery.list.title")}
+          text={t("public.gallery.list.text")}
+          center
+        />
         <div className="mb-10 mt-10 flex flex-wrap justify-center gap-3">
           {filters.map((filter) => (
             <button
@@ -42,7 +55,7 @@ export default function GalleryPageSection({ filters, items }) {
             </Link>
           ))}
         </div>
-        {visibleItems.length === 0 ? <p className="mt-8 text-center text-sm font-semibold text-slate-500">Aucune gallery disponible pour ce filtre.</p> : null}
+        {visibleItems.length === 0 ? <p className="mt-8 text-center text-sm font-semibold text-slate-500">{t("public.gallery.list.empty")}</p> : null}
       </div>
     </section>
   );

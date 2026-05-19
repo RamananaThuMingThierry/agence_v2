@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteActivityLog, fetchActivityLogs } from "../../../api/activityLogs";
 
 function cn(...values) {
@@ -71,14 +72,14 @@ function EmptyState({ title, description }) {
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, confirmText, cancelText, loadingText, loading, closeLabel, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={closeLabel}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
@@ -96,7 +97,7 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {cancelText}
           </button>
           <button
             type="button"
@@ -104,7 +105,7 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? "Suppression..." : confirmText}
+            {loading ? loadingText : confirmText}
           </button>
         </div>
       </div>
@@ -112,14 +113,14 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
   );
 }
 
-function DetailsModal({ open, log, onClose }) {
+function DetailsModal({ open, log, labels, locale, onClose }) {
   if (!open || !log) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={labels.close}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={onClose}
       />
@@ -127,65 +128,65 @@ function DetailsModal({ open, log, onClose }) {
       <div className="relative w-full max-w-3xl rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Détails du log</h2>
-            <p className="mt-2 text-sm text-slate-500">Informations complètes sur cette activité.</p>
+            <h2 className="text-2xl font-extrabold text-slate-950">{labels.title}</h2>
+            <p className="mt-2 text-sm text-slate-500">{labels.description}</p>
           </div>
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-sm border border-stone-300 px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-50"
             onClick={onClose}
           >
-            Fermer
+            {labels.close}
           </button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Action</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.action}</p>
             <p className="mt-2 text-sm font-bold text-slate-900">{log.action || "-"}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Couleur</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.color}</p>
             <p className="mt-2 text-sm font-bold text-slate-900">{log.color || "-"}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Utilisateur</p>
-            <p className="mt-2 text-sm font-bold text-slate-900">{log.user?.pseudo || "Système"}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.user}</p>
+            <p className="mt-2 text-sm font-bold text-slate-900">{log.user?.pseudo || labels.system}</p>
             <p className="mt-1 text-sm text-slate-500">{log.user?.email || "-"}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Date</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.date}</p>
             <p className="mt-2 text-sm font-bold text-slate-900">
-              {log.created_at ? new Date(log.created_at).toLocaleString("fr-FR") : "-"}
+              {log.created_at ? new Date(log.created_at).toLocaleString(locale) : "-"}
             </p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Méthode</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.method}</p>
             <p className="mt-2 text-sm font-bold text-slate-900">{log.method || "-"}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Code statut</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.status_code}</p>
             <p className="mt-2 text-sm font-bold text-slate-900">{log.status_code ?? "-"}</p>
           </div>
         </div>
 
         <div className="mt-4 rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Message</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.message}</p>
           <p className="mt-2 text-sm text-slate-800">{log.message || "-"}</p>
         </div>
 
         <div className="mt-4 rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Route</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.route}</p>
           <p className="mt-2 break-all text-sm text-slate-800">{log.route || "-"}</p>
         </div>
 
         <div className="mt-4 rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Entity Type</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.entity_type}</p>
           <p className="mt-2 break-all text-sm text-slate-800">{log.entity_type || "-"}</p>
         </div>
 
         <div className="mt-4 rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Metadata</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{labels.metadata}</p>
           <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-xs text-slate-700">
             {JSON.stringify(log.metadata || {}, null, 2)}
           </pre>
@@ -196,6 +197,7 @@ function DetailsModal({ open, log, onClose }) {
 }
 
 export default function ActivityLogsPage() {
+  const { t, locale } = useI18n();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -222,7 +224,7 @@ export default function ActivityLogsPage() {
       setTotalPages(result.meta.last_page || 1);
       setPage(result.meta.current_page || 1);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de charger les activity logs.");
+      setError(requestError.response?.data?.message || t("activity_logs.list.load_error"));
       setLogs([]);
       setTotalPages(1);
     } finally {
@@ -236,11 +238,11 @@ export default function ActivityLogsPage() {
 
     try {
       await deleteActivityLog(log.encrypted_id);
-      setNotice("Activity log supprimé.");
+      setNotice(t("activity_logs.list.delete_success"));
       setConfirmLog(null);
       await loadLogs();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Échec de la suppression du log.");
+      setError(requestError.response?.data?.message || t("activity_logs.list.delete_error"));
     } finally {
       setActionLoading(false);
     }
@@ -275,42 +277,41 @@ export default function ActivityLogsPage() {
       <section className="overflow-hidden rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Activity Logs</h2>
+            <h2 className="text-2xl font-extrabold text-slate-950">{t("activity_logs.list.title")}</h2>
             <p className="mt-2 text-sm text-slate-500">
-              Historique des actions administrateur avec message, utilisateur, route et statut.
+              {t("activity_logs.list.description")}
             </p>
           </div>
         </div>
 
         <div className="mt-3 overflow-hidden rounded-sm border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-
-                          <select
-                value={pageSize}
-                onChange={(event) => setPageSize(Number(event.target.value))}
-                className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition"
-              >
-                {[10, 25, 50].map((size) => (
-                  <option key={size} value={size}>
-                    {size} / page
-                  </option>
-                ))}
-              </select>
+            <select
+              value={pageSize}
+              onChange={(event) => setPageSize(Number(event.target.value))}
+              className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition"
+            >
+              {[10, 25, 50].map((size) => (
+                <option key={size} value={size}>
+                  {t("activity_logs.list.per_page", { count: size })}
+                </option>
+              ))}
+            </select>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-<input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Rechercher un log..."
-              className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-80"
-            />
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={t("activity_logs.list.search_placeholder")}
+                className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-80"
+              />
               <button
                 type="button"
                 onClick={loadLogs}
                 className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800"
               >
-                Rafraîchir
+                {t("activity_logs.common.refresh")}
               </button>
             </div>
           </div>
@@ -329,9 +330,9 @@ export default function ActivityLogsPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les activity logs sont en cours de récupération depuis l'API." />
+              <EmptyState title={t("activity_logs.list.loading_title")} description={t("activity_logs.list.loading_description")} />
             ) : filteredLogs.length === 0 ? (
-              <EmptyState title="Aucun activity log" description="Aucun log ne correspond à la recherche actuelle." />
+              <EmptyState title={t("activity_logs.list.empty_title")} description={t("activity_logs.list.empty_description")} />
             ) : (
               <div className="space-y-4">
                 <div className="overflow-hidden rounded-sm border border-stone-200">
@@ -339,12 +340,12 @@ export default function ActivityLogsPage() {
                     <table className="min-w-full divide-y divide-stone-200">
                       <thead className="bg-light text-left text-xs uppercase tracking-[0.18em]">
                         <tr>
-                          <th className="px-5 py-4 text-slate-500">Action</th>
-                          <th className="px-5 py-4 text-slate-500">Message</th>
-                          <th className="px-5 py-4 text-slate-500">Utilisateur</th>
-                          <th className="px-5 py-4 text-slate-500">Statut</th>
-                          <th className="px-5 py-4 text-slate-500">Date</th>
-                          <th className="px-5 py-4 text-right text-slate-500">Actions</th>
+                          <th className="px-5 py-4 text-slate-500">{t("activity_logs.list.table.action")}</th>
+                          <th className="px-5 py-4 text-slate-500">{t("activity_logs.list.table.message")}</th>
+                          <th className="px-5 py-4 text-slate-500">{t("activity_logs.list.table.user")}</th>
+                          <th className="px-5 py-4 text-slate-500">{t("activity_logs.list.table.status")}</th>
+                          <th className="px-5 py-4 text-slate-500">{t("activity_logs.list.table.date")}</th>
+                          <th className="px-5 py-4 text-right text-slate-500">{t("activity_logs.list.table.actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-200 bg-white">
@@ -362,12 +363,12 @@ export default function ActivityLogsPage() {
                               <p className="mt-1 text-xs text-slate-500">{log.entity_type || "-"}</p>
                             </td>
                             <td className="px-5 py-4 text-sm text-slate-700">
-                              <p className="font-bold text-slate-900">{log.user?.pseudo || "Système"}</p>
+                              <p className="font-bold text-slate-900">{log.user?.pseudo || t("activity_logs.list.table.system")}</p>
                               <p className="mt-1 text-slate-500">{log.user?.email || "-"}</p>
                             </td>
                             <td className="px-5 py-4 text-sm font-bold text-slate-700">{log.status_code ?? "-"}</td>
                             <td className="px-5 py-4 text-sm text-slate-500">
-                              {log.created_at ? new Date(log.created_at).toLocaleString("fr-FR") : "-"}
+                              {log.created_at ? new Date(log.created_at).toLocaleString(locale) : "-"}
                             </td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
@@ -376,14 +377,14 @@ export default function ActivityLogsPage() {
                                   onClick={() => setDetailsLog(log)}
                                   className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
                                 >
-                                  Afficher détails
+                                  {t("activity_logs.list.table.show_details")}
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setConfirmLog(log)}
                                   className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50"
                                 >
-                                  Supprimer
+                                  {t("activity_logs.common.delete")}
                                 </button>
                               </div>
                             </td>
@@ -396,8 +397,7 @@ export default function ActivityLogsPage() {
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm text-slate-500">
-                    Page <span className="font-bold text-slate-800">{page}</span> sur{" "}
-                    <span className="font-bold text-slate-800">{totalPages}</span>
+                    {t("activity_logs.list.pagination.page_of", { current: page, total: totalPages })}
                   </p>
 
                   <div className="inline-flex overflow-hidden rounded-sm border border-stone-300 bg-white">
@@ -446,15 +446,39 @@ export default function ActivityLogsPage() {
 
       <ConfirmModal
         open={Boolean(confirmLog)}
-        title="Supprimer le log"
-        message={confirmLog ? `Voulez-vous supprimer le log "${confirmLog.action}" ?` : ""}
-        confirmText="Oui, supprimer"
+        title={t("activity_logs.list.delete_modal.title")}
+        message={confirmLog ? t("activity_logs.list.delete_modal.message", { name: confirmLog.action }) : ""}
+        confirmText={t("activity_logs.list.delete_modal.confirm")}
+        cancelText={t("activity_logs.common.cancel")}
+        loadingText={t("activity_logs.list.delete_modal.loading")}
+        closeLabel={t("activity_logs.common.close")}
         loading={actionLoading}
         onCancel={() => (actionLoading ? undefined : setConfirmLog(null))}
         onConfirm={() => handleDelete(confirmLog)}
       />
 
-      <DetailsModal open={Boolean(detailsLog)} log={detailsLog} onClose={() => setDetailsLog(null)} />
+      <DetailsModal
+        open={Boolean(detailsLog)}
+        log={detailsLog}
+        locale={locale}
+        labels={{
+          title: t("activity_logs.details.title"),
+          description: t("activity_logs.details.description"),
+          close: t("activity_logs.common.close"),
+          action: t("activity_logs.details.fields.action"),
+          color: t("activity_logs.details.fields.color"),
+          user: t("activity_logs.details.fields.user"),
+          system: t("activity_logs.list.table.system"),
+          date: t("activity_logs.details.fields.date"),
+          method: t("activity_logs.details.fields.method"),
+          status_code: t("activity_logs.details.fields.status_code"),
+          message: t("activity_logs.details.fields.message"),
+          route: t("activity_logs.details.fields.route"),
+          entity_type: t("activity_logs.details.fields.entity_type"),
+          metadata: t("activity_logs.details.fields.metadata"),
+        }}
+        onClose={() => setDetailsLog(null)}
+      />
     </div>
   );
 }

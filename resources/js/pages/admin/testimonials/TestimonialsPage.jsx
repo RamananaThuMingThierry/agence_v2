@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import {
   deleteTestimonial,
   fetchTestimonials,
@@ -31,14 +32,14 @@ function EmptyState({ title, description }) {
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, confirmText, cancelText, loadingText, loading, closeLabel, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={closeLabel}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
@@ -56,7 +57,7 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {cancelText}
           </button>
           <button
             type="button"
@@ -64,7 +65,7 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? "Traitement..." : confirmText}
+            {loading ? loadingText : confirmText}
           </button>
         </div>
       </div>
@@ -72,7 +73,7 @@ function ConfirmModal({ open, title, message, confirmText, loading, onCancel, on
   );
 }
 
-function StatusModal({ open, testimonial, loading, onCancel, onConfirm }) {
+function StatusModal({ open, testimonial, loading, labels, onCancel, onConfirm }) {
   const [status, setStatus] = useState("publish");
 
   useEffect(() => {
@@ -86,29 +87,27 @@ function StatusModal({ open, testimonial, loading, onCancel, onConfirm }) {
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fermer"
+        aria-label={labels.close}
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
         onClick={loading ? undefined : onCancel}
       />
 
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-slate-950">Modifier le statut</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Changez uniquement le statut de publication pour "{testimonial.name}".
-          </p>
+          <h2 className="text-2xl font-extrabold text-slate-950">{labels.title}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">{labels.description.replace(":name", testimonial.name)}</p>
         </div>
 
         <label className="block space-y-2">
-          <span className="block text-sm font-bold text-slate-800">Statut</span>
+          <span className="block text-sm font-bold text-slate-800">{labels.field}</span>
           <select
             value={status}
             onChange={(event) => setStatus(event.target.value)}
             disabled={loading}
             className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-red-400 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            <option value="publish">Publie</option>
-            <option value="archived">Archive</option>
+            <option value="publish">{labels.publish}</option>
+            <option value="archived">{labels.archived}</option>
           </select>
         </label>
 
@@ -119,7 +118,7 @@ function StatusModal({ open, testimonial, loading, onCancel, onConfirm }) {
             onClick={onCancel}
             disabled={loading}
           >
-            Annuler
+            {labels.cancel}
           </button>
           <button
             type="button"
@@ -127,7 +126,7 @@ function StatusModal({ open, testimonial, loading, onCancel, onConfirm }) {
             onClick={() => onConfirm(status)}
             disabled={loading}
           >
-            {loading ? "Enregistrement..." : "Mettre a jour"}
+            {loading ? labels.saving : labels.submit}
           </button>
         </div>
       </div>
@@ -135,21 +134,22 @@ function StatusModal({ open, testimonial, loading, onCancel, onConfirm }) {
   );
 }
 
-function StatusBadge({ deletedAt, status }) {
+function StatusBadge({ deletedAt, status, labels }) {
   if (deletedAt) {
-    return <span className="inline-flex rounded-sm bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-rose-700">Corbeille</span>;
+    return <span className="inline-flex rounded-sm bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-rose-700">{labels.trashed}</span>;
   }
 
   if (status === "archived") {
-    return <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-700">Archive</span>;
+    return <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-700">{labels.archived}</span>;
   }
 
-  return <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-green-700">Publie</span>;
+  return <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-green-700">{labels.publish}</span>;
 }
 
 export default function TestimonialsPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, locale } = useI18n();
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -183,7 +183,7 @@ export default function TestimonialsPage() {
 
       setTestimonials(items);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de charger les testimonials.");
+      setError(requestError.response?.data?.message || t("testimonials.list.load_error"));
       setTestimonials([]);
     } finally {
       setLoading(false);
@@ -193,19 +193,19 @@ export default function TestimonialsPage() {
   function openConfirm(action, testimonial) {
     const config = {
       delete: {
-        title: "Supprimer le testimonial",
-        message: `Voulez-vous envoyer "${testimonial.name}" dans la corbeille ?`,
-        confirmText: "Oui, supprimer",
+        title: t("testimonials.list.confirm.delete_title"),
+        message: t("testimonials.list.confirm.delete_message", { name: testimonial.name }),
+        confirmText: t("testimonials.list.confirm.delete_confirm"),
       },
       restore: {
-        title: "Restaurer le testimonial",
-        message: `Voulez-vous restaurer "${testimonial.name}" ?`,
-        confirmText: "Oui, restaurer",
+        title: t("testimonials.list.confirm.restore_title"),
+        message: t("testimonials.list.confirm.restore_message", { name: testimonial.name }),
+        confirmText: t("testimonials.list.confirm.restore_confirm"),
       },
       force: {
-        title: "Suppression definitive",
-        message: `Voulez-vous supprimer definitivement "${testimonial.name}" et sa photo ?`,
-        confirmText: "Oui, supprimer",
+        title: t("testimonials.list.confirm.force_title"),
+        message: t("testimonials.list.confirm.force_message", { name: testimonial.name }),
+        confirmText: t("testimonials.list.confirm.force_confirm"),
       },
     };
 
@@ -224,19 +224,19 @@ export default function TestimonialsPage() {
     try {
       if (confirmState.action === "delete") {
         await deleteTestimonial(confirmState.testimonial.encrypted_id);
-        setNotice("Testimonial deplace dans la corbeille.");
+        setNotice(t("testimonials.list.delete_success"));
       } else if (confirmState.action === "restore") {
         await restoreTestimonial(confirmState.testimonial.encrypted_id);
-        setNotice("Testimonial restaure.");
+        setNotice(t("testimonials.list.restore_success"));
       } else if (confirmState.action === "force") {
         await forceDeleteTestimonial(confirmState.testimonial.encrypted_id);
-        setNotice("Testimonial supprime definitivement.");
+        setNotice(t("testimonials.list.force_delete_success"));
       }
 
       setConfirmState(null);
       await loadTestimonials();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Operation impossible sur le testimonial.");
+      setError(requestError.response?.data?.message || t("testimonials.list.action_error"));
     } finally {
       setActionLoading(false);
     }
@@ -257,10 +257,10 @@ export default function TestimonialsPage() {
       });
 
       setStatusModalTestimonial(null);
-      setNotice("Statut du testimonial mis a jour.");
+      setNotice(t("testimonials.list.status_updated"));
       await loadTestimonials();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de modifier le statut du testimonial.");
+      setError(requestError.response?.data?.message || t("testimonials.list.status_update_error"));
     } finally {
       setActionLoading(false);
     }
@@ -269,28 +269,14 @@ export default function TestimonialsPage() {
   const filteredTestimonials = useMemo(() => {
     const query = search.trim().toLowerCase();
     const baseItems = testimonials.filter((testimonial) => {
-      if (filter === "publish") {
-        return !testimonial.deleted_at && testimonial.status === "publish";
-      }
-
-      if (filter === "archived") {
-        return !testimonial.deleted_at && testimonial.status === "archived";
-      }
-
-      if (filter === "all") {
-        return !testimonial.deleted_at;
-      }
-
-      if (filter === "trashed") {
-        return Boolean(testimonial.deleted_at);
-      }
-
+      if (filter === "publish") return !testimonial.deleted_at && testimonial.status === "publish";
+      if (filter === "archived") return !testimonial.deleted_at && testimonial.status === "archived";
+      if (filter === "all") return !testimonial.deleted_at;
+      if (filter === "trashed") return Boolean(testimonial.deleted_at);
       return true;
     });
 
-    if (!query) {
-      return baseItems;
-    }
+    if (!query) return baseItems;
 
     return baseItems.filter((testimonial) =>
       [testimonial.name, testimonial.message, testimonial.status]
@@ -314,28 +300,26 @@ export default function TestimonialsPage() {
       <section className="overflow-hidden rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Gestion des testimonials</h2>
-            <p className="mt-2 text-sm text-slate-500">
-              Pilotez les temoignages affiches sur la page d'accueil avec publication, archivage et corbeille.
-            </p>
+            <h2 className="text-2xl font-extrabold text-slate-950">{t("testimonials.list.title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("testimonials.list.description")}</p>
           </div>
         </div>
 
         <div className="mt-3 grid gap-4 md:grid-cols-4">
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Publies</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.stats.published")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.publish}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Archives</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.stats.archived")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.archived}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Corbeille</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.stats.trashed")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.trashed}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.stats.total")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p>
           </div>
         </div>
@@ -348,9 +332,9 @@ export default function TestimonialsPage() {
                 onChange={(event) => setFilter(event.target.value)}
                 className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition"
               >
-                <option value="all">Tous</option>
-                <option value="publish">Publies</option>
-                <option value="archived">Archives</option>
+                <option value="all">{t("testimonials.list.filters.all")}</option>
+                <option value="publish">{t("testimonials.list.filters.published")}</option>
+                <option value="archived">{t("testimonials.list.filters.archived")}</option>
               </select>
 
               <button
@@ -363,7 +347,7 @@ export default function TestimonialsPage() {
                     : "border border-stone-300 bg-white text-slate-700 hover:border-red-300 hover:text-red-800",
                 )}
               >
-                Corbeille
+                {t("testimonials.list.filters.trashed")}
               </button>
             </div>
 
@@ -372,7 +356,7 @@ export default function TestimonialsPage() {
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Rechercher un testimonial..."
+                placeholder={t("testimonials.list.search_placeholder")}
                 className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-80"
               />
               <button
@@ -380,7 +364,7 @@ export default function TestimonialsPage() {
                 onClick={loadTestimonials}
                 className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800"
               >
-                Rafraichir
+                {t("testimonials.common.refresh")}
               </button>
             </div>
           </div>
@@ -399,21 +383,21 @@ export default function TestimonialsPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les testimonials sont en cours de recuperation depuis l'API." />
+              <EmptyState title={t("testimonials.list.loading_title")} description={t("testimonials.list.loading_description")} />
             ) : filteredTestimonials.length === 0 ? (
-              <EmptyState title="Aucun testimonial trouve" description="Modifiez les filtres ou rafraichissez la liste." />
+              <EmptyState title={t("testimonials.list.empty_title")} description={t("testimonials.list.empty_description")} />
             ) : (
               <div className="overflow-hidden rounded-sm border border-stone-200">
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-stone-200">
                     <thead className="bg-stone-50 text-left">
                       <tr>
-                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Client</th>
-                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Message</th>
-                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Note</th>
-                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</th>
-                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Creation</th>
-                        <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actions</th>
+                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.client")}</th>
+                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.message")}</th>
+                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.rating")}</th>
+                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.status")}</th>
+                        <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.created_at")}</th>
+                        <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("testimonials.list.table.actions")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-stone-200 bg-white">
@@ -438,10 +422,18 @@ export default function TestimonialsPage() {
                           </td>
                           <td className="px-5 py-4 text-base tracking-[0.22em] text-amber-500">{"★".repeat(Number(testimonial.rating || 5))}</td>
                           <td className="px-5 py-4">
-                            <StatusBadge deletedAt={testimonial.deleted_at} status={testimonial.status} />
+                            <StatusBadge
+                              deletedAt={testimonial.deleted_at}
+                              status={testimonial.status}
+                              labels={{
+                                trashed: t("testimonials.status.trashed"),
+                                archived: t("testimonials.status.archived"),
+                                publish: t("testimonials.status.publish"),
+                              }}
+                            />
                           </td>
                           <td className="px-5 py-4 text-sm text-slate-500">
-                            {testimonial.created_at ? new Date(testimonial.created_at).toLocaleDateString("fr-FR") : "-"}
+                            {testimonial.created_at ? new Date(testimonial.created_at).toLocaleDateString(locale) : "-"}
                           </td>
                           <td className="px-5 py-4">
                             <div className="flex flex-wrap justify-end gap-2">
@@ -452,14 +444,14 @@ export default function TestimonialsPage() {
                                     onClick={() => setStatusModalTestimonial(testimonial)}
                                     className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white"
                                   >
-                                    Modifier
+                                    {t("testimonials.common.edit")}
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => openConfirm("delete", testimonial)}
                                     className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white"
                                   >
-                                    Supprimer
+                                    {t("testimonials.common.delete")}
                                   </button>
                                 </>
                               ) : (
@@ -469,14 +461,14 @@ export default function TestimonialsPage() {
                                     onClick={() => openConfirm("restore", testimonial)}
                                     className="rounded-sm border border-red-200 px-4 py-2 text-sm font-bold text-red-700 transition hover:bg-red-50"
                                   >
-                                    Restaurer
+                                    {t("testimonials.common.restore")}
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => openConfirm("force", testimonial)}
                                     className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-50"
                                   >
-                                    Definitif
+                                    {t("testimonials.common.permanent")}
                                   </button>
                                 </>
                               )}
@@ -497,7 +489,10 @@ export default function TestimonialsPage() {
         open={Boolean(confirmState)}
         title={confirmState?.title || ""}
         message={confirmState?.message || ""}
-        confirmText={confirmState?.confirmText || "Confirmer"}
+        confirmText={confirmState?.confirmText || t("testimonials.common.confirm")}
+        cancelText={t("testimonials.common.cancel")}
+        loadingText={t("testimonials.common.saving")}
+        closeLabel={t("testimonials.common.close")}
         loading={actionLoading}
         onCancel={() => (actionLoading ? undefined : setConfirmState(null))}
         onConfirm={handleConfirmAction}
@@ -506,11 +501,20 @@ export default function TestimonialsPage() {
         open={Boolean(statusModalTestimonial)}
         testimonial={statusModalTestimonial}
         loading={actionLoading}
+        labels={{
+          close: t("testimonials.common.close"),
+          title: t("testimonials.list.status_modal.title"),
+          description: t("testimonials.list.status_modal.description"),
+          field: t("testimonials.list.status_modal.field"),
+          publish: t("testimonials.status.publish"),
+          archived: t("testimonials.status.archived"),
+          cancel: t("testimonials.common.cancel"),
+          saving: t("testimonials.common.saving"),
+          submit: t("testimonials.common.update"),
+        }}
         onCancel={() => (actionLoading ? undefined : setStatusModalTestimonial(null))}
         onConfirm={handleStatusUpdate}
       />
     </div>
   );
 }
-
-

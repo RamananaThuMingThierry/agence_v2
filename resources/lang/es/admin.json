@@ -1,0 +1,1303 @@
+{
+  "dashboard": {
+    "title": "Panel",
+    "description": "Resumen de reservas, solicitudes de contacto, contenido público y actividad reciente.",
+    "refresh": "Actualizar",
+    "load_error": "No se pudo cargar el panel.",
+    "stats": {
+      "bookings": "Reservas",
+      "bookings_help": ":booked pendientes, :completed completadas",
+      "contact_forms": "Formularios de contacto",
+      "contact_forms_help": "Solicitudes recibidas desde el sitio público",
+      "users": "Usuarios",
+      "users_help": "Cuentas de admin y del equipo",
+      "activity_logs": "Registros de actividad",
+      "activity_logs_help": "Última actividad cargada",
+      "slides": "Slides",
+      "slides_help": ":count activos",
+      "tours": "Tours",
+      "tours_help": ":count activos/publicados",
+      "galleries": "Galerías",
+      "galleries_help": ":count publicadas"
+    },
+    "quick_access": {
+      "title": "Accesos rápidos",
+      "description": "Atajos a los módulos de admin más útiles.",
+      "bookings": "Ver reservas",
+      "contacts": "Ver contactos",
+      "slides": "Gestionar slides",
+      "settings": "Abrir ajustes"
+    },
+    "recent_bookings": {
+      "title": "Últimas reservas",
+      "description": "Las solicitudes de reserva más recientes.",
+      "all": "Ver todo",
+      "loading_title": "Cargando...",
+      "loading_description": "Las reservas se están cargando.",
+      "empty_title": "Sin reservas",
+      "empty_description": "Todavía no hay reservas disponibles.",
+      "table": {
+        "client": "Cliente",
+        "tour": "Tour",
+        "date": "Fecha",
+        "status": "Estado",
+        "action": "Acción",
+        "details": "Detalles"
+      }
+    },
+    "recent_contact_forms": {
+      "title": "Últimas solicitudes de contacto",
+      "description": "Mensajes recibidos a través del formulario público.",
+      "all": "Ver todo",
+      "loading_title": "Cargando...",
+      "loading_description": "Los formularios de contacto se están cargando.",
+      "empty_title": "Sin mensajes",
+      "empty_description": "Todavía no hay formularios de contacto disponibles."
+    },
+    "recent_activity": {
+      "title": "Actividad reciente",
+      "description": "Últimos eventos técnicos y acciones de admin.",
+      "all": "Ver registros",
+      "loading_title": "Cargando...",
+      "loading_description": "Los registros de actividad se están cargando.",
+      "empty_title": "Sin actividad",
+      "empty_description": "No se encontraron registros recientes.",
+      "table": {
+        "action": "Acción",
+        "message": "Mensaje",
+        "user": "Usuario",
+        "date": "Fecha",
+        "system": "Sistema"
+      }
+    },
+    "status": {
+      "booked": "Pendiente",
+      "completed": "Completada",
+      "cancelled": "Cancelada",
+      "active": "Activa",
+      "publish": "Publicada",
+      "inactive": "Inactiva",
+      "draft": "Borrador"
+    }
+  },
+  "bookings": {
+    "status": {
+      "booked": "Pendiente",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "payment_status": {
+      "pending": "Pendiente",
+      "completed": "Pagado",
+      "failed": "Fallido"
+    },
+    "payment_type": {
+      "deposit": "Depósito",
+      "installment": "Cuota",
+      "balance": "Saldo",
+      "adjustment": "Ajuste"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "details": "Detalles",
+      "edit": "Editar",
+      "select": "Seleccionar",
+      "all": "Todos"
+    },
+    "list": {
+      "title": "Gestión de reservas",
+      "description": "Sigue las reservas, su estado y el avance de los pagos.",
+      "load_error": "No se pudieron cargar las reservas.",
+      "delete_success": "Reserva eliminada.",
+      "delete_error": "No se pudo eliminar la reserva.",
+      "stats": {
+        "total": "Total",
+        "booked": "Pendientes",
+        "completed": "Completadas",
+        "cancelled": "Canceladas"
+      },
+      "filters": {
+        "search_placeholder": "Buscar una reserva..."
+      },
+      "loading_title": "Cargando...",
+      "loading_description": "Las reservas se están cargando desde la API.",
+      "empty_title": "Sin reservas",
+      "empty_description": "Ninguna reserva coincide con los filtros actuales.",
+      "table": {
+        "client": "Cliente",
+        "tour": "Tour",
+        "dates": "Fechas",
+        "payment": "Pago",
+        "status": "Estado",
+        "actions": "Acciones",
+        "total": "Total: :amount",
+        "paid": "Pagado: :amount",
+        "remaining": "Resta: :amount"
+      },
+      "delete_modal": {
+        "title": "Eliminar reserva",
+        "message": "¿Desea eliminar la reserva de \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    },
+    "details": {
+      "loading": "Cargando reserva...",
+      "load_error": "No se pudieron cargar los detalles de la reserva.",
+      "title": "Detalles de la reserva",
+      "description": "Consulta de la reserva y gestión de pagos.",
+      "back": "Volver a la lista",
+      "status_updated": "Estado de la reserva actualizado.",
+      "status_update_error": "No se pudo actualizar la reserva.",
+      "payment_added": "Pago añadido.",
+      "payment_updated": "Pago actualizado.",
+      "payment_save_error": "No se pudo guardar el pago.",
+      "payment_delete_confirm": "¿Eliminar este pago?",
+      "payment_deleted": "Pago eliminado.",
+      "payment_delete_error": "No se pudo eliminar el pago.",
+      "client": "Cliente",
+      "email": "Email",
+      "phone": "Teléfono",
+      "tour": "Tour",
+      "start_date": "Fecha de inicio",
+      "end_date": "Fecha de fin",
+      "number_of_people": "Número de personas",
+      "status": "Estado",
+      "created_at": "Creación",
+      "updated_at": "Última actualización",
+      "message": "Mensaje",
+      "payment_summary": "Resumen de pago",
+      "total_amount": "Importe total",
+      "paid_amount": "Importe pagado",
+      "remaining_amount": "Resta por pagar",
+      "available_methods": "Métodos disponibles",
+      "no_active_method": "Ningún método activo",
+      "update_status": "Actualizar estado",
+      "save_status": "Actualizar",
+      "payments_registered": "Pagos registrados",
+      "no_payments": "No hay pagos registrados.",
+      "payment_form_title_add": "Añadir un pago",
+      "payment_form_title_edit": "Editar un pago",
+      "payment_form_description": "Los métodos disponibles provienen de los métodos de pago activos.",
+      "projected_paid": "Pagado tras guardar",
+      "projected_remaining": "Resta tras guardar",
+      "overpayment": "Exceso",
+      "difference": "Diferencia",
+      "overpayment_notice": "El pago supera el importe total en :amount. Use un pago de tipo \"ajuste\" si esta diferencia es intencional.",
+      "remaining_notice": "Quedarán :amount por pagar después de este registro.",
+      "payment_method": "Método de pago",
+      "amount": "Importe",
+      "sort_order": "Orden",
+      "type": "Tipo",
+      "due_date": "Fecha de vencimiento",
+      "paid_at": "Fecha de pago",
+      "reference": "Referencia",
+      "note": "Nota",
+      "no_active_payment_methods": "No hay ningún método de pago activo disponible.",
+      "fully_paid_notice": "La reserva está totalmente pagada. Añadir un nuevo pago está desactivado.",
+      "save_payment_add": "Añadir pago",
+      "save_payment_edit": "Actualizar pago",
+      "saving": "Guardando...",
+      "table": {
+        "type": "Tipo",
+        "method": "Método",
+        "amount": "Importe",
+        "status": "Estado",
+        "due_date": "Vencimiento",
+        "reference": "Referencia",
+        "actions": "Acciones"
+      }
+    }
+  },
+  "contact_forms": {
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "details": "Detalles",
+      "confirm": "Confirmar"
+    },
+    "list": {
+      "title": "Gestión de formularios de contacto",
+      "description": "Consulte las solicitudes recibidas desde el sitio y elimine las que ya no sean útiles.",
+      "load_error": "No se pudieron cargar los formularios de contacto.",
+      "delete_success": "Formulario de contacto eliminado.",
+      "delete_error": "No se pudo eliminar el formulario de contacto.",
+      "stats": {
+        "total": "Total",
+        "with_subject": "Con asunto"
+      },
+      "search_placeholder": "Buscar una solicitud...",
+      "loading_title": "Cargando...",
+      "loading_description": "Los formularios de contacto se están cargando desde la API.",
+      "empty_title": "No se encontraron solicitudes",
+      "empty_description": "Ajuste la búsqueda o verifique si se han recibido nuevos formularios.",
+      "table": {
+        "name_email": "Nombre / Email",
+        "subject": "Asunto",
+        "message": "Mensaje",
+        "created_at": "Creación",
+        "actions": "Acciones"
+      },
+      "delete_modal": {
+        "title": "Eliminar formulario",
+        "message": "¿Desea eliminar definitivamente la solicitud de \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    },
+    "details": {
+      "loading": "Cargando formulario...",
+      "load_error": "No se pudieron cargar los detalles del formulario de contacto.",
+      "delete_error": "No se pudo eliminar el formulario de contacto.",
+      "delete_success": "Formulario de contacto eliminado.",
+      "title": "Detalles del formulario de contacto",
+      "description": "Consulta del mensaje recibido desde el sitio.",
+      "back": "Volver a la lista",
+      "name": "Nombre",
+      "email": "Email / Contacto",
+      "subject": "Asunto",
+      "created_at": "Creación",
+      "updated_at": "Última actualización",
+      "message": "Mensaje",
+      "delete_modal": {
+        "title": "Eliminar formulario",
+        "message": "¿Desea eliminar definitivamente la solicitud de \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    }
+  },
+  "layout": {
+    "nav": {
+      "dashboard": "Panel",
+      "bookings": "Reservas",
+      "contact_forms": "Formularios de contacto",
+      "slides": "Slides",
+      "galleries": "Galerías",
+      "tours": "Tours",
+      "testimonials": "Testimonios",
+      "users": "Usuarios",
+      "settings": "Ajustes",
+      "activity_logs": "Registros",
+      "logout": "Cerrar sesión"
+    },
+    "page_titles": {
+      "settings": "Ajustes",
+      "activity_logs": "Registros de actividad",
+      "users": "Gestión de usuarios",
+      "contact_forms": "Gestión de formularios de contacto",
+      "bookings": "Gestión de reservas",
+      "galleries": "Gestión de galerías",
+      "slides": "Gestión de slides",
+      "testimonials": "Gestión de testimonios",
+      "dashboard": "Panel",
+      "default": "Administración"
+    },
+    "switcher": {
+      "back_to_site": "Volver al sitio",
+      "open_menu": "Abrir menú",
+      "close_menu": "Cerrar menú",
+      "expand_menu": "Expandir menú",
+      "collapse_menu": "Reducir menú"
+    },
+    "account": {
+      "profile": "Perfil",
+      "my_account": "Mi cuenta"
+    },
+    "session": {
+      "checking": "Verificando la sesión..."
+    },
+    "footer": {
+      "copyright": "© :year WORLD OF MADAGASCAR - Admin Dashboard",
+      "secure": "Seguro",
+      "responsive": "Responsive"
+    },
+    "logout_modal": {
+      "title": "Cerrar sesión",
+      "message": "¿Realmente quiere cerrar sesión?",
+      "confirm": "Sí, cerrar sesión",
+      "loading": "Cerrando sesión...",
+      "cancel": "Cancelar"
+    }
+  },
+  "slides": {
+    "status": {
+      "trashed": "Papelera",
+      "inactive": "Inactiva",
+      "active": "Activa"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "restore": "Restaurar",
+      "permanent": "Definitivo",
+      "new": "Nuevo slide",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "processing": "Procesando...",
+      "saving": "Guardando..."
+    },
+    "list": {
+      "title": "Gestión de slides",
+      "description": "Lista de slides con búsqueda, ordenación, paginación y acciones rápidas.",
+      "load_error": "No se pudieron cargar los slides.",
+      "delete_success": "Slide movido a la papelera.",
+      "delete_error": "Error al eliminar el slide.",
+      "restore_success": "Slide restaurado.",
+      "restore_error": "Error al restaurar el slide.",
+      "force_delete_success": "Slide eliminado definitivamente.",
+      "force_delete_error": "Error al eliminar definitivamente el slide.",
+      "stats": {
+        "active": "Activos",
+        "trashed": "Papelera",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Todos",
+        "active": "Activos",
+        "inactive": "Inactivos",
+        "trashed": "Papelera"
+      },
+      "search_placeholder": "Buscar un slide...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Los slides se están cargando desde la API.",
+      "empty_title": "No se encontraron slides",
+      "empty_description": "Intente cambiar la búsqueda o añada un nuevo slide desde el botón superior derecho.",
+      "table": {
+        "slide": "Slide",
+        "title": "Título",
+        "order": "Orden",
+        "status": "Estado",
+        "created_at": "Creación",
+        "actions": "Acciones",
+        "no_image": "Sin imagen",
+        "no_subtitle": "Sin subtítulo"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total",
+        "first": "Inicio",
+        "first_aria": "Ir a la primera página",
+        "previous": "Anterior",
+        "previous_aria": "Ir a la página anterior",
+        "next": "Siguiente",
+        "next_aria": "Ir a la página siguiente",
+        "last": "Fin",
+        "last_aria": "Ir a la última página"
+      },
+      "confirm": {
+        "delete_title": "Eliminar slide",
+        "delete_message": "¿Desea enviar \":name\" a la papelera?",
+        "delete_confirm": "Sí, eliminar",
+        "restore_title": "Restaurar slide",
+        "restore_message": "¿Desea restaurar \":name\"?",
+        "restore_confirm": "Sí, restaurar",
+        "force_title": "Eliminación definitiva",
+        "force_message": "¿Desea eliminar definitivamente \":name\" y su imagen?",
+        "force_confirm": "Sí, eliminar"
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar el slide.",
+      "create_success": "Slide creado.",
+      "update_success": "Slide actualizado.",
+      "save_error": "Error al guardar el slide.",
+      "loading": "Cargando slide...",
+      "create_title": "Añadir slide",
+      "edit_title": "Editar slide",
+      "description": "Complete la información del slide con una estructura clara y adaptable.",
+      "fields": {
+        "title": "Título",
+        "title_placeholder": "Título principal del slide",
+        "subtitle": "Subtítulo",
+        "subtitle_placeholder": "Texto secundario",
+        "description": "Descripción",
+        "description_placeholder": "Descripción mostrada en el banner.",
+        "image": "Imagen",
+        "image_alt": "Vista previa del slide",
+        "order": "Orden",
+        "active": "Activa",
+        "active_help": "Activa o inactiva para mostrar el slide."
+      }
+    }
+  },
+  "users": {
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva",
+      "trashed": "Papelera"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "details": "Detalles",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "restore": "Restaurar",
+      "permanent": "Eliminación definitiva",
+      "new": "Nuevo user",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "processing": "Procesando...",
+      "saving": "Guardando..."
+    },
+    "list": {
+      "title": "Gestión de users",
+      "description": "Lista, búsqueda, ordenación, roles, estados y ciclo de vida completo de los usuarios.",
+      "load_error": "No se pudieron cargar los users.",
+      "delete_success": "User movido a la papelera.",
+      "delete_error": "Error al eliminar el user.",
+      "restore_success": "User restaurado.",
+      "restore_error": "Error al restaurar el user.",
+      "force_delete_success": "User eliminado definitivamente.",
+      "force_delete_error": "Error al eliminar definitivamente el user.",
+      "stats": {
+        "active": "Activos",
+        "admins": "Admins",
+        "trashed": "Papelera",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Todos",
+        "active": "Activos",
+        "inactive": "Inactivos",
+        "admins": "Admins",
+        "trashed": "Papelera"
+      },
+      "search_placeholder": "Buscar un user...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Los users se están cargando desde la API.",
+      "empty_title": "No se encontró ningún user",
+      "empty_description": "Ajuste los filtros o cree un nuevo usuario desde el botón superior derecho.",
+      "table": {
+        "profile": "Perfil",
+        "email": "Email",
+        "role": "Rol",
+        "status": "Estado",
+        "created_at": "Creación",
+        "actions": "Acciones",
+        "no_contact": "Sin contacto",
+        "no_address": "Sin dirección"
+      },
+      "sort": {
+        "by": "Ordenar por :label"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Eliminar user",
+        "delete_message": "¿Desea enviar \":name\" a la papelera?",
+        "delete_confirm": "Sí, eliminar",
+        "restore_title": "Restaurar user",
+        "restore_message": "¿Desea restaurar \":name\"?",
+        "restore_confirm": "Sí, restaurar",
+        "force_title": "Eliminación definitiva",
+        "force_message": "¿Desea eliminar definitivamente \":name\"?",
+        "force_confirm": "Sí, eliminar"
+      }
+    },
+    "details": {
+      "load_error": "No se pudieron cargar los detalles del user.",
+      "loading": "Cargando user...",
+      "title": "Detalles del user",
+      "description": "Consulta rápida del perfil del usuario.",
+      "profile_alt": "Perfil",
+      "fields": {
+        "pseudo": "Pseudo",
+        "email": "Email",
+        "contact": "Contacto",
+        "address": "Dirección",
+        "role": "Rol",
+        "status": "Estado",
+        "created_at": "Creación",
+        "updated_at": "Última actualización"
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar el user.",
+      "create_success": "User creado.",
+      "update_success": "User actualizado.",
+      "save_error": "Error al guardar el user.",
+      "loading": "Cargando user...",
+      "create_title": "Añadir user",
+      "edit_title": "Editar user",
+      "description": "Complete el perfil, el rol, el estado y la contraseña inicial.",
+      "fields": {
+        "avatar": "Avatar",
+        "avatar_alt": "Avatar",
+        "pseudo": "Pseudo",
+        "pseudo_placeholder": "Pseudo del usuario",
+        "email": "Email",
+        "email_placeholder": "email@dominio.com",
+        "contact": "Contacto",
+        "contact_placeholder": "Teléfono",
+        "address": "Dirección",
+        "address_placeholder": "Dirección",
+        "role": "Rol",
+        "status": "Estado",
+        "password": "Contraseña",
+        "new_password": "Nueva contraseña",
+        "password_placeholder": "Mínimo 8 caracteres",
+        "password_confirmation": "Confirmación",
+        "password_confirmation_placeholder": "Confirmar la contraseña"
+      }
+    }
+  },
+  "testimonials": {
+    "status": {
+      "publish": "Publicado",
+      "archived": "Archivado",
+      "trashed": "Papelera"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "restore": "Restaurar",
+      "permanent": "Definitivo",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "close": "Cerrar",
+      "saving": "Guardando..."
+    },
+    "list": {
+      "title": "Gestión de testimonios",
+      "description": "Gestione los testimonios mostrados en la página de inicio con publicación, archivo y papelera.",
+      "load_error": "No se pudieron cargar los testimonios.",
+      "delete_success": "Testimonio enviado a la papelera.",
+      "restore_success": "Testimonio restaurado.",
+      "force_delete_success": "Testimonio eliminado definitivamente.",
+      "action_error": "Operación imposible sobre el testimonio.",
+      "status_updated": "Estado del testimonio actualizado.",
+      "status_update_error": "No se pudo modificar el estado del testimonio.",
+      "stats": {
+        "published": "Publicados",
+        "archived": "Archivados",
+        "trashed": "Papelera",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Todos",
+        "published": "Publicados",
+        "archived": "Archivados",
+        "trashed": "Papelera"
+      },
+      "search_placeholder": "Buscar un testimonio...",
+      "loading_title": "Cargando...",
+      "loading_description": "Los testimonios se están cargando desde la API.",
+      "empty_title": "No se encontró ningún testimonio",
+      "empty_description": "Modifique los filtros o actualice la lista.",
+      "table": {
+        "client": "Cliente",
+        "message": "Mensaje",
+        "rating": "Nota",
+        "status": "Estado",
+        "created_at": "Creación",
+        "actions": "Acciones"
+      },
+      "confirm": {
+        "delete_title": "Eliminar testimonio",
+        "delete_message": "¿Desea enviar \":name\" a la papelera?",
+        "delete_confirm": "Sí, eliminar",
+        "restore_title": "Restaurar testimonio",
+        "restore_message": "¿Desea restaurar \":name\"?",
+        "restore_confirm": "Sí, restaurar",
+        "force_title": "Eliminación definitiva",
+        "force_message": "¿Desea eliminar definitivamente \":name\" y su foto?",
+        "force_confirm": "Sí, eliminar"
+      },
+      "status_modal": {
+        "title": "Modificar estado",
+        "description": "Cambie solo el estado de publicación de \":name\".",
+        "field": "Estado"
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar el testimonio.",
+      "create_success": "Testimonio creado.",
+      "update_success": "Testimonio actualizado.",
+      "save_error": "Error al guardar el testimonio.",
+      "loading": "Cargando testimonio...",
+      "create_title": "Añadir testimonio",
+      "edit_title": "Editar testimonio",
+      "description": "Complete el testimonio del cliente, la nota, el estado de publicación y su retrato.",
+      "fields": {
+        "name": "Nombre",
+        "name_placeholder": "Nombre del cliente",
+        "status": "Estado",
+        "message": "Mensaje",
+        "message_placeholder": "Experiencia del viajero",
+        "image": "Foto",
+        "image_alt": "Vista previa del testimonio",
+        "rating": "Nota",
+        "rating_option": ":count estrella(s)",
+        "rating_preview": "Vista previa"
+      }
+    }
+  },
+  "tours": {
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva",
+      "trashed": "Papelera"
+    },
+    "review_status": {
+      "publish": "Publicado",
+      "archived": "Archivado",
+      "trashed": "Papelera"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "details": "Detalles",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "restore": "Restaurar",
+      "permanent": "Definitivo",
+      "new": "Nuevo tour",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "processing": "Procesando...",
+      "saving": "Guardando...",
+      "close": "Cerrar"
+    },
+    "list": {
+      "title": "Gestión de tours",
+      "description": "Lista de tours con búsqueda, ordenación, paginación y papelera.",
+      "load_error": "No se pudieron cargar los tours.",
+      "delete_success": "Tour enviado a la papelera.",
+      "restore_success": "Tour restaurado.",
+      "force_delete_success": "Tour eliminado definitivamente.",
+      "action_error": "Error al realizar la acción sobre el tour.",
+      "stats": {
+        "active": "Activos",
+        "trashed": "Papelera",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "Todos",
+        "active": "Activos",
+        "inactive": "Inactivos",
+        "trashed": "Papelera"
+      },
+      "search_placeholder": "Buscar un tour...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Los tours se están cargando desde la API.",
+      "empty_title": "No se encontró ningún tour",
+      "empty_description": "Intente cambiar la búsqueda o añadir un nuevo tour.",
+      "table": {
+        "cover": "Cover",
+        "title": "Título",
+        "category": "Categoría",
+        "price": "Precio",
+        "images": "Imágenes",
+        "created_at": "Creación",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Eliminar tour",
+        "delete_message": "¿Desea enviar \":name\" a la papelera?",
+        "delete_confirm": "Sí, eliminar",
+        "restore_title": "Restaurar tour",
+        "restore_message": "¿Desea restaurar \":name\"?",
+        "restore_confirm": "Sí, restaurar",
+        "force_title": "Eliminación definitiva",
+        "force_message": "¿Desea eliminar definitivamente \":name\" y sus imágenes?",
+        "force_confirm": "Sí, eliminar"
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar el tour.",
+      "image_required": "Añada al menos una imagen para el tour.",
+      "create_success": "Tour creado.",
+      "update_success": "Tour actualizado.",
+      "save_error": "Error al guardar el tour.",
+      "loading": "Cargando tour...",
+      "create_title": "Añadir tour",
+      "edit_title": "Editar tour",
+      "description": "Configure el tour, sus imágenes y su programa.",
+      "fields": {
+        "title": "Título",
+        "slug": "Slug",
+        "slug_placeholder": "Dejar vacío para autogenerar",
+        "price": "Precio",
+        "duration": "Duración",
+        "category": "Categoría",
+        "status": "Estado",
+        "start_location": "Lugar de salida",
+        "end_location": "Lugar de llegada",
+        "description": "Descripción"
+      },
+      "program": {
+        "title": "Programa",
+        "day": "Día",
+        "item_title": "Título",
+        "item_description": "Descripción",
+        "activities": "Actividades",
+        "remove_day": "Quitar este día",
+        "add_day": "Añadir un día"
+      },
+      "inclusions": {
+        "title": "Inclusiones",
+        "add": "Añadir"
+      },
+      "exclusions": {
+        "title": "Exclusiones",
+        "add": "Añadir"
+      },
+      "images": {
+        "title": "Imágenes",
+        "description": "Elija la cover, añada leyendas y suba varias imágenes.",
+        "add_images": "Añadir imágenes",
+        "existing_title": "Imágenes existentes",
+        "new_title": "Nuevas imágenes",
+        "no_existing": "No hay imágenes existentes.",
+        "no_new": "No se ha seleccionado ninguna imagen nueva.",
+        "caption": "Leyenda",
+        "cover": "Cover",
+        "remove": "Quitar",
+        "image_alt": "Imagen del tour"
+      }
+    },
+    "details": {
+      "loading": "Cargando tour...",
+      "load_error": "No se pudieron cargar los detalles del tour.",
+      "title": "Detalles del tour",
+      "description": "Vista rápida del producto tour.",
+      "cover": "Cover",
+      "image_alt": "Imagen del tour",
+      "review_status_updated": "Estado de la reseña actualizado.",
+      "review_status_update_error": "No se pudo modificar el estado de la reseña.",
+      "review_deleted": "Reseña eliminada.",
+      "review_delete_error": "No se pudo eliminar la reseña.",
+      "fields": {
+        "title": "Título",
+        "slug": "Slug",
+        "category": "Categoría",
+        "duration": "Duración",
+        "price": "Precio",
+        "status": "Estado",
+        "start_location": "Salida",
+        "end_location": "Llegada",
+        "created_at": "Creación",
+        "updated_at": "Última actualización",
+        "description": "Descripción"
+      },
+      "program": {
+        "title": "Programa",
+        "empty": "Sin programa.",
+        "day_label": "Día :day",
+        "activities": "Actividades: :value"
+      },
+      "inclusions": {
+        "title": "Inclusiones",
+        "empty": "Sin inclusiones."
+      },
+      "exclusions": {
+        "title": "Exclusiones",
+        "empty": "Sin exclusiones."
+      },
+      "images": {
+        "title": "Imágenes del tour",
+        "no_caption": "Sin leyenda"
+      },
+      "reviews": {
+        "title": "Reseñas del tour",
+        "empty": "No hay reseñas asociadas a este tour.",
+        "traveler": "Viajero"
+      },
+      "review_modal": {
+        "title": "Modificar estado",
+        "description": "Cambie el estado de publicación de la reseña de \":name\".",
+        "field": "Estado"
+      },
+      "delete_review": {
+        "title": "Eliminar reseña",
+        "message": "¿Desea eliminar la reseña de \":name\"?",
+        "confirm": "Sí, eliminar"
+      }
+    }
+  },
+  "galleries": {
+    "status": {
+      "publish": "Publicada",
+      "draft": "Borrador"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "details": "Detalles",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "new": "Nueva galería",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "saving": "Guardando...",
+      "close": "Cerrar"
+    },
+    "list": {
+      "title": "Gestión de galerías",
+      "description": "Lista de galerías, estado de publicación e imágenes de portada.",
+      "load_error": "No se pudieron cargar las galerías.",
+      "delete_success": "Galería eliminada.",
+      "delete_error": "Error al eliminar la galería.",
+      "stats": {
+        "total": "Galerías",
+        "published": "Publicadas",
+        "drafts": "Borradores"
+      },
+      "search_placeholder": "Buscar una galería...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Las galerías se están cargando desde la API.",
+      "empty_title": "Sin galerías",
+      "empty_description": "Ninguna galería coincide con la búsqueda actual.",
+      "table": {
+        "cover": "Cover",
+        "title": "Título",
+        "category": "Categoría",
+        "status": "Estado",
+        "images": "Imágenes",
+        "created_at": "Creación",
+        "actions": "Acciones",
+        "no_subtitle": "Sin subtítulo"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "delete_modal": {
+        "title": "Eliminar galería",
+        "message": "¿Desea eliminar la galería \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    },
+    "details": {
+      "loading": "Cargando galería...",
+      "load_error": "No se pudieron cargar los detalles de la galería.",
+      "title": "Detalles de la galería",
+      "description": "Consulta rápida de la galería y sus imágenes.",
+      "cover": "Cover",
+      "image_alt": "Imagen de galería",
+      "fields": {
+        "title": "Título",
+        "category": "Categoría",
+        "subtitle": "Subtítulo",
+        "place": "Lugar",
+        "tour": "Tour vinculado",
+        "status": "Estado",
+        "images_count": "Número de imágenes",
+        "created_at": "Creación",
+        "updated_at": "Última actualización",
+        "description": "Descripción"
+      },
+      "images": {
+        "title": "Imágenes de la galería",
+        "description": "Todas las imágenes asociadas, con su leyenda e indicación de cover.",
+        "no_caption": "Sin leyenda"
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar la galería.",
+      "image_required": "Añada al menos una imagen para la galería.",
+      "create_success": "Galería creada.",
+      "update_success": "Galería actualizada.",
+      "save_error": "Error al guardar la galería.",
+      "loading": "Cargando galería...",
+      "create_title": "Añadir galería",
+      "edit_title": "Editar galería",
+      "description": "Configure la información de la galería y su colección de imágenes.",
+      "fields": {
+        "title": "Título",
+        "title_placeholder": "Título de la galería",
+        "subtitle": "Subtítulo",
+        "subtitle_placeholder": "Subtítulo",
+        "place": "Lugar",
+        "place_placeholder": "Ej: Morondava",
+        "category": "Categoría",
+        "category_placeholder": "Seleccionar una categoría",
+        "tour": "Tour vinculado",
+        "tour_placeholder": "Ningún tour vinculado",
+        "status": "Estado",
+        "description": "Descripción",
+        "description_placeholder": "Descripción de la galería"
+      },
+      "images": {
+        "add_images": "Añadir imágenes",
+        "existing_title": "Imágenes existentes",
+        "existing_description": "Modifique las leyendas, elija la cover o retire imágenes.",
+        "new_title": "Nuevas imágenes",
+        "new_description": "Previsualice las nuevas imágenes antes de guardar.",
+        "no_existing": "No hay imágenes existentes.",
+        "no_new": "No se ha seleccionado ninguna imagen nueva.",
+        "caption": "Leyenda",
+        "caption_placeholder": "Leyenda de la imagen",
+        "cover": "Cover",
+        "remove": "Quitar",
+        "image_alt": "Imagen de galería"
+      }
+    }
+  },
+  "activity_logs": {
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "close": "Cerrar"
+    },
+    "list": {
+      "title": "Registros de actividad",
+      "description": "Historial de acciones del administrador con mensaje, usuario, ruta y estado.",
+      "load_error": "No se pudieron cargar los registros de actividad.",
+      "delete_success": "Registro de actividad eliminado.",
+      "delete_error": "Error al eliminar el registro.",
+      "search_placeholder": "Buscar un log...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Los registros de actividad se están cargando desde la API.",
+      "empty_title": "Sin registros de actividad",
+      "empty_description": "Ningún log coincide con la búsqueda actual.",
+      "table": {
+        "action": "Acción",
+        "message": "Mensaje",
+        "user": "Usuario",
+        "status": "Estado",
+        "date": "Fecha",
+        "actions": "Acciones",
+        "system": "Sistema",
+        "show_details": "Ver detalles"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total"
+      },
+      "delete_modal": {
+        "title": "Eliminar log",
+        "message": "¿Desea eliminar el log \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    },
+    "details": {
+      "title": "Detalles del log",
+      "description": "Información completa sobre esta actividad.",
+      "fields": {
+        "action": "Acción",
+        "color": "Color",
+        "user": "Usuario",
+        "date": "Fecha",
+        "method": "Método",
+        "status_code": "Código de estado",
+        "message": "Mensaje",
+        "route": "Ruta",
+        "entity_type": "Tipo de entidad",
+        "metadata": "Metadatos"
+      }
+    }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "description": "Gestiona la información de la plataforma, las categorías, los métodos de pago y tu cuenta desde una interfaz con pestañas.",
+    "tabs": {
+      "platform": "Información de la plataforma",
+      "categories": "Gestión de categorías",
+      "payment_methods": "Métodos de pago",
+      "account": "Mi cuenta"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "edit": "Editar",
+      "loading": "Cargando...",
+      "saving": "Guardando..."
+    },
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva"
+    },
+    "platform": {
+      "title": "Información de la plataforma",
+      "description": "Gestiona el logo, el nombre, el contacto, el correo y la dirección de la plataforma.",
+      "load_error": "No se pudo cargar la información de la plataforma.",
+      "save": "Guardar información",
+      "messages": {
+        "update_success": "Información de la plataforma actualizada.",
+        "update_error": "No se pudo actualizar la plataforma."
+      },
+      "fields": {
+        "logo": "Logo",
+        "platform_name": "Nombre de la plataforma",
+        "platform_name_placeholder": "Nombre de la plataforma",
+        "contact": "Contacto",
+        "contact_placeholder": "Teléfono principal",
+        "email": "Correo",
+        "email_placeholder": "Correo principal",
+        "address": "Dirección",
+        "address_placeholder": "Dirección de la plataforma"
+      },
+      "preview": {
+        "title": "Vista previa de la plataforma",
+        "description": "Resumen rápido de la información configurada actualmente.",
+        "logo_alt": "Logo de la plataforma",
+        "platform": "Plataforma"
+      }
+    },
+    "categories": {
+      "title": "Gestión de categorías",
+      "description": "Crea, edita y elimina categorías desde los ajustes.",
+      "load_error": "No se pudieron cargar las categorías.",
+      "search_placeholder": "Buscar una categoría...",
+      "loading_description": "Las categorías se están cargando.",
+      "empty_title": "Sin categorías",
+      "empty_description": "Ninguna categoría coincide con la búsqueda actual.",
+      "stats": {
+        "total": "Total",
+        "active": "Activas",
+        "inactive": "Inactivas"
+      },
+      "table": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "status": "Estado",
+        "actions": "Acciones",
+        "no_description": "Sin descripción"
+      },
+      "messages": {
+        "create_success": "Categoría creada.",
+        "update_success": "Categoría actualizada.",
+        "save_error": "No se pudo guardar la categoría.",
+        "delete_success": "Categoría eliminada.",
+        "delete_error": "No se pudo eliminar la categoría."
+      },
+      "delete_modal": {
+        "title": "Eliminar categoría",
+        "message": "¿Deseas eliminar definitivamente la categoría \":name\"?",
+        "confirm": "Sí, eliminar"
+      },
+      "form": {
+        "create_title": "Nueva categoría",
+        "edit_title": "Editar categoría",
+        "description": "Configura el nombre, la descripción y el estado de la categoría.",
+        "fields": {
+          "name": "Nombre",
+          "name_placeholder": "Nombre de la categoría",
+          "description": "Descripción",
+          "description_placeholder": "Descripción de la categoría",
+          "active": "Activa",
+          "active_help": "Muestra u oculta esta categoría."
+        }
+      }
+    },
+    "payment_methods": {
+      "title": "Gestión de métodos de pago",
+      "description": "Crea, edita y elimina métodos de pago.",
+      "load_error": "No se pudieron cargar los métodos de pago.",
+      "search_placeholder": "Buscar un método...",
+      "loading_description": "Los métodos de pago se están cargando.",
+      "empty_title": "Sin métodos",
+      "empty_description": "Ningún método de pago coincide con la búsqueda actual.",
+      "stats": {
+        "total": "Total",
+        "active": "Activos",
+        "inactive": "Inactivos"
+      },
+      "table": {
+        "name": "Método",
+        "code": "Código",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "messages": {
+        "create_success": "Método de pago creado.",
+        "update_success": "Método de pago actualizado.",
+        "save_error": "No se pudo guardar el método de pago.",
+        "delete_success": "Método de pago eliminado.",
+        "delete_error": "No se pudo eliminar el método de pago."
+      },
+      "delete_modal": {
+        "title": "Eliminar método de pago",
+        "message": "¿Deseas eliminar definitivamente el método \":name\"?",
+        "confirm": "Sí, eliminar"
+      },
+      "form": {
+        "create_title": "Nuevo método",
+        "edit_title": "Editar método",
+        "description": "Configura el logo, el nombre, el código y el estado del método de pago.",
+        "logo_alt": "Logo del método",
+        "fields": {
+          "logo": "Logo",
+          "name": "Nombre",
+          "name_placeholder": "Ej.: Mvola",
+          "code": "Código",
+          "code_placeholder": "Ej.: mvola",
+          "active": "Activo",
+          "active_help": "Muestra u oculta este método de pago."
+        }
+      }
+    },
+    "account": {
+      "title": "Perfil del administrador",
+      "description": "Actualiza la información de la cuenta conectada actualmente.",
+      "save": "Guardar cambios",
+      "messages": {
+        "user_not_found": "Usuario no encontrado.",
+        "update_success": "Información de la cuenta actualizada.",
+        "update_error": "No se pudo actualizar la cuenta."
+      },
+      "fields": {
+        "avatar": "Avatar",
+        "pseudo": "Seudónimo",
+        "pseudo_placeholder": "Tu seudónimo",
+        "email": "Correo",
+        "email_placeholder": "Tu correo",
+        "contact": "Contacto",
+        "contact_placeholder": "Número de teléfono",
+        "address": "Dirección",
+        "address_placeholder": "Dirección completa",
+        "password": "Contraseña",
+        "new_password": "Nueva contraseña",
+        "new_password_placeholder": "Mínimo 8 caracteres",
+        "password_confirmation": "Confirmación",
+        "password_confirmation_placeholder": "Confirmar la contraseña"
+      },
+      "password_section": {
+        "title": "Contraseña",
+        "description": "Deja los campos vacíos si no deseas cambiar la contraseña."
+      },
+      "session": {
+        "title": "Sesión",
+        "description": "Información rápida sobre la cuenta conectada.",
+        "role": "Rol",
+        "status": "Estado"
+      }
+    },
+    "delete_account": {
+      "title": "Eliminar cuenta",
+      "description": "Esta acción elimina definitivamente la cuenta autenticada.",
+      "warning": "La eliminación es irreversible. Tendrás que confirmar con tu contraseña actual.",
+      "button": "Eliminar mi cuenta",
+      "messages": {
+        "delete_error": "No se pudo eliminar la cuenta."
+      },
+      "modal": {
+        "title": "Eliminar mi cuenta",
+        "description": "Esta eliminación es definitiva. Introduce tu contraseña para confirmar.",
+        "password_placeholder": "Tu contraseña actual",
+        "confirm": "Eliminar definitivamente"
+      }
+    }
+  },
+  "categories": {
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva"
+    },
+    "common": {
+      "refresh": "Actualizar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "new": "Nueva categoría",
+      "back": "Volver a la lista",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "saving": "Guardando...",
+      "close": "Cerrar"
+    },
+    "list": {
+      "title": "Gestión de categorías",
+      "description": "Lista, búsqueda, ordenación y acciones rápidas sobre las categorías.",
+      "load_error": "No se pudieron cargar las categorías.",
+      "delete_success": "Categoría eliminada.",
+      "delete_error": "Error al eliminar la categoría.",
+      "stats": {
+        "active": "Activas",
+        "inactive": "Inactivas",
+        "total": "Total"
+      },
+      "search_placeholder": "Buscar una categoría...",
+      "per_page": ":count / página",
+      "loading_title": "Cargando...",
+      "loading_description": "Las categorías se están cargando desde la API.",
+      "empty_title": "Sin categorías",
+      "empty_description": "Ninguna categoría coincide con la búsqueda actual.",
+      "table": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "status": "Estado",
+        "created_at": "Creación",
+        "actions": "Acciones",
+        "no_description": "Sin descripción"
+      },
+      "pagination": {
+        "page_of": "Página :current de :total"
+      },
+      "delete_modal": {
+        "title": "Eliminar categoría",
+        "message": "¿Desea eliminar la categoría \":name\"?",
+        "confirm": "Sí, eliminar",
+        "loading": "Eliminando..."
+      }
+    },
+    "form": {
+      "load_error": "No se pudo cargar la categoría.",
+      "create_success": "Categoría creada.",
+      "update_success": "Categoría actualizada.",
+      "save_error": "Error al guardar la categoría.",
+      "loading": "Cargando categoría...",
+      "create_title": "Añadir categoría",
+      "edit_title": "Editar categoría",
+      "description": "Configure el nombre, la descripción y el estado de la categoría.",
+      "fields": {
+        "name": "Nombre",
+        "name_placeholder": "Nombre de la categoría",
+        "description": "Descripción",
+        "description_placeholder": "Descripción de la categoría",
+        "active": "Activa",
+        "active_help": "Muestra u oculta esta categoría."
+      }
+    }
+  }
+}

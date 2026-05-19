@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchPublicGallery, fetchPublicGalleries } from "../../api/galleries";
+import { fetchPlatformSettings } from "../../api/platformSettings";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
-import TopBar from "../../components/public/TopBar";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
-import { fetchPlatformSettings } from "../../api/platformSettings";
-import { contactLinks, footerLinks, navLinks, siteMeta } from "../../data/publicHomeData";
+import TopBar from "../../components/public/TopBar";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 
 function ArrowIcon({ direction = "left", className = "h-5 w-5" }) {
@@ -20,12 +20,29 @@ function ArrowIcon({ direction = "left", className = "h-5 w-5" }) {
 }
 
 export default function GalleryDetailPage() {
+  const { t } = useI18n();
   const { galleryId } = useParams();
-  const [platformMeta, setPlatformMeta] = useState(siteMeta);
+  const [platformMeta, setPlatformMeta] = useState({
+    logo: "/images/logo.png",
+    brand: "World of Madagascar",
+    tagline: t("public.home.meta.tagline"),
+    topBarLeft: t("public.home.meta.topbar_left"),
+    contact: "+261 38 09 137 03",
+    whatsapp: "https://wa.me/261380913703",
+    email: "worldofmadagascartour@gmail.com",
+  });
   const [gallery, setGallery] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  useEffect(() => {
+    setPlatformMeta((current) => ({
+      ...current,
+      tagline: t("public.home.meta.tagline"),
+      topBarLeft: t("public.home.meta.topbar_left"),
+    }));
+  }, [t]);
 
   useEffect(() => {
     let active = true;
@@ -40,10 +57,13 @@ export default function GalleryDetailPage() {
           ...current,
           logo: settings.logo ? `/${String(settings.logo).replace(/^\/+/, "")}` : current.logo,
           brand: settings.platform_name || current.brand,
+          contact: settings.contact || current.contact,
+          whatsapp: settings.whatsapp || current.whatsapp,
+          email: settings.email || current.email,
         }));
       } catch {
         if (active) {
-          setPlatformMeta(siteMeta);
+          setPlatformMeta((current) => ({ ...current }));
         }
       }
     }
@@ -69,8 +89,8 @@ export default function GalleryDetailPage() {
 
         if (!active) return;
 
-        const mappedGallery = galleryItem ? mapGalleryToPublicItem(galleryItem) : null;
-        const mappedItems = Array.isArray(allItems) ? allItems.map(mapGalleryToPublicItem) : [];
+        const mappedGallery = galleryItem ? mapGalleryToPublicItem(galleryItem, t) : null;
+        const mappedItems = Array.isArray(allItems) ? allItems.map((item) => mapGalleryToPublicItem(item, t)) : [];
 
         setGallery(mappedGallery);
         setRelated(mappedItems.filter((item) => item.galleryId !== galleryId).slice(0, 4));
@@ -91,14 +111,32 @@ export default function GalleryDetailPage() {
     return () => {
       active = false;
     };
-  }, [galleryId]);
+  }, [galleryId, t]);
 
   const publicLinks = useMemo(
-    () => navLinks.map((link) => ({
-      ...link,
-      href: link.href.startsWith("#") ? `/${link.href}` : link.href,
-    })),
-    [],
+    () => [
+      { href: "/#home", label: t("public.home.nav.home") },
+      { href: "/#about", label: t("public.home.nav.about") },
+      { href: "/#tours", label: t("public.home.nav.tours") },
+      { href: "/#gallery", label: t("public.home.nav.gallery") },
+      { href: "/#why", label: t("public.home.nav.why") },
+      { href: "/#testimonials", label: t("public.home.nav.testimonials") },
+      { href: "/#contact", label: t("public.home.nav.contact") },
+    ],
+    [t],
+  );
+
+  const footerLinks = useMemo(
+    () => [
+      { label: t("public.home.nav.home"), href: "/#home" },
+      { label: t("public.home.nav.about"), href: "/#about" },
+      { label: t("public.home.nav.tours"), href: "/#tours" },
+      { label: t("public.home.nav.gallery"), href: "/#gallery" },
+      { label: t("public.home.nav.why"), href: "/#why" },
+      { label: t("public.home.nav.testimonials"), href: "/#testimonials" },
+      { label: t("public.home.nav.contact"), href: "/#contact" },
+    ],
+    [t],
   );
 
   const coverImage = gallery?.images?.find((image) => image.isCover)?.image || gallery?.image;
@@ -117,7 +155,7 @@ export default function GalleryDetailPage() {
 
   return (
     <div className="bg-stone-50 text-slate-800">
-      <TopBar leftText={platformMeta.topBarLeft} rightText={platformMeta.topBarRight} />
+      <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
         brand={platformMeta.brand}
@@ -129,9 +167,9 @@ export default function GalleryDetailPage() {
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4">
           {loading ? (
-            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">Chargement de la gallery...</div>
+            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">{t("public.gallery.detail.loading")}</div>
           ) : !gallery ? (
-            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">Gallery introuvable.</div>
+            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">{t("public.gallery.detail.not_found")}</div>
           ) : (
             <>
               <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px]">
@@ -147,7 +185,7 @@ export default function GalleryDetailPage() {
                           <ArrowIcon direction="right" className="h-6 w-6" />
                         </button>
                         <div className="absolute bottom-4 right-4 rounded-full bg-slate-950/70 px-3 py-1 text-xs font-bold text-white">
-                          {activeImageIndex + 1} / {galleryImages.length}
+                          {t("public.gallery.detail.counter", { current: activeImageIndex + 1, total: galleryImages.length })}
                         </div>
                       </>
                     ) : null}
@@ -177,35 +215,35 @@ export default function GalleryDetailPage() {
                 <aside className="h-fit rounded-3xl bg-white p-6 shadow-sm">
                   <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">{gallery.category}</span>
                   <h1 className="mb-3 mt-4 text-3xl font-extrabold text-slate-900">{gallery.title}</h1>
-                  <p className="mb-6 leading-relaxed text-slate-600">{gallery.description || "Une image peut avoir sa propre page avec description, lieu, circuit associe et bouton pour demander le voyage correspondant."}</p>
+                  <p className="mb-6 leading-relaxed text-slate-600">{gallery.description || t("public.gallery.detail.description_fallback")}</p>
 
                   <div className="mb-6 space-y-3 text-sm">
                     <div className="flex justify-between border-b border-slate-100 pb-3">
-                      <span>Lieu</span>
+                      <span>{t("public.gallery.detail.place")}</span>
                       <strong>{gallery.place || "-"}</strong>
                     </div>
                     <div className="flex justify-between border-b border-slate-100 pb-3">
-                      <span>Categorie</span>
+                      <span>{t("public.gallery.detail.category")}</span>
                       <strong>{gallery.category || "-"}</strong>
                     </div>
                     <div className="flex justify-between gap-4">
-                      <span>Circuit lie</span>
+                      <span>{t("public.gallery.detail.related_tour")}</span>
                       <strong className="text-right">{gallery.relatedTour?.title || "-"}</strong>
                     </div>
                   </div>
 
-                  <a href="/#all-tours" className="mb-3 block rounded-full bg-emerald-700 py-4 text-center font-bold text-white shadow-lg transition hover:bg-emerald-800">
-                    Voir le circuit lie
+                  <a href={gallery.relatedTour?.id ? `/circuits/${gallery.relatedTour.id}` : "/#tours"} className="mb-3 block rounded-full bg-emerald-700 py-4 text-center font-bold text-white shadow-lg transition hover:bg-emerald-800">
+                    {t("public.gallery.detail.view_related_tour")}
                   </a>
                   <a href="/#contact" className="block rounded-full border border-emerald-700 py-4 text-center font-bold text-emerald-700 transition hover:bg-emerald-50">
-                    Demander ce voyage
+                    {t("public.gallery.detail.request_trip")}
                   </a>
                 </aside>
               </div>
 
               {related.length > 0 ? (
                 <div className="mt-14">
-                  <h2 className="mb-6 text-2xl font-extrabold text-slate-900">Autres galleries</h2>
+                  <h2 className="mb-6 text-2xl font-extrabold text-slate-900">{t("public.gallery.detail.related")}</h2>
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {related.map((item) => (
                       <Link key={item.galleryId} to={`/galerie/${item.galleryId}`} className="group overflow-hidden rounded-3xl bg-white shadow-sm">
@@ -223,7 +261,7 @@ export default function GalleryDetailPage() {
           )}
         </div>
       </section>
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
       <ScrollToTopButton />
     </div>
   );

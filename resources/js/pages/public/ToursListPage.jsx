@@ -4,13 +4,13 @@ import { fetchPlatformSettings } from "../../api/platformSettings";
 import { fetchPublicTours } from "../../api/tours";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import SectionTitle from "../../components/public/SectionTitle";
 import TopBar from "../../components/public/TopBar";
-import ScrollToTopButton from "../../components/public/ScrollToTopButton";
-import { contactLinks, footerLinks, navLinks, siteMeta } from "../../data/publicHomeData";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
-function TourCard({ tour }) {
+function TourCard({ tour, t }) {
   return (
     <article className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
       <img src={tour.image} alt={tour.title} className="h-60 w-full object-cover" />
@@ -20,20 +20,20 @@ function TourCard({ tour }) {
           <span className="font-bold text-slate-900">{tour.duration}</span>
         </div>
         <h2 className="mb-3 text-xl font-extrabold text-slate-900">{tour.title}</h2>
-        <p className="mb-5 text-sm leading-relaxed text-slate-600">{tour.excerpt || "Description a venir."}</p>
+        <p className="mb-5 text-sm leading-relaxed text-slate-600">{tour.excerpt || t("public.tours_list.description_coming")}</p>
         <div className="mb-5 flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Depart</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{t("public.tours_list.departure")}</p>
             <p className="text-sm font-semibold text-slate-700">{tour.departure}</p>
           </div>
           <p className="text-2xl font-extrabold text-emerald-800">{tour.formattedPrice}</p>
         </div>
         <div className="flex gap-3">
           <Link to={`/circuits/${tour.tourId}`} className="flex-1 rounded-full bg-emerald-700 py-3 text-center font-bold text-white transition hover:bg-emerald-800">
-            Voir plus
+            {t("public.common.view_more")}
           </Link>
           <Link to={`/reservations/${tour.tourId}`} className="flex-1 rounded-full border border-emerald-700 py-3 text-center font-bold text-emerald-700 transition hover:bg-emerald-50">
-            Reserver
+            {t("public.common.book")}
           </Link>
         </div>
       </div>
@@ -41,9 +41,34 @@ function TourCard({ tour }) {
   );
 }
 
+function formatPrice(price, lang) {
+  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
+  return Number(price || 0).toLocaleString(localeMap[lang] || "fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  });
+}
+
 export default function ToursListPage() {
-  const [platformMeta, setPlatformMeta] = useState(siteMeta);
+  const { t, lang } = useI18n();
+  const [platformMeta, setPlatformMeta] = useState({
+    logo: "/images/logo.png",
+    brand: "World of Madagascar",
+    tagline: t("public.home.meta.tagline"),
+    topBarLeft: t("public.home.meta.topbar_left"),
+    contact: "+261 38 09 137 03",
+    whatsapp: "https://wa.me/261380913703",
+    email: "worldofmadagascartour@gmail.com",
+  });
   const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    setPlatformMeta((current) => ({
+      ...current,
+      tagline: t("public.home.meta.tagline"),
+      topBarLeft: t("public.home.meta.topbar_left"),
+    }));
+  }, [t]);
 
   useEffect(() => {
     let active = true;
@@ -58,10 +83,13 @@ export default function ToursListPage() {
           ...current,
           logo: settings.logo ? `/${String(settings.logo).replace(/^\/+/, "")}` : current.logo,
           brand: settings.platform_name || current.brand,
+          contact: settings.contact || current.contact,
+          whatsapp: settings.whatsapp || current.whatsapp,
+          email: settings.email || current.email,
         }));
       } catch {
         if (active) {
-          setPlatformMeta(siteMeta);
+          setPlatformMeta((current) => ({ ...current }));
         }
       }
     }
@@ -82,7 +110,12 @@ export default function ToursListPage() {
 
         if (!active || !Array.isArray(items)) return;
 
-        setTours(items.map(mapTourToPublicItem));
+        setTours(
+          items.map((tour) => mapTourToPublicItem(tour, t)).map((item) => ({
+            ...item,
+            formattedPrice: formatPrice(item.price, lang),
+          })),
+        );
       } catch {
         if (active) {
           setTours([]);
@@ -95,20 +128,37 @@ export default function ToursListPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [lang, t]);
 
   const publicLinks = useMemo(
-    () =>
-      navLinks.map((link) => ({
-        ...link,
-        href: link.href.startsWith("#") ? `/${link.href}` : link.href,
-      })),
-    [],
+    () => [
+      { href: "/#home", label: t("public.home.nav.home") },
+      { href: "/#about", label: t("public.home.nav.about") },
+      { href: "/#tours", label: t("public.home.nav.tours") },
+      { href: "/#gallery", label: t("public.home.nav.gallery") },
+      { href: "/#why", label: t("public.home.nav.why") },
+      { href: "/#testimonials", label: t("public.home.nav.testimonials") },
+      { href: "/#contact", label: t("public.home.nav.contact") },
+    ],
+    [t],
+  );
+
+  const footerLinks = useMemo(
+    () => [
+      { label: t("public.home.nav.home"), href: "/#home" },
+      { label: t("public.home.nav.about"), href: "/#about" },
+      { label: t("public.home.nav.tours"), href: "/#tours" },
+      { label: t("public.home.nav.gallery"), href: "/#gallery" },
+      { label: t("public.home.nav.why"), href: "/#why" },
+      { label: t("public.home.nav.testimonials"), href: "/#testimonials" },
+      { label: t("public.home.nav.contact"), href: "/#contact" },
+    ],
+    [t],
   );
 
   return (
     <div className="bg-stone-50 text-slate-800">
-      <TopBar leftText={platformMeta.topBarLeft} rightText={platformMeta.topBarRight} />
+      <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
         brand={platformMeta.brand}
@@ -121,20 +171,26 @@ export default function ToursListPage() {
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4">
           <SectionTitle
-            eyebrow="Tous les circuits"
-            title="Explorez tous nos circuits en mode carte"
-            text="Comparez facilement les destinations, la duree et le prix de chaque voyage avant de consulter le detail."
+            eyebrow={t("public.tours_list.eyebrow")}
+            title={t("public.tours_list.title")}
+            text={t("public.tours_list.text")}
           />
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {tours.map((tour) => (
-              <TourCard key={tour.tourId || tour.id || tour.title} tour={tour} />
-            ))}
-          </div>
+          {tours.length === 0 ? (
+            <div className="mt-12 rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">
+              {t("public.tours_list.empty")}
+            </div>
+          ) : (
+            <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+              {tours.map((tour) => (
+                <TourCard key={tour.tourId || tour.id || tour.title} tour={tour} t={t} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
       <ScrollToTopButton />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { fetchPublicGalleries } from "../../api/galleries";
 import { fetchPlatformSettings } from "../../api/platformSettings";
 import { fetchPublicSlides } from "../../api/slides";
@@ -15,37 +15,192 @@ import LocationMapSection from "../../components/public/LocationMapSection";
 import PaymentMethodsSection from "../../components/public/PaymentMethodsSection";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
+import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TestimonialsSection from "../../components/public/TestimonialsSection";
 import TopBar from "../../components/public/TopBar";
 import ToursCatalogSection from "../../components/public/ToursCatalogSection";
 import TrustStatsSection from "../../components/public/TrustStatsSection";
-import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import WhyChooseSection from "../../components/public/WhyChooseSection";
-import {
-  aboutFounder,
-  contactLinks,
-  customTrips,
-  fallbackTestimonials,
-  footerLinks,
-  hero,
-  highlights,
-  navLinks,
-  paymentMethods,
-  reasons,
-  siteMeta,
-} from "../../data/publicHomeData";
-import { faqItems } from "../../data/publicFaqData";
-import { officeLocation } from "../../data/publicLocationData";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
 export default function HomePage() {
+  const { t } = useI18n();
+  const fallbackTestimonials = useMemo(
+    () => [
+      { name: "Sarah M.", country: "France", quote: t("public.home.testimonials.fallback.0.quote") },
+      { name: "James K.", country: "United Kingdom", quote: t("public.home.testimonials.fallback.1.quote") },
+      { name: "Anna B.", country: "Germany", quote: t("public.home.testimonials.fallback.2.quote") },
+    ],
+    [t],
+  );
   const [testimonials, setTestimonials] = useState(fallbackTestimonials);
-  const [platformMeta, setPlatformMeta] = useState(siteMeta);
+  const [platformMeta, setPlatformMeta] = useState({
+    logo: "/images/logo.png",
+    brand: "World of Madagascar",
+    tagline: t("public.home.meta.tagline"),
+    topBarLeft: t("public.home.meta.topbar_left"),
+    contact: "+261 38 09 137 03",
+    whatsapp: "https://wa.me/261380913703",
+    email: "worldofmadagascartour@gmail.com",
+    facebook: "https://www.facebook.com/profile.php?id=100084179285857",
+    instagram: "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D",
+    address: t("public.footer.location_city"),
+  });
   const [slides, setSlides] = useState([]);
   const [galleryPreview, setGalleryPreview] = useState([]);
   const [featuredTours, setFeaturedTours] = useState([]);
   const [allTours, setAllTours] = useState([]);
+
+  const navLinks = useMemo(
+    () => [
+      { href: "#home", label: t("public.home.nav.home") },
+      { href: "#about", label: t("public.home.nav.about") },
+      { href: "#tours", label: t("public.home.nav.tours") },
+      { href: "#gallery", label: t("public.home.nav.gallery") },
+      { href: "#why", label: t("public.home.nav.why") },
+      { href: "#testimonials", label: t("public.home.nav.testimonials") },
+      { href: "#contact", label: t("public.home.nav.contact") },
+    ],
+    [t],
+  );
+
+  const footerLinks = useMemo(
+    () => [
+      { label: t("public.home.nav.home"), href: "/#home" },
+      { label: t("public.home.nav.about"), href: "/#about" },
+      { label: t("public.home.nav.tours"), href: "/#tours" },
+      { label: t("public.home.nav.gallery"), href: "/#gallery" },
+      { label: t("public.home.nav.why"), href: "/#why" },
+      { label: t("public.home.nav.testimonials"), href: "/#testimonials" },
+      { label: t("public.home.nav.contact"), href: "/#contact" },
+    ],
+    [t],
+  );
+
+  const hero = useMemo(
+    () => ({
+      title: t("public.home.hero.title"),
+      text: t("public.home.hero.text"),
+      image: "https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=1600&q=80",
+      highlights: [
+        t("public.home.hero.highlights.0"),
+        t("public.home.hero.highlights.1"),
+        t("public.home.hero.highlights.2"),
+        t("public.home.hero.highlights.3"),
+      ],
+    }),
+    [t],
+  );
+
+  const aboutFounder = useMemo(
+    () => ({
+      name: "MILASOA Ricki Cardo",
+      role: t("public.home.about.founder.role"),
+      image: "/images/founder.jpg",
+      location: t("public.home.about.founder.location"),
+      experience: t("public.home.about.founder.experience"),
+      languages: [
+        t("public.home.about.founder.languages.0"),
+        t("public.home.about.founder.languages.1"),
+        t("public.home.about.founder.languages.2"),
+        t("public.home.about.founder.languages.3"),
+      ],
+      countries: [
+        t("public.home.about.founder.countries.0"),
+        t("public.home.about.founder.countries.1"),
+        t("public.home.about.founder.countries.2"),
+        t("public.home.about.founder.countries.3"),
+        t("public.home.about.founder.countries.4"),
+        t("public.home.about.founder.countries.5"),
+        t("public.home.about.founder.countries.6"),
+        t("public.home.about.founder.countries.7"),
+        t("public.home.about.founder.countries.8"),
+        t("public.home.about.founder.countries.9"),
+      ],
+      paragraphs: [
+        t("public.home.about.founder.paragraphs.0"),
+        t("public.home.about.founder.paragraphs.1"),
+        t("public.home.about.founder.paragraphs.2"),
+        t("public.home.about.founder.paragraphs.3"),
+      ],
+      safariBookingsText: t("public.home.about.founder.reference_text"),
+    }),
+    [t],
+  );
+
+  const highlights = useMemo(
+    () => [
+      { value: "8+", label: t("public.home.highlights.0") },
+      { value: "100%", label: t("public.home.highlights.1") },
+      { value: "4", label: t("public.home.highlights.2") },
+      { value: "24/7", label: t("public.home.highlights.3") },
+    ],
+    [t],
+  );
+
+  const reasons = useMemo(
+    () => [
+      { icon: "map-pin", title: t("public.home.reasons.0.title"), text: t("public.home.reasons.0.text"), tone: "bg-emerald-100 text-emerald-800" },
+      { icon: "route", title: t("public.home.reasons.1.title"), text: t("public.home.reasons.1.text"), tone: "bg-amber-100 text-amber-800" },
+      { icon: "leaf", title: t("public.home.reasons.2.title"), text: t("public.home.reasons.2.text"), tone: "bg-sky-100 text-sky-800" },
+      { icon: "message", title: t("public.home.reasons.3.title"), text: t("public.home.reasons.3.text"), tone: "bg-green-100 text-green-800" },
+    ],
+    [t],
+  );
+
+  const paymentMethods = useMemo(
+    () => [
+      t("public.home.payment_methods.0"),
+      t("public.home.payment_methods.1"),
+      t("public.home.payment_methods.2"),
+      t("public.home.payment_methods.3"),
+      t("public.home.payment_methods.4"),
+      t("public.home.payment_methods.5"),
+    ],
+    [t],
+  );
+
+  const customTrips = useMemo(
+    () => [
+      t("public.home.custom_trip.items.0"),
+      t("public.home.custom_trip.items.1"),
+      t("public.home.custom_trip.items.2"),
+      t("public.home.custom_trip.items.3"),
+    ],
+    [t],
+  );
+
+  const faqItems = useMemo(
+    () => [
+      { question: t("public.home.faq.items.0.question"), answer: t("public.home.faq.items.0.answer") },
+      { question: t("public.home.faq.items.1.question"), answer: t("public.home.faq.items.1.answer") },
+      { question: t("public.home.faq.items.2.question"), answer: t("public.home.faq.items.2.answer") },
+      { question: t("public.home.faq.items.3.question"), answer: t("public.home.faq.items.3.answer") },
+      { question: t("public.home.faq.items.4.question"), answer: t("public.home.faq.items.4.answer") },
+    ],
+    [t],
+  );
+
+  const officeLocation = useMemo(
+    () => ({
+      query: t("public.home.location.map_query"),
+    }),
+    [t],
+  );
+
+  useEffect(() => {
+    setTestimonials(fallbackTestimonials);
+  }, [fallbackTestimonials]);
+
+  useEffect(() => {
+    setPlatformMeta((current) => ({
+      ...current,
+      tagline: t("public.home.meta.tagline"),
+      topBarLeft: t("public.home.meta.topbar_left"),
+    }));
+  }, [t]);
 
   useEffect(() => {
     let active = true;
@@ -71,7 +226,7 @@ export default function HomePage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [fallbackTestimonials]);
 
   useEffect(() => {
     let active = true;
@@ -95,7 +250,7 @@ export default function HomePage() {
         }));
       } catch {
         if (active) {
-          setPlatformMeta(siteMeta);
+          setPlatformMeta((current) => ({ ...current }));
         }
       }
     }
@@ -140,7 +295,7 @@ export default function HomePage() {
 
         if (!active || !Array.isArray(items)) return;
 
-        setGalleryPreview(items.map(mapGalleryToPublicItem).slice(0, 4));
+        setGalleryPreview(items.map((item) => mapGalleryToPublicItem(item, t)).slice(0, 4));
       } catch {
         if (active) {
           setGalleryPreview([]);
@@ -153,7 +308,7 @@ export default function HomePage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     let active = true;
@@ -164,7 +319,7 @@ export default function HomePage() {
 
         if (!active || !Array.isArray(items)) return;
 
-        const mappedTours = items.map(mapTourToPublicItem);
+        const mappedTours = items.map((item) => mapTourToPublicItem(item, t));
         setAllTours(mappedTours);
         setFeaturedTours(mappedTours.slice(0, 3));
       } catch {
@@ -180,11 +335,11 @@ export default function HomePage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [t]);
 
   return (
     <div className="bg-stone-50 text-slate-800">
-      <TopBar leftText={platformMeta.topBarLeft} rightText={platformMeta.topBarRight} />
+      <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
         brand={platformMeta.brand}
@@ -209,10 +364,8 @@ export default function HomePage() {
       <FaqSection items={faqItems} />
       <ContactSection platform={platformMeta} />
       <LocationMapSection location={officeLocation} />
-      <PublicFooter footerLinks={footerLinks} contactLinks={contactLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
       <ScrollToTopButton />
     </div>
   );
 }
-
-

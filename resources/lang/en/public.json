@@ -1,0 +1,492 @@
+{
+  "auth": {
+    "login": {
+      "title": "Administrator login",
+      "description": "Use your administrator email and password.",
+      "error": "Login failed.",
+      "submitting": "Signing in...",
+      "submit": "Sign in",
+      "fields": {
+        "email": "Email",
+        "email_placeholder": "admin@example.com",
+        "password": "Password",
+        "password_placeholder": "••••••••"
+      }
+    }
+  },
+  "header": {
+    "language_switcher": {
+      "label": "Change language"
+    },
+    "cta": {
+      "plan_trip": "Plan my trip"
+    },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    }
+  },
+  "footer": {
+    "description": "Local agency specialized in private and tailor-made tours in Madagascar.",
+    "navigation": "Navigation",
+    "payments": "Payments",
+    "location": "Location",
+    "location_city": "Antananarivo, Madagascar",
+    "location_area": "Ambavahaditokona, Antananarivo",
+    "social": "Social media",
+    "copyright": "© :year World of Madagascar."
+  },
+  "home": {
+    "meta": {
+      "tagline": "Tours",
+      "topbar_left": "Private tours in Madagascar with local guides"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "tours": "Tours",
+      "gallery": "Gallery",
+      "why": "Why us",
+      "testimonials": "Reviews",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Private tours in Madagascar with local experts",
+      "text": "Discover lemurs, baobabs, national parks, beaches, and Malagasy villages with a trusted local team.",
+      "slide_label": "Go to slide :index",
+      "cta": {
+        "quote": "Request a free quote",
+        "tours": "View tours"
+      },
+      "highlights": [
+        "Traveler reviews",
+        "Private tours",
+        "Custom itineraries",
+        "WhatsApp support"
+      ]
+    },
+    "highlights": [
+      "Years of experience",
+      "Private tours",
+      "Languages spoken",
+      "Travel support"
+    ],
+    "about": {
+      "eyebrow": "About",
+      "title": "Discover Madagascar with a real local guide",
+      "languages": "Languages spoken",
+      "travelers": "Travelers hosted",
+      "reference": "Reference",
+      "founder": {
+        "role": "Private tour guide (Founder)",
+        "location": "From Antalaha, based in Antananarivo",
+        "experience": "Working in tourism since 2015, professional guide since 2017",
+        "languages": [
+          "Malagasy",
+          "French",
+          "English",
+          "German (basic)"
+        ],
+        "countries": [
+          "Germany",
+          "Russia",
+          "Italy",
+          "United States",
+          "Australia",
+          "China",
+          "Japan",
+          "South Africa",
+          "Morocco",
+          "France"
+        ],
+        "paragraphs": [
+          "Hello, my name is MILASOA Ricki Cardo, originally from Antalaha in Madagascar and now based in Antananarivo. I have worked in tourism since 2015 and became a professional tour guide in 2017.",
+          "I speak Malagasy, French, English, and a little German. With several years of experience across Madagascar, I have guided travelers from many countries in Europe, Asia, Africa, Australia, and the United States.",
+          "We create experiences that combine nature, culture, history, and Malagasy biodiversity. We also offer translation services and tailor-made evening events.",
+          "In 2024, we launched a travel agency with drivers, guides, and a marketing manager to provide a higher quality service. Our goal is simple: to help you discover Madagascar as if you were traveling with a friend."
+        ],
+        "reference_text": "We are also listed on SafariBookings.com, a reference platform for safaris and tour operators."
+      }
+    },
+    "why": {
+      "eyebrow": "Why choose our agency",
+      "title": "A local, flexible, and reassuring experience",
+      "text": "We create trips adapted to your pace, budget, and interests."
+    },
+    "reasons": [
+      {
+        "title": "Local guides",
+        "text": "Guides who know the parks, the culture, and the best routes."
+      },
+      {
+        "title": "Tailor-made trips",
+        "text": "Each itinerary can be adjusted to your dates and preferences."
+      },
+      {
+        "title": "Nature and culture",
+        "text": "Lemurs, baobabs, Tsingy, Isalo, beaches, and local encounters."
+      },
+      {
+        "title": "Easy contact",
+        "text": "Chat quickly on WhatsApp before and during the trip."
+      }
+    ],
+    "featured_tours": {
+      "eyebrow": "Popular tours",
+      "title": "Choose your adventure in Madagascar"
+    },
+    "tours": {
+      "from": "From",
+      "description_coming": "Description coming soon."
+    },
+    "tours_catalog": {
+      "eyebrow": "Full tours list",
+      "title": "All available trips",
+      "text": "This section helps the customer quickly compare tours by duration, destination, travel style, and price.",
+      "table": {
+        "tour": "Tour",
+        "duration": "Duration",
+        "style": "Style",
+        "departure": "Departure",
+        "action": "Action"
+      }
+    },
+    "gallery": {
+      "eyebrow": "Photo gallery",
+      "title": "Inspire travelers with the most beautiful landscapes",
+      "text": "The gallery should show real photos: clients, guides, parks, animals, hotels, vehicles, and highlights of the trip.",
+      "view_all": "View the full gallery"
+    },
+    "payments": {
+      "eyebrow": "Secure payment",
+      "title": "Several payment methods to reassure travelers",
+      "text": "Clearly display the available payment options before booking to reduce hesitation from international clients."
+    },
+    "payment_methods": [
+      "Mastercard",
+      "Visa",
+      "PayPal",
+      "Bank transfer",
+      "Cash",
+      "Mobile Money"
+    ],
+    "custom_trip": {
+      "eyebrow": "Custom trip",
+      "title": "Not sure which tour to choose?",
+      "text": "Send us your dates, budget, and preferences. We will prepare a suitable itinerary for your stay in Madagascar.",
+      "cta": "Receive a free proposal",
+      "examples": "Trip examples",
+      "items": [
+        "Wildlife & Lemurs Tour",
+        "Baobabs & Tsingy Adventure",
+        "RN7 Classic Road Trip",
+        "Beach & Island Escape"
+      ]
+    },
+    "testimonials": {
+      "eyebrow": "Client reviews",
+      "title": "They traveled with us",
+      "view_more": "See more reviews",
+      "fallback": [
+        {
+          "quote": "Amazing trip! The guide was friendly, professional, and showed us beautiful places in Madagascar."
+        },
+        {
+          "quote": "Very flexible itinerary and excellent communication before the tour. Highly recommended."
+        },
+        {
+          "quote": "We loved the lemurs, the baobabs, and the local villages. Everything was very well organized."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Frequently asked questions",
+      "title": "The answers your travelers look for before booking",
+      "text": "This section helps visitors quickly clear up doubts before going to the contact form.",
+      "items": [
+        {
+          "question": "What is the best time for a great trip to Madagascar?",
+          "answer": "The best season depends on the experience you are looking for. In general, April to November is ideal for enjoying the landscapes, parks, and major tours."
+        },
+        {
+          "question": "Can you create a 100% private and tailor-made trip for us?",
+          "answer": "Yes, that is exactly our specialty. We build your trip according to your budget, length of stay, number of travelers, and preferences."
+        },
+        {
+          "question": "What is included in your rate when we request a quote?",
+          "answer": "Depending on the selected tour, the quote may include the vehicle, driver, guide, accommodations, transfers, and some entrance fees. Everything is clearly detailed before confirmation."
+        },
+        {
+          "question": "How quickly can we receive an answer?",
+          "answer": "We reply quickly after receiving your message. If you leave a WhatsApp number or a valid email address, we can send you a first response and move forward fast with your quote."
+        },
+        {
+          "question": "Can you organize the whole trip, not just the tour?",
+          "answer": "Yes. We can handle the full organization: driver, local guides, transfers, accommodations, and personalized program."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Plan your trip to Madagascar",
+      "text": "Tell us about your travel plans. You can also contact us directly through our official channels.",
+      "address": "Address",
+      "form": {
+        "success": "Your request has been sent.",
+        "email_sent": "An email notification was also sent to the platform.",
+        "whatsapp_opened": "The pre-filled WhatsApp message has just been opened.",
+        "error": "Unable to send the request right now.",
+        "submitting": "Sending...",
+        "submit": "Send my request",
+        "fields": {
+          "name": "Full name",
+          "name_placeholder": "Your name",
+          "subject": "Subject",
+          "subject_placeholder": "Ex: custom trip, quote, information",
+          "email": "Email or WhatsApp",
+          "email_placeholder": "Your email or your number",
+          "message": "Message",
+          "message_placeholder": "Explain your request, your dates, your budget, the number of people..."
+        }
+      }
+    },
+    "location": {
+      "map_title": "World of Madagascar Tour map",
+      "map_query": "World of Madagascar Tour Antananarivo Madagascar"
+    }
+  },
+  "tours_list": {
+    "eyebrow": "All tours",
+    "title": "Explore all our tours in card view",
+    "text": "Compare destinations, duration, and price before opening the full tour details.",
+    "departure": "Departure",
+    "description_coming": "Description coming soon.",
+    "empty": "No tours available at the moment."
+  },
+  "tour_detail": {
+    "loading": "Loading tour...",
+    "not_found": "Tour not found.",
+    "description_coming": "Tour description coming soon.",
+    "departure_badge": "Departure :value",
+    "program_title": "Tour itinerary",
+    "program_empty": "Program coming soon.",
+    "day_title": "Day :day - :title",
+    "activities": "Activities: :value",
+    "included": "Included",
+    "included_empty": "No inclusions specified.",
+    "excluded": "Not included",
+    "excluded_empty": "No exclusions specified.",
+    "related": "Other tours",
+    "summary": {
+      "duration": "Duration",
+      "style": "Style",
+      "price": "Price",
+      "departure": "Departure",
+      "type": "Type",
+      "private": "Private"
+    },
+    "sidebar": {
+      "title": "Book this tour",
+      "text": "Review the tour information and continue directly to booking.",
+      "payments": "Accepted payments"
+    },
+    "reviews": {
+      "eyebrow": "Traveler reviews",
+      "title": "Reviews for this tour",
+      "average": "Average rating",
+      "empty": "No reviews published yet. Be the first to share your experience.",
+      "recent": "Recent review"
+    },
+    "review": {
+      "eyebrow": "Leave a review",
+      "title": "Share your experience",
+      "text": "Travelers can leave feedback directly on this page to help future visitors.",
+      "success": "Review sent successfully.",
+      "error": "Unable to send your review right now.",
+      "submitting": "Sending...",
+      "submit": "Publish my review",
+      "preview_alt": "Profile preview",
+      "rating_label": "Give :count star",
+      "fields": {
+        "image": "Profile photo",
+        "image_help": "Optional. If no image is selected, a default profile image will be shown.",
+        "name": "Name",
+        "name_placeholder": "Your name",
+        "rating": "Rating",
+        "review": "Your review",
+        "review_placeholder": "Describe your experience on this tour."
+      }
+    }
+  },
+  "gallery": {
+    "fallbacks": {
+      "title": "Gallery",
+      "place": "Madagascar",
+      "category": "Uncategorized"
+    },
+    "list": {
+      "title": "See more trip photos",
+      "text": "This page displays the full list of available galleries with filters for public browsing.",
+      "empty": "No gallery available for this filter.",
+      "filters": {
+        "all": "All"
+      }
+    },
+    "detail": {
+      "loading": "Loading gallery...",
+      "not_found": "Gallery not found.",
+      "counter": ":current / :total",
+      "description_fallback": "An image can have its own page with description, location, related tour, and a button to request the matching trip.",
+      "place": "Place",
+      "category": "Category",
+      "related_tour": "Related tour",
+      "view_related_tour": "View related tour",
+      "request_trip": "Request this trip",
+      "related": "Other galleries"
+    }
+  },
+  "testimonials": {
+    "list": {
+      "eyebrow": "Testimonials",
+      "title": "All reviews from our travelers",
+      "text": "Browse all published testimonials and leave your own feedback about your experience.",
+      "count_label": "Published reviews",
+      "loading": "Loading reviews...",
+      "empty": "No reviews published yet.",
+      "traveler_fallback": "Traveler",
+      "recent": "Recent review"
+    },
+    "form": {
+      "eyebrow": "Leave a review",
+      "title": "Share your experience",
+      "text": "Travelers can publish their review directly from this page.",
+      "success": "Review sent successfully.",
+      "error": "Unable to send your review right now.",
+      "submitting": "Sending...",
+      "submit": "Publish my review",
+      "preview_alt": "Profile preview",
+      "rating_label": "Give :count star",
+      "fields": {
+        "image": "Profile photo",
+        "image_help": "Optional. If no image is selected, a default profile image will be shown.",
+        "name": "Name",
+        "name_placeholder": "Your name",
+        "rating": "Rating",
+        "message": "Your review",
+        "message_placeholder": "Describe your experience with the agency."
+      }
+    }
+  },
+  "booking": {
+    "eyebrow": "Booking",
+    "title": "Book :tour",
+    "text": "Provide your dates, number of travelers, and requirements. The agency can then confirm availability and finalize the matching trip.",
+    "loading": "Loading form...",
+    "not_found": "Tour not found.",
+    "form": {
+      "success": "Your booking request has been sent.",
+      "email_sent": "An email notification was also sent to the platform.",
+      "whatsapp_opened": "The pre-filled WhatsApp message has just been opened.",
+      "error": "Unable to send the booking right now.",
+      "submitting": "Sending...",
+      "submit": "Send booking request",
+      "fields": {
+        "name": "Full name",
+        "name_placeholder": "Your name",
+        "email": "Email",
+        "email_placeholder": "you@email.com",
+        "phone": "Phone",
+        "phone_placeholder": "Your number",
+        "people": "Number of travelers",
+        "people_placeholder": "2",
+        "start_date": "Departure date",
+        "end_date": "Return date",
+        "message": "Message",
+        "message_placeholder": "Specify your expectations, questions, or any useful information."
+      }
+    },
+    "summary": {
+      "title": "Trip summary",
+      "duration": "Duration",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "price_per_person": "Price per person",
+      "selected_departure": "Selected departure",
+      "selected_return": "Selected return",
+      "estimate": "Estimate"
+    }
+  },
+  "common": {
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "view_more": "View more",
+    "book": "Book",
+    "quote": "Quote"
+  },
+  "tours": {
+    "fallbacks": {
+      "title": "Tour",
+      "category": "Tour",
+      "traveler": "Traveler"
+    }
+  },
+  "preview": {
+    "photo_detail": {
+      "breadcrumb": "Photo detail",
+      "back": "Back to the full gallery",
+      "badge": "Baobabs",
+      "title": "Avenue of the Baobabs",
+      "place_value": "Morondava",
+      "category_value": "Photo / Nature",
+      "related_tour_value": "Baobab & Tsingy",
+      "related": "Similar photos"
+    },
+    "tour_detail": {
+      "breadcrumb": "Tour detail",
+      "back": "Back to the tours list",
+      "title": "Andasibe Lemur Tour",
+      "description": "A short tour to discover Madagascar's tropical forest, observe Indri lemurs, visit nature reserves, and enjoy a private trip with a local guide.",
+      "badges": {
+        "category": "Nature",
+        "duration": "3 days / 2 nights",
+        "departure": "Departure Antananarivo"
+      },
+      "summary": {
+        "duration_value": "3 days",
+        "style_value": "Nature & Wildlife",
+        "price_value": "From $XXX"
+      },
+      "program": {
+        "day1_title": "Day 1 - Antananarivo to Andasibe",
+        "day1_text": "Departure from Antananarivo, drive to Andasibe, photo stops, and a night visit depending on arrival time.",
+        "day2_title": "Day 2 - Andasibe National Park",
+        "day2_text": "Guided park visit to observe lemurs, birds, chameleons, and endemic plants.",
+        "day3_title": "Day 3 - Return to Antananarivo",
+        "day3_text": "Optional visit to a private reserve before returning to Antananarivo."
+      },
+      "included_items": [
+        "Private car with driver",
+        "Local guide",
+        "Entries according to program",
+        "WhatsApp assistance"
+      ],
+      "excluded_items": [
+        "International flights",
+        "Meals not mentioned",
+        "Personal expenses",
+        "Tips"
+      ],
+      "sidebar": {
+        "title": "Request this tour",
+        "text": "The traveler can ask a question, check availability, or request a customized version.",
+        "days": "days",
+        "departure_value": "Tana",
+        "price_value": "$XXX",
+        "whatsapp": "Question on WhatsApp"
+      }
+    }
+  }
+}

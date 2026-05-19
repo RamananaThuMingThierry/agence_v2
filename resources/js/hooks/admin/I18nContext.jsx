@@ -1,8 +1,36 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import deAdmin from "../../../lang/de/admin.json";
+import dePublic from "../../../lang/de/public.json";
+import enAdmin from "../../../lang/en/admin.json";
+import enPublic from "../../../lang/en/public.json";
+import esAdmin from "../../../lang/es/admin.json";
+import esPublic from "../../../lang/es/public.json";
+import frAdmin from "../../../lang/fr/admin.json";
+import frPublic from "../../../lang/fr/public.json";
 
 const I18nContext = createContext(null);
 const STORAGE_KEY = "public_lang";
 const DEFAULT_LANG = "fr";
+const FALLBACK_MESSAGES = { public: frPublic, admin: frAdmin };
+const MESSAGES = {
+  fr: FALLBACK_MESSAGES,
+  en: { public: enPublic, admin: enAdmin },
+  es: { public: esPublic, admin: esAdmin },
+  de: { public: dePublic, admin: deAdmin },
+};
+
+function getNestedValue(object, key) {
+  return String(key)
+    .split(".")
+    .reduce((current, segment) => (current && current[segment] !== undefined ? current[segment] : undefined), object);
+}
+
+function interpolate(message, replacements = {}) {
+  return Object.entries(replacements).reduce(
+    (result, [name, value]) => result.replaceAll(`:${name}`, String(value)),
+    message,
+  );
+}
 
 export function I18nProvider({ children }) {
   const [lang, setLang] = useState(() => {
@@ -21,10 +49,29 @@ export function I18nProvider({ children }) {
   }, [lang]);
 
   const value = useMemo(
-    () => ({
-      lang,
-      setLang,
-    }),
+    () => {
+      const messages = MESSAGES[lang] || FALLBACK_MESSAGES;
+
+      return {
+        lang,
+        setLang,
+        t: (key, replacements = {}) => {
+          const normalizedKey = String(key);
+          const publicScopedKey = normalizedKey.startsWith("public.") ? normalizedKey : `public.${normalizedKey}`;
+          const adminScopedKey = normalizedKey.startsWith("admin.") ? normalizedKey : `admin.${normalizedKey}`;
+          const message =
+            getNestedValue(messages, normalizedKey) ??
+            getNestedValue(messages, publicScopedKey) ??
+            getNestedValue(messages, adminScopedKey) ??
+            getNestedValue(FALLBACK_MESSAGES, normalizedKey) ??
+            getNestedValue(FALLBACK_MESSAGES, publicScopedKey) ??
+            getNestedValue(FALLBACK_MESSAGES, adminScopedKey) ??
+            normalizedKey;
+
+          return typeof message === "string" ? interpolate(message, replacements) : message;
+        },
+      };
+    },
     [lang]
   );
 

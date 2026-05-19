@@ -8,6 +8,7 @@ import {
   updateBookingPayment,
 } from "../../../api/bookings";
 import { fetchPaymentMethods } from "../../../api/paymentMethods";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 
 const EMPTY_PAYMENT_FORM = {
   payment_method_id: "",
@@ -30,24 +31,24 @@ function DetailCard({ label, value }) {
   );
 }
 
-function StatusBadge({ value }) {
+function StatusBadge({ value, label }) {
   const styles = {
     booked: "bg-sky-100 text-sky-700",
     completed: "bg-green-100 text-green-700",
     cancelled: "bg-rose-100 text-rose-700",
   };
 
-  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${styles[value] || "bg-slate-100 text-slate-700"}`}>{value || "booked"}</span>;
+  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${styles[value] || "bg-slate-100 text-slate-700"}`}>{label || value || "-"}</span>;
 }
 
-function PaymentStatusBadge({ value }) {
+function PaymentStatusBadge({ value, label }) {
   const styles = {
     pending: "bg-amber-100 text-amber-700",
     completed: "bg-green-100 text-green-700",
     failed: "bg-rose-100 text-rose-700",
   };
 
-  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${styles[value] || "bg-slate-100 text-slate-700"}`}>{value || "pending"}</span>;
+  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${styles[value] || "bg-slate-100 text-slate-700"}`}>{label || value || "-"}</span>;
 }
 
 function sumCompletedPayments(payments = []) {
@@ -74,7 +75,33 @@ function sumProjectedPayments(payments = [], editingPayment, paymentForm) {
   }, 0);
 }
 
+function getLocale(lang) {
+  const locales = {
+    fr: "fr-FR",
+    en: "en-US",
+    es: "es-ES",
+    de: "de-DE",
+  };
+
+  return locales[lang] || locales.fr;
+}
+
+function formatDate(value, lang) {
+  if (!value) return "-";
+  return new Date(value).toLocaleDateString(getLocale(lang));
+}
+
+function formatDateTime(value, lang) {
+  if (!value) return "-";
+  return new Date(value).toLocaleString(getLocale(lang));
+}
+
+function formatCurrency(value, lang) {
+  return Number(value || 0).toLocaleString(getLocale(lang), { style: "currency", currency: "EUR" });
+}
+
 export default function BookingDetailsPage() {
+  const { lang, t } = useI18n();
   const { bookingId } = useParams();
   const [booking, setBooking] = useState(null);
   const [paymentMethods, setPaymentMethods] = useState([]);
@@ -93,6 +120,7 @@ export default function BookingDetailsPage() {
     async function loadBooking() {
       setLoading(true);
       setError("");
+
       try {
         const data = await fetchBooking(bookingId);
         if (!active) return;
@@ -100,13 +128,14 @@ export default function BookingDetailsPage() {
         setStatus(data?.status || "booked");
       } catch (requestError) {
         if (!active) return;
-        setError(requestError.response?.data?.message || "Impossible de charger les details du booking.");
+        setError(requestError.response?.data?.message || t("bookings.details.load_error"));
       } finally {
         if (active) setLoading(false);
       }
     }
 
     loadBooking();
+
     return () => {
       active = false;
     };
@@ -128,6 +157,7 @@ export default function BookingDetailsPage() {
     }
 
     loadPaymentMethods();
+
     return () => {
       active = false;
     };
@@ -153,9 +183,9 @@ export default function BookingDetailsPage() {
       const updated = await updateBooking(bookingId, { status });
       setBooking(updated);
       setStatus(updated?.status || status);
-      setNotice("Statut du booking mis a jour.");
+      setNotice(t("bookings.details.status_updated"));
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de mettre a jour le booking.");
+      setError(requestError.response?.data?.message || t("bookings.details.status_update_error"));
     } finally {
       setSaving(false);
     }
@@ -185,10 +215,10 @@ export default function BookingDetailsPage() {
         : await createBookingPayment(bookingId, payload);
 
       setBooking(result.booking);
-      setNotice(result.message || (editingPayment ? "Paiement mis a jour." : "Paiement ajoute."));
+      setNotice(result.message || (editingPayment ? t("bookings.details.payment_updated") : t("bookings.details.payment_added")));
       resetPaymentForm();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible d'enregistrer le paiement.");
+      setError(requestError.response?.data?.message || t("bookings.details.payment_save_error"));
     } finally {
       setPaymentSaving(false);
     }
@@ -211,7 +241,7 @@ export default function BookingDetailsPage() {
 
   async function handleDeletePayment(payment) {
     if (!payment?.encrypted_id) return;
-    if (!window.confirm("Supprimer ce paiement ?")) return;
+    if (!window.confirm(t("bookings.details.payment_delete_confirm"))) return;
 
     setPaymentSaving(true);
     setError("");
@@ -220,12 +250,13 @@ export default function BookingDetailsPage() {
     try {
       const result = await deleteBookingPayment(bookingId, payment.encrypted_id);
       setBooking(result.booking);
-      setNotice(result.message || "Paiement supprime.");
+      setNotice(result.message || t("bookings.details.payment_deleted"));
+
       if (editingPayment?.encrypted_id === payment.encrypted_id) {
         resetPaymentForm();
       }
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Impossible de supprimer le paiement.");
+      setError(requestError.response?.data?.message || t("bookings.details.payment_delete_error"));
     } finally {
       setPaymentSaving(false);
     }
@@ -244,8 +275,36 @@ export default function BookingDetailsPage() {
   const isFullyPaid = balanceAmount <= 0;
   const canSubmitPayment = paymentMethods.length > 0 && (!isFullyPaid || Boolean(editingPayment));
 
+  const bookingStatusLabels = useMemo(
+    () => ({
+      booked: t("bookings.status.booked"),
+      completed: t("bookings.status.completed"),
+      cancelled: t("bookings.status.cancelled"),
+    }),
+    [t],
+  );
+
+  const paymentStatusLabels = useMemo(
+    () => ({
+      pending: t("bookings.payment_status.pending"),
+      completed: t("bookings.payment_status.completed"),
+      failed: t("bookings.payment_status.failed"),
+    }),
+    [t],
+  );
+
+  const paymentTypeLabels = useMemo(
+    () => ({
+      deposit: t("bookings.payment_type.deposit"),
+      installment: t("bookings.payment_type.installment"),
+      balance: t("bookings.payment_type.balance"),
+      adjustment: t("bookings.payment_type.adjustment"),
+    }),
+    [t],
+  );
+
   if (loading) {
-    return <div className="rounded-sm border border-stone-200 bg-white p-8 text-sm font-semibold text-slate-500 shadow-sm">Chargement du booking...</div>;
+    return <div className="rounded-sm border border-stone-200 bg-white p-8 text-sm font-semibold text-slate-500 shadow-sm">{t("bookings.details.loading")}</div>;
   }
 
   if (error && !booking) {
@@ -257,11 +316,13 @@ export default function BookingDetailsPage() {
       <section className="rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="mt-2 text-3xl font-extrabold text-slate-950">Details du booking</h2>
-            <p className="mt-2 text-sm text-slate-500">Consultation de la reservation et gestion des paiements.</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-slate-950">{t("bookings.details.title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("bookings.details.description")}</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/admin/bookings" className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:text-black">Retour a la liste</Link>
+            <Link to="/admin/bookings" className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:text-black">
+              {t("bookings.details.back")}
+            </Link>
           </div>
         </div>
       </section>
@@ -272,40 +333,55 @@ export default function BookingDetailsPage() {
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
         <section className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
           <div className="grid gap-4 px-4 py-5 sm:px-6 sm:py-6 md:grid-cols-2">
-            <DetailCard label="Client" value={booking?.name} />
-            <DetailCard label="Email" value={booking?.email} />
-            <DetailCard label="Telephone" value={booking?.phone} />
-            <DetailCard label="Tour" value={booking?.tour?.title} />
-            <DetailCard label="Date de debut" value={booking?.start_date ? new Date(booking.start_date).toLocaleDateString("fr-FR") : "-"} />
-            <DetailCard label="Date de fin" value={booking?.end_date ? new Date(booking.end_date).toLocaleDateString("fr-FR") : "-"} />
-            <DetailCard label="Nombre de personnes" value={booking?.number_of_people ? String(booking.number_of_people) : "-"} />
-            <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</p><div className="mt-2"><StatusBadge value={booking?.status} /></div></div>
-            <DetailCard label="Creation" value={booking?.created_at ? new Date(booking.created_at).toLocaleString("fr-FR") : "-"} />
-            <DetailCard label="Derniere mise a jour" value={booking?.updated_at ? new Date(booking.updated_at).toLocaleString("fr-FR") : "-"} />
+            <DetailCard label={t("bookings.details.client")} value={booking?.name} />
+            <DetailCard label={t("bookings.details.email")} value={booking?.email} />
+            <DetailCard label={t("bookings.details.phone")} value={booking?.phone} />
+            <DetailCard label={t("bookings.details.tour")} value={booking?.tour?.title} />
+            <DetailCard label={t("bookings.details.start_date")} value={formatDate(booking?.start_date, lang)} />
+            <DetailCard label={t("bookings.details.end_date")} value={formatDate(booking?.end_date, lang)} />
+            <DetailCard label={t("bookings.details.number_of_people")} value={booking?.number_of_people ? String(booking.number_of_people) : "-"} />
+            <div className="rounded-sm border border-stone-200 bg-stone-50 px-4 py-3">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.status")}</p>
+              <div className="mt-2">
+                <StatusBadge value={booking?.status} label={bookingStatusLabels[booking?.status]} />
+              </div>
+            </div>
+            <DetailCard label={t("bookings.details.created_at")} value={formatDateTime(booking?.created_at, lang)} />
+            <DetailCard label={t("bookings.details.updated_at")} value={formatDateTime(booking?.updated_at, lang)} />
           </div>
-          <div className="border-t border-stone-200 px-4 py-5 sm:px-6 sm:py-6"><p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Message</p><div className="mt-3 rounded-sm border border-stone-200 bg-stone-50 px-4 py-4 text-sm leading-7 text-slate-700">{booking?.message || "-"}</div></div>
+
+          <div className="border-t border-stone-200 px-4 py-5 sm:px-6 sm:py-6">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.message")}</p>
+            <div className="mt-3 rounded-sm border border-stone-200 bg-stone-50 px-4 py-4 text-sm leading-7 text-slate-700">{booking?.message || "-"}</div>
+          </div>
         </section>
 
         <div className="space-y-6">
           <section className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
-            <div className="border-b border-stone-200 px-6 py-5"><h3 className="text-lg font-extrabold text-slate-950">Resume paiement</h3></div>
+            <div className="border-b border-stone-200 px-6 py-5">
+              <h3 className="text-lg font-extrabold text-slate-950">{t("bookings.details.payment_summary")}</h3>
+            </div>
             <div className="grid gap-4 px-6 py-6">
-              <DetailCard label="Montant total" value={totalAmount.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} />
-              <DetailCard label="Montant paye" value={paidAmount.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} />
-              <DetailCard label="Reste a payer" value={balanceAmount.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} />
-              <DetailCard label="Methodes disponibles" value={paymentMethods.length ? String(paymentMethods.length) : "Aucune methode active"} />
+              <DetailCard label={t("bookings.details.total_amount")} value={formatCurrency(totalAmount, lang)} />
+              <DetailCard label={t("bookings.details.paid_amount")} value={formatCurrency(paidAmount, lang)} />
+              <DetailCard label={t("bookings.details.remaining_amount")} value={formatCurrency(balanceAmount, lang)} />
+              <DetailCard label={t("bookings.details.available_methods")} value={paymentMethods.length ? String(paymentMethods.length) : t("bookings.details.no_active_method")} />
             </div>
           </section>
 
           <form onSubmit={handleStatusSubmit} className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
-            <div className="border-b border-stone-200 px-6 py-5"><h3 className="text-lg font-extrabold text-slate-950">Mettre a jour le statut</h3></div>
+            <div className="border-b border-stone-200 px-6 py-5">
+              <h3 className="text-lg font-extrabold text-slate-950">{t("bookings.details.update_status")}</h3>
+            </div>
             <div className="space-y-4 px-6 py-6">
               <select value={status} onChange={(event) => setStatus(event.target.value)} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">
-                <option value="booked">Booked</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="booked">{t("bookings.status.booked")}</option>
+                <option value="completed">{t("bookings.status.completed")}</option>
+                <option value="cancelled">{t("bookings.status.cancelled")}</option>
               </select>
-              <button type="submit" disabled={saving} className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60">{saving ? "Enregistrement..." : "Mettre a jour"}</button>
+              <button type="submit" disabled={saving} className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60">
+                {saving ? t("bookings.details.saving") : t("bookings.details.save_status")}
+              </button>
             </div>
           </form>
         </div>
@@ -313,37 +389,45 @@ export default function BookingDetailsPage() {
 
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
         <section className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
-          <div className="border-b border-stone-200 px-6 py-5"><h3 className="text-lg font-extrabold text-slate-950">Paiements enregistres</h3></div>
+          <div className="border-b border-stone-200 px-6 py-5">
+            <h3 className="text-lg font-extrabold text-slate-950">{t("bookings.details.payments_registered")}</h3>
+          </div>
           <div className="px-6 py-6">
             {(booking?.payments || []).length === 0 ? (
-              <p className="text-sm text-slate-500">Aucun paiement enregistre.</p>
+              <p className="text-sm text-slate-500">{t("bookings.details.no_payments")}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-stone-200">
                   <thead className="bg-stone-50 text-left">
                     <tr>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Type</th>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Methode</th>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Montant</th>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Statut</th>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Echeance</th>
-                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Reference</th>
-                      <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actions</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.type")}</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.method")}</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.amount")}</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.status")}</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.due_date")}</th>
+                      <th className="px-5 py-4 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.reference")}</th>
+                      <th className="px-5 py-4 text-right text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("bookings.details.table.actions")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-stone-200 bg-white">
                     {booking.payments.map((payment) => (
                       <tr key={payment.encrypted_id || payment.id}>
-                        <td className="px-5 py-4 text-sm text-slate-700">{payment.payment_type || "installment"}</td>
+                        <td className="px-5 py-4 text-sm text-slate-700">{paymentTypeLabels[payment.payment_type] || payment.payment_type || "-"}</td>
                         <td className="px-5 py-4 text-sm text-slate-700">{payment.payment_method?.name || "-"}</td>
-                        <td className="px-5 py-4 text-sm text-slate-700">{Number(payment.amount || 0).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</td>
-                        <td className="px-5 py-4"><PaymentStatusBadge value={payment.status} /></td>
-                        <td className="px-5 py-4 text-sm text-slate-700">{payment.due_date ? new Date(payment.due_date).toLocaleDateString("fr-FR") : (payment.paid_at ? new Date(payment.paid_at).toLocaleDateString("fr-FR") : "-")}</td>
+                        <td className="px-5 py-4 text-sm text-slate-700">{formatCurrency(payment.amount, lang)}</td>
+                        <td className="px-5 py-4">
+                          <PaymentStatusBadge value={payment.status} label={paymentStatusLabels[payment.status]} />
+                        </td>
+                        <td className="px-5 py-4 text-sm text-slate-700">{payment.due_date ? formatDate(payment.due_date, lang) : payment.paid_at ? formatDate(payment.paid_at, lang) : "-"}</td>
                         <td className="px-5 py-4 text-sm text-slate-700">{payment.reference || "-"}</td>
                         <td className="px-5 py-4">
                           <div className="flex flex-wrap justify-end gap-2">
-                            <button type="button" onClick={() => handleEditPayment(payment)} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">Modifier</button>
-                            <button type="button" onClick={() => handleDeletePayment(payment)} disabled={paymentSaving} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-60">Supprimer</button>
+                            <button type="button" onClick={() => handleEditPayment(payment)} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">
+                              {t("bookings.common.edit")}
+                            </button>
+                            <button type="button" onClick={() => handleDeletePayment(payment)} disabled={paymentSaving} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-60">
+                              {t("bookings.common.delete")}
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -357,115 +441,102 @@ export default function BookingDetailsPage() {
 
         <form onSubmit={handlePaymentSubmit} className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
           <div className="border-b border-stone-200 px-6 py-5">
-            <h3 className="text-lg font-extrabold text-slate-950">{editingPayment ? "Modifier un paiement" : "Ajouter un paiement"}</h3>
-            <p className="mt-2 text-sm text-slate-500">Les methodes disponibles proviennent des payment methods actifs.</p>
+            <h3 className="text-lg font-extrabold text-slate-950">{editingPayment ? t("bookings.details.payment_form_title_edit") : t("bookings.details.payment_form_title_add")}</h3>
+            <p className="mt-2 text-sm text-slate-500">{t("bookings.details.payment_form_description")}</p>
           </div>
           <div className="space-y-4 px-6 py-6">
             <div className="grid gap-4 md:grid-cols-3">
-              <DetailCard
-                label="Paye apres validation"
-                value={projectedPaidAmount.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-              />
-              <DetailCard
-                label="Reste apres validation"
-                value={projectedRemaining.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
-              />
-              <DetailCard
-                label={projectedDifference > 0 ? "Depassement" : "Ecart"}
-                value={
-                  projectedDifference > 0
-                    ? projectedOverpayment.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })
-                    : "0,00 €"
-                }
-              />
+              <DetailCard label={t("bookings.details.projected_paid")} value={formatCurrency(projectedPaidAmount, lang)} />
+              <DetailCard label={t("bookings.details.projected_remaining")} value={formatCurrency(projectedRemaining, lang)} />
+              <DetailCard label={projectedDifference > 0 ? t("bookings.details.overpayment") : t("bookings.details.difference")} value={projectedDifference > 0 ? formatCurrency(projectedOverpayment, lang) : formatCurrency(0, lang)} />
             </div>
 
             {projectedOverpayment > 0 ? (
               <div className="rounded-sm border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                Le paiement depasse le montant total de {projectedOverpayment.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}. Utilisez un paiement de type "adjustment" si cet ecart est volontaire.
+                {t("bookings.details.overpayment_notice", { amount: formatCurrency(projectedOverpayment, lang) })}
               </div>
             ) : null}
 
             {projectedRemaining > 0 ? (
               <div className="rounded-sm border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
-                Il restera {projectedRemaining.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} a payer apres cet enregistrement.
+                {t("bookings.details.remaining_notice", { amount: formatCurrency(projectedRemaining, lang) })}
               </div>
             ) : null}
 
             <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Methode de paiement</span>
+              <span className="block text-sm font-bold text-slate-800">{t("bookings.details.payment_method")}</span>
               <select name="payment_method_id" value={paymentForm.payment_method_id} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" required>
-                <option value="">Selectionner</option>
+                <option value="">{t("bookings.common.select")}</option>
                 {paymentMethods.map((method) => (
-                  <option key={method.encrypted_id || method.id} value={method.id}>{method.name}</option>
+                  <option key={method.encrypted_id || method.id} value={method.id}>
+                    {method.name}
+                  </option>
                 ))}
               </select>
             </label>
 
             <div className="grid gap-4 md:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Montant</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.amount")}</span>
                 <input type="number" min="0" step="0.01" name="amount" value={paymentForm.amount} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" required />
               </label>
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Ordre</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.sort_order")}</span>
                 <input type="number" min="1" step="1" name="sort_order" value={paymentForm.sort_order} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" required />
               </label>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Type</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.type")}</span>
                 <select name="payment_type" value={paymentForm.payment_type} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition">
-                  <option value="deposit">Deposit</option>
-                  <option value="installment">Installment</option>
-                  <option value="balance">Balance</option>
-                  <option value="adjustment">Adjustment</option>
+                  <option value="deposit">{t("bookings.payment_type.deposit")}</option>
+                  <option value="installment">{t("bookings.payment_type.installment")}</option>
+                  <option value="balance">{t("bookings.payment_type.balance")}</option>
+                  <option value="adjustment">{t("bookings.payment_type.adjustment")}</option>
                 </select>
               </label>
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Statut</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.status")}</span>
                 <select name="status" value={paymentForm.status} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition">
-                  <option value="pending">Pending</option>
-                  <option value="completed">Completed</option>
-                  <option value="failed">Failed</option>
+                  <option value="pending">{t("bookings.payment_status.pending")}</option>
+                  <option value="completed">{t("bookings.payment_status.completed")}</option>
+                  <option value="failed">{t("bookings.payment_status.failed")}</option>
                 </select>
               </label>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Date d'echeance</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.due_date")}</span>
                 <input type="date" name="due_date" value={paymentForm.due_date} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" />
               </label>
               <label className="space-y-2">
-                <span className="block text-sm font-bold text-slate-800">Date de paiement</span>
+                <span className="block text-sm font-bold text-slate-800">{t("bookings.details.paid_at")}</span>
                 <input type="date" name="paid_at" value={paymentForm.paid_at} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" />
               </label>
             </div>
 
             <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Reference</span>
+              <span className="block text-sm font-bold text-slate-800">{t("bookings.details.reference")}</span>
               <input type="text" name="reference" value={paymentForm.reference} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" />
             </label>
 
             <label className="space-y-2">
-              <span className="block text-sm font-bold text-slate-800">Note</span>
+              <span className="block text-sm font-bold text-slate-800">{t("bookings.details.note")}</span>
               <textarea rows="4" name="note" value={paymentForm.note} onChange={handlePaymentFormChange} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition" />
             </label>
 
-            {paymentMethods.length === 0 ? <p className="text-sm font-semibold text-amber-700">Aucune methode de paiement active n'est disponible.</p> : null}
-            {isFullyPaid && !editingPayment ? (
-              <p className="text-sm font-semibold text-green-700">Le booking est entierement regle. L'ajout d'un nouveau paiement est desactive.</p>
-            ) : null}
+            {paymentMethods.length === 0 ? <p className="text-sm font-semibold text-amber-700">{t("bookings.details.no_active_payment_methods")}</p> : null}
+            {isFullyPaid && !editingPayment ? <p className="text-sm font-semibold text-green-700">{t("bookings.details.fully_paid_notice")}</p> : null}
 
             <div className="flex flex-wrap gap-3">
               <button type="submit" disabled={paymentSaving || !canSubmitPayment} className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60">
-                {paymentSaving ? "Enregistrement..." : editingPayment ? "Mettre a jour le paiement" : "Ajouter le paiement"}
+                {paymentSaving ? t("bookings.details.saving") : editingPayment ? t("bookings.details.save_payment_edit") : t("bookings.details.save_payment_add")}
               </button>
               {editingPayment ? (
                 <button type="button" onClick={resetPaymentForm} disabled={paymentSaving} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-60">
-                  Annuler
+                  {t("bookings.common.cancel")}
                 </button>
               ) : null}
             </div>

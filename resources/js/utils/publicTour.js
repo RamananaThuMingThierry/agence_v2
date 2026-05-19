@@ -18,19 +18,22 @@ export function getTourTone(category = "") {
   return "bg-stone-100 text-slate-700";
 }
 
-export function mapTourToPublicItem(tour) {
+export function mapTourToPublicItem(tour, t = null) {
   const cover = getTourCover(tour);
   const description = tour?.description || "";
+  const fallbackTitle = typeof t === "function" ? t("public.tours.fallbacks.title") : "Tour";
+  const fallbackCategory = typeof t === "function" ? t("public.tours.fallbacks.category") : "Tour";
+  const fallbackTraveler = typeof t === "function" ? t("public.tours.fallbacks.traveler") : "Traveler";
 
   return {
     id: tour?.id || null,
     encryptedId: tour?.encrypted_id || null,
     tourId: tour?.encrypted_id || tour?.id || null,
-    title: tour?.title || "Tour",
+    title: tour?.title || fallbackTitle,
     description,
     excerpt: description.length > 180 ? `${description.slice(0, 177)}...` : description,
     image: buildImageUrl(cover?.image_url),
-    category: tour?.category || "Circuit",
+    category: tour?.category || fallbackCategory,
     categoryTone: getTourTone(tour?.category),
     duration: tour?.duration || "-",
     price: Number(tour?.price || 0),
@@ -48,7 +51,7 @@ export function mapTourToPublicItem(tour) {
     })) : [],
     reviews: Array.isArray(tour?.reviews) ? tour.reviews.map((review) => ({
       id: review.id,
-      name: review.name || "Voyageur",
+      name: review.name || fallbackTraveler,
       rating: Number(review.rating || 5),
       review: review.review || "",
       image: buildImageUrl(review.image),

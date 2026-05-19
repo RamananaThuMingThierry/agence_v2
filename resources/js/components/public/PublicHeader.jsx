@@ -41,7 +41,7 @@ export default function PublicHeader({
   contactHref = "#contact",
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { lang, setLang } = useI18n();
+  const { lang, setLang, t } = useI18n();
   const languageOptions = [
     { code: "fr", label: "FR" },
     { code: "en", label: "EN" },
@@ -92,7 +92,7 @@ export default function PublicHeader({
               value={lang}
               onChange={(event) => setLang(event.target.value)}
               className="appearance-none rounded-full border border-slate-200 bg-white py-2 pl-9 pr-8 text-sm font-semibold text-slate-700 outline-none transition hover:border-emerald-300 focus:border-emerald-500"
-              aria-label="Changer la langue"
+              aria-label={t("public.header.language_switcher.label")}
             >
               {languageOptions.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -102,13 +102,13 @@ export default function PublicHeader({
             </select>
           </label>
           <a href={contactHref} className="hidden rounded-full bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-emerald-800 md:inline-flex">
-            Planifier mon voyage
+            {t("public.header.cta.plan_trip")}
           </a>
           <button
             type="button"
             onClick={() => setMobileOpen((current) => !current)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 transition hover:bg-slate-50 lg:hidden"
-            aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={mobileOpen ? t("public.header.menu.close") : t("public.header.menu.open")}
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -140,7 +140,7 @@ export default function PublicHeader({
                 value={lang}
                 onChange={(event) => setLang(event.target.value)}
                 className="w-full appearance-none rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm font-semibold text-slate-700 outline-none transition hover:border-emerald-300 focus:border-emerald-500"
-                aria-label="Changer la langue"
+                aria-label={t("public.header.language_switcher.label")}
               >
                 {languageOptions.map((option) => (
                   <option key={option.code} value={option.code}>
@@ -155,7 +155,7 @@ export default function PublicHeader({
               onClick={closeMenu}
               className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold text-white shadow transition hover:bg-emerald-800 md:hidden"
             >
-              Planifier mon voyage
+              {t("public.header.cta.plan_trip")}
             </a>
           </div>
         </div>

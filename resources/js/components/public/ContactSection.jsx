@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createPublicContactForm } from "../../api/contactForms";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
 const initialForm = {
   name: "",
@@ -44,47 +45,24 @@ function MailIcon() {
 }
 
 export default function ContactSection({ platform = {} }) {
+  const { t } = useI18n();
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const address = platform.address || "Antananarivo, Madagascar";
+  const address = platform.address || t("public.footer.location_city");
   const contact = platform.contact || "+261 38 09 137 03";
   const email = platform.email || "worldofmadagascartour@gmail.com";
   const whatsappHref = platform.whatsapp || `https://wa.me/${contact.replace(/[^\d]/g, "")}`;
   const facebookHref = platform.facebook || "https://www.facebook.com/profile.php?id=100084179285857";
   const instagramHref = platform.instagram || "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D";
   const contactMethods = [
-    {
-      label: "Facebook",
-      value: "World of Madagascar",
-      href: facebookHref,
-      icon: <FacebookIcon />,
-      tone: "bg-[#1877F2] text-white",
-    },
-    {
-      label: "Instagram",
-      value: "@world_of_madagascar",
-      href: instagramHref,
-      icon: <InstagramIcon />,
-      tone: "bg-[#E4405F] text-white",
-    },
-    {
-      label: "WhatsApp",
-      value: contact,
-      href: whatsappHref,
-      icon: <WhatsAppIcon />,
-      tone: "bg-[#25D366] text-white",
-    },
-    {
-      label: "Email",
-      value: email,
-      href: `mailto:${email}`,
-      icon: <MailIcon />,
-      tone: "bg-slate-900 text-white",
-    },
+    { label: t("public.common.facebook"), value: platform.brand || "World of Madagascar", href: facebookHref, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white" },
+    { label: t("public.common.instagram"), value: "@world_of_madagascar", href: instagramHref, icon: <InstagramIcon />, tone: "bg-[#E4405F] text-white" },
+    { label: t("public.common.whatsapp"), value: contact, href: whatsappHref, icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white" },
+    { label: t("public.common.email"), value: email, href: `mailto:${email}`, icon: <MailIcon />, tone: "bg-slate-900 text-white" },
   ];
 
   function handleChange(event) {
@@ -109,14 +87,14 @@ export default function ContactSection({ platform = {} }) {
         window.open(result.whatsappUrl, "_blank", "noopener,noreferrer");
       }
 
-      const messageParts = [result?.message || "Votre demande a ete envoyee."];
+      const messageParts = [result?.message || t("public.home.contact.form.success")];
 
       if (result?.notifications?.email_sent) {
-        messageParts.push("Une notification email a aussi ete envoyee a la plateforme.");
+        messageParts.push(t("public.home.contact.form.email_sent"));
       }
 
       if (result?.notifications?.whatsapp_ready) {
-        messageParts.push("Le message WhatsApp pre-rempli vient d'etre ouvert.");
+        messageParts.push(t("public.home.contact.form.whatsapp_opened"));
       }
 
       setSuccessMessage(messageParts.join(" "));
@@ -132,7 +110,7 @@ export default function ContactSection({ platform = {} }) {
         setFieldErrors(normalized);
       }
 
-      setErrorMessage(apiMessage || "Impossible d'envoyer la demande pour le moment.");
+      setErrorMessage(apiMessage || t("public.home.contact.form.error"));
     } finally {
       setSubmitting(false);
     }
@@ -142,11 +120,11 @@ export default function ContactSection({ platform = {} }) {
     <section id="contact" className="bg-white py-20">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">Contact</p>
-          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">Planifiez votre voyage a Madagascar</h2>
-          <p className="mb-6 leading-relaxed text-slate-600">Parlez-nous de votre projet de voyage. Vous pouvez aussi nous contacter directement sur nos reseaux et canaux officiels.</p>
+          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.home.contact.eyebrow")}</p>
+          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">{t("public.home.contact.title")}</h2>
+          <p className="mb-6 leading-relaxed text-slate-600">{t("public.home.contact.text")}</p>
           <div className="mb-6 rounded-3xl bg-stone-50 p-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Adresse</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">{t("public.home.contact.address")}</p>
             <p className="mt-2 text-slate-700">{address}</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -174,31 +152,31 @@ export default function ContactSection({ platform = {} }) {
           {errorMessage ? <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{errorMessage}</div> : null}
 
           <div>
-            <label className="mb-2 block text-sm font-bold">Nom complet</label>
-            <input name="name" type="text" value={form.name} onChange={handleChange} placeholder="Votre nom" className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.name")}</label>
+            <input name="name" type="text" value={form.name} onChange={handleChange} placeholder={t("public.home.contact.form.fields.name_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
             {fieldErrors.name ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.name}</span> : null}
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold">Sujet</label>
-            <input name="subject" type="text" value={form.subject} onChange={handleChange} placeholder="Ex: Voyage sur mesure, devis, information" className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.subject")}</label>
+            <input name="subject" type="text" value={form.subject} onChange={handleChange} placeholder={t("public.home.contact.form.fields.subject_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
             {fieldErrors.subject ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.subject}</span> : null}
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold">Email ou WhatsApp</label>
-            <input name="email" type="text" value={form.email} onChange={handleChange} placeholder="Votre email ou votre numero" className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.email")}</label>
+            <input name="email" type="text" value={form.email} onChange={handleChange} placeholder={t("public.home.contact.form.fields.email_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
             {fieldErrors.email ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.email}</span> : null}
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold">Message</label>
-            <textarea name="message" value={form.message} onChange={handleChange} rows="5" placeholder="Expliquez votre demande, vos dates, votre budget, le nombre de personnes..." className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.message")}</label>
+            <textarea name="message" value={form.message} onChange={handleChange} rows="5" placeholder={t("public.home.contact.form.fields.message_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
             {fieldErrors.message ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.message}</span> : null}
           </div>
 
           <button type="submit" disabled={submitting} className="w-full rounded-full bg-emerald-700 py-4 font-bold text-white shadow-lg transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70">
-            {submitting ? "Envoi en cours..." : "Envoyer ma demande"}
+            {submitting ? t("public.home.contact.form.submitting") : t("public.home.contact.form.submit")}
           </button>
         </form>
       </div>

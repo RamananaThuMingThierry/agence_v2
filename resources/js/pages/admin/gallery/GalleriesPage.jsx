@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteGallery, fetchGalleries } from "../../../api/galleries";
 
 function buildImageUrl(path) {
@@ -21,20 +22,20 @@ function EmptyState({ title, description }) {
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, confirmText, cancelText, loadingText, loading, closeLabel, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" aria-label="Fermer" className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
+      <button type="button" aria-label={closeLabel} className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
           <h2 className="text-2xl font-extrabold text-slate-950">{title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">{message}</p>
         </div>
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>Annuler</button>
-          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? "Suppression..." : confirmText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>{cancelText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? loadingText : confirmText}</button>
         </div>
       </div>
     </div>
@@ -48,16 +49,16 @@ function SortableHead({ label, column, sortBy, sortDirection, onSort }) {
     <th className="px-5 py-4">
       <button type="button" onClick={() => onSort(column)} className={cn("inline-flex items-center gap-2 font-bold uppercase tracking-[0.18em] transition", active ? "text-slate-800" : "text-slate-500 hover:text-slate-700")}>
         <span>{label}</span>
-        <span className="text-[10px]">{active ? (sortDirection === "asc" ? "?" : "?") : "?"}</span>
+        <span className="text-[10px]">{active ? (sortDirection === "asc" ? "▲" : "▼") : "↕"}</span>
       </button>
     </th>
   );
 }
 
-function StatusBadge({ status }) {
+function StatusBadge({ status, labels }) {
   return (
     <span className={status === "publish" ? "inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-emerald-800" : "inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-amber-800"}>
-      {status === "publish" ? "Publie" : "Brouillon"}
+      {status === "publish" ? labels.publish : labels.draft}
     </span>
   );
 }
@@ -65,6 +66,7 @@ function StatusBadge({ status }) {
 export default function GalleriesPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, locale } = useI18n();
   const [galleries, setGalleries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -100,7 +102,7 @@ export default function GalleriesPage() {
       setGalleries(items);
     } catch (requestError) {
       setGalleries([]);
-      setError(requestError.response?.data?.message || "Impossible de charger les galleries.");
+      setError(requestError.response?.data?.message || t("galleries.list.load_error"));
     } finally {
       setLoading(false);
     }
@@ -124,11 +126,11 @@ export default function GalleriesPage() {
 
     try {
       await deleteGallery(confirmGallery.encrypted_id);
-      setNotice("Gallery supprimee.");
+      setNotice(t("galleries.list.delete_success"));
       setConfirmGallery(null);
       await loadGalleries();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Echec de la suppression de la gallery.");
+      setError(requestError.response?.data?.message || t("galleries.list.delete_error"));
     } finally {
       setActionLoading(false);
     }
@@ -191,26 +193,26 @@ export default function GalleriesPage() {
       <section className="overflow-hidden rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Gestion des galleries</h2>
-            <p className="mt-2 text-sm text-slate-500">Liste des galleries, statut de publication et images de couverture.</p>
+            <h2 className="text-2xl font-extrabold text-slate-950">{t("galleries.list.title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("galleries.list.description")}</p>
           </div>
 
           <Link to="/admin/galleries/create" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">
-            Nouvelle gallery
+            {t("galleries.common.new")}
           </Link>
         </div>
 
         <div className="mt-3 grid gap-4 md:grid-cols-3">
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Galleries</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("galleries.list.stats.total")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Publiees</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("galleries.list.stats.published")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.published}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Brouillons</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("galleries.list.stats.drafts")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.drafts}</p>
           </div>
         </div>
@@ -218,11 +220,11 @@ export default function GalleriesPage() {
         <div className="mt-3 overflow-hidden rounded-sm border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-3 sm:flex-row">
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Rechercher une gallery..." className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
+              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("galleries.list.search_placeholder")} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
               <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">
-                {[5, 10, 25, 50].map((size) => <option key={size} value={size}>{size} / page</option>)}
+                {[5, 10, 25, 50].map((size) => <option key={size} value={size}>{t("galleries.list.per_page", { count: size })}</option>)}
               </select>
-              <button type="button" onClick={loadGalleries} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">Rafraichir</button>
+              <button type="button" onClick={loadGalleries} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">{t("galleries.common.refresh")}</button>
             </div>
           </div>
 
@@ -231,9 +233,9 @@ export default function GalleriesPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les galleries sont en cours de recuperation depuis l'API." />
+              <EmptyState title={t("galleries.list.loading_title")} description={t("galleries.list.loading_description")} />
             ) : sortedGalleries.length === 0 ? (
-              <EmptyState title="Aucune gallery" description="Aucune gallery ne correspond a la recherche actuelle." />
+              <EmptyState title={t("galleries.list.empty_title")} description={t("galleries.list.empty_description")} />
             ) : (
               <div className="space-y-4">
                 <div className="overflow-hidden rounded-sm border border-stone-200">
@@ -241,13 +243,13 @@ export default function GalleriesPage() {
                     <table className="min-w-full divide-y divide-stone-200">
                       <thead className="bg-light text-left text-xs uppercase tracking-[0.18em]">
                         <tr>
-                          <th className="px-5 py-4 text-slate-500">Cover</th>
-                          <SortableHead label="Titre" column="title" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Categorie" column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Statut" column="status" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Images" column="images" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Creation" column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <th className="px-5 py-4 text-right text-slate-500">Actions</th>
+                          <th className="px-5 py-4 text-slate-500">{t("galleries.list.table.cover")}</th>
+                          <SortableHead label={t("galleries.list.table.title")} column="title" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("galleries.list.table.category")} column="category" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("galleries.list.table.status")} column="status" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("galleries.list.table.images")} column="images" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("galleries.list.table.created_at")} column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <th className="px-5 py-4 text-right text-slate-500">{t("galleries.list.table.actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-200 bg-white">
@@ -263,17 +265,17 @@ export default function GalleriesPage() {
                               </td>
                               <td className="px-5 py-4">
                                 <p className="font-extrabold text-slate-950">{gallery.title}</p>
-                                <p className="mt-1 max-w-md text-sm text-slate-500">{gallery.subtitle || "Sans sous-titre"}</p>
+                                <p className="mt-1 max-w-md text-sm text-slate-500">{gallery.subtitle || t("galleries.list.table.no_subtitle")}</p>
                               </td>
                               <td className="px-5 py-4 text-sm font-bold text-slate-700">{gallery.category?.name || "-"}</td>
-                              <td className="px-5 py-4"><StatusBadge status={gallery.status} /></td>
+                              <td className="px-5 py-4"><StatusBadge status={gallery.status} labels={{ publish: t("galleries.status.publish"), draft: t("galleries.status.draft") }} /></td>
                               <td className="px-5 py-4 text-sm text-slate-600">{gallery.images?.length || 0}</td>
-                              <td className="px-5 py-4 text-sm text-slate-500">{gallery.created_at ? new Date(gallery.created_at).toLocaleDateString("fr-FR") : "-"}</td>
+                              <td className="px-5 py-4 text-sm text-slate-500">{gallery.created_at ? new Date(gallery.created_at).toLocaleDateString(locale) : "-"}</td>
                               <td className="px-5 py-4">
                                 <div className="flex flex-wrap justify-end gap-2">
-                                  <Link to={`/admin/galleries/${gallery.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">Details</Link>
-                                  <Link to={`/admin/galleries/${gallery.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">Modifier</Link>
-                                  <button type="button" onClick={() => setConfirmGallery(gallery)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">Supprimer</button>
+                                  <Link to={`/admin/galleries/${gallery.encrypted_id}`} className="rounded-sm border border-stone-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-stone-100">{t("galleries.common.details")}</Link>
+                                  <Link to={`/admin/galleries/${gallery.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("galleries.common.edit")}</Link>
+                                  <button type="button" onClick={() => setConfirmGallery(gallery)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("galleries.common.delete")}</button>
                                 </div>
                               </td>
                             </tr>
@@ -285,13 +287,13 @@ export default function GalleriesPage() {
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm text-slate-500">Page <span className="font-bold text-slate-800">{currentPage}</span> sur <span className="font-bold text-slate-800">{totalPages}</span></p>
+                  <p className="text-sm text-slate-500">{t("galleries.list.pagination.page_of", { current: currentPage, total: totalPages })}</p>
                   <div className="inline-flex overflow-hidden rounded-sm border border-stone-300 bg-white">
-                    <button type="button" onClick={() => setPage(1)} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<<"}</button>
-                    <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<"}</button>
+                    <button type="button" onClick={() => setPage(1)} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("galleries.list.pagination.first")}</button>
+                    <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("galleries.list.pagination.previous")}</button>
                     <div className="inline-flex min-w-24 items-center justify-center border-l border-stone-300 px-3 text-sm font-bold text-slate-700">{currentPage} / {totalPages}</div>
-                    <button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{">"}</button>
-                    <button type="button" onClick={() => setPage(totalPages)} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{">>"}</button>
+                    <button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("galleries.list.pagination.next")}</button>
+                    <button type="button" onClick={() => setPage(totalPages)} disabled={currentPage === totalPages} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{t("galleries.list.pagination.last")}</button>
                   </div>
                 </div>
               </div>
@@ -302,9 +304,12 @@ export default function GalleriesPage() {
 
       <ConfirmModal
         open={Boolean(confirmGallery)}
-        title="Supprimer la gallery"
-        message={confirmGallery ? `Voulez-vous supprimer la gallery "${confirmGallery.title}" ?` : ""}
-        confirmText="Oui, supprimer"
+        title={t("galleries.list.delete_modal.title")}
+        message={confirmGallery ? t("galleries.list.delete_modal.message", { name: confirmGallery.title }) : ""}
+        confirmText={t("galleries.list.delete_modal.confirm")}
+        cancelText={t("galleries.common.cancel")}
+        loadingText={t("galleries.list.delete_modal.loading")}
+        closeLabel={t("galleries.common.close")}
         loading={actionLoading}
         onCancel={() => (actionLoading ? undefined : setConfirmGallery(null))}
         onConfirm={handleDelete}

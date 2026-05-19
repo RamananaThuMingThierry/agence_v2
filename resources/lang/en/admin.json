@@ -1,0 +1,1303 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Overview of bookings, contact requests, public content, and recent activity.",
+    "refresh": "Refresh",
+    "load_error": "Unable to load the dashboard.",
+    "stats": {
+      "bookings": "Bookings",
+      "bookings_help": ":booked pending, :completed completed",
+      "contact_forms": "Contact Forms",
+      "contact_forms_help": "Requests received from the public website",
+      "users": "Users",
+      "users_help": "Admin and team accounts",
+      "activity_logs": "Activity Logs",
+      "activity_logs_help": "Latest loaded activity",
+      "slides": "Slides",
+      "slides_help": ":count active",
+      "tours": "Tours",
+      "tours_help": ":count active/published",
+      "galleries": "Galleries",
+      "galleries_help": ":count published"
+    },
+    "quick_access": {
+      "title": "Quick Access",
+      "description": "Shortcuts to the most useful admin modules.",
+      "bookings": "View bookings",
+      "contacts": "View contacts",
+      "slides": "Manage slides",
+      "settings": "Open settings"
+    },
+    "recent_bookings": {
+      "title": "Latest bookings",
+      "description": "The most recent booking requests.",
+      "all": "View all",
+      "loading_title": "Loading...",
+      "loading_description": "Bookings are being loaded.",
+      "empty_title": "No bookings",
+      "empty_description": "No bookings are available yet.",
+      "table": {
+        "client": "Client",
+        "tour": "Tour",
+        "date": "Date",
+        "status": "Status",
+        "action": "Action",
+        "details": "Details"
+      }
+    },
+    "recent_contact_forms": {
+      "title": "Latest contact requests",
+      "description": "Messages received through the public form.",
+      "all": "View all",
+      "loading_title": "Loading...",
+      "loading_description": "Contact forms are being loaded.",
+      "empty_title": "No messages",
+      "empty_description": "No contact forms are available yet."
+    },
+    "recent_activity": {
+      "title": "Recent activity",
+      "description": "Latest technical events and admin actions.",
+      "all": "View logs",
+      "loading_title": "Loading...",
+      "loading_description": "Activity logs are being loaded.",
+      "empty_title": "No activity",
+      "empty_description": "No recent logs were found.",
+      "table": {
+        "action": "Action",
+        "message": "Message",
+        "user": "User",
+        "date": "Date",
+        "system": "System"
+      }
+    },
+    "status": {
+      "booked": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "active": "Active",
+      "publish": "Published",
+      "inactive": "Inactive",
+      "draft": "Draft"
+    }
+  },
+  "bookings": {
+    "status": {
+      "booked": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "payment_status": {
+      "pending": "Pending",
+      "completed": "Paid",
+      "failed": "Failed"
+    },
+    "payment_type": {
+      "deposit": "Deposit",
+      "installment": "Installment",
+      "balance": "Balance",
+      "adjustment": "Adjustment"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "details": "Details",
+      "edit": "Edit",
+      "select": "Select",
+      "all": "All"
+    },
+    "list": {
+      "title": "Booking management",
+      "description": "Track bookings, their status, and payment progress.",
+      "load_error": "Unable to load bookings.",
+      "delete_success": "Booking deleted.",
+      "delete_error": "Unable to delete booking.",
+      "stats": {
+        "total": "Total",
+        "booked": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "search_placeholder": "Search a booking..."
+      },
+      "loading_title": "Loading...",
+      "loading_description": "Bookings are being loaded from the API.",
+      "empty_title": "No bookings",
+      "empty_description": "No bookings match the current filters.",
+      "table": {
+        "client": "Client",
+        "tour": "Tour",
+        "dates": "Dates",
+        "payment": "Payment",
+        "status": "Status",
+        "actions": "Actions",
+        "total": "Total: :amount",
+        "paid": "Paid: :amount",
+        "remaining": "Remaining: :amount"
+      },
+      "delete_modal": {
+        "title": "Delete booking",
+        "message": "Do you want to delete the booking for \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    },
+    "details": {
+      "loading": "Loading booking...",
+      "load_error": "Unable to load booking details.",
+      "title": "Booking details",
+      "description": "View the booking and manage payments.",
+      "back": "Back to list",
+      "status_updated": "Booking status updated.",
+      "status_update_error": "Unable to update booking.",
+      "payment_added": "Payment added.",
+      "payment_updated": "Payment updated.",
+      "payment_save_error": "Unable to save payment.",
+      "payment_delete_confirm": "Delete this payment?",
+      "payment_deleted": "Payment deleted.",
+      "payment_delete_error": "Unable to delete payment.",
+      "client": "Client",
+      "email": "Email",
+      "phone": "Phone",
+      "tour": "Tour",
+      "start_date": "Start date",
+      "end_date": "End date",
+      "number_of_people": "Number of people",
+      "status": "Status",
+      "created_at": "Created at",
+      "updated_at": "Updated at",
+      "message": "Message",
+      "payment_summary": "Payment summary",
+      "total_amount": "Total amount",
+      "paid_amount": "Paid amount",
+      "remaining_amount": "Remaining amount",
+      "available_methods": "Available methods",
+      "no_active_method": "No active method",
+      "update_status": "Update status",
+      "save_status": "Update",
+      "payments_registered": "Recorded payments",
+      "no_payments": "No payments recorded.",
+      "payment_form_title_add": "Add a payment",
+      "payment_form_title_edit": "Edit a payment",
+      "payment_form_description": "Available methods come from active payment methods.",
+      "projected_paid": "Paid after save",
+      "projected_remaining": "Remaining after save",
+      "overpayment": "Overpayment",
+      "difference": "Difference",
+      "overpayment_notice": "This payment exceeds the total amount by :amount. Use an \"adjustment\" payment if this difference is intentional.",
+      "remaining_notice": ":amount will remain to be paid after this save.",
+      "payment_method": "Payment method",
+      "amount": "Amount",
+      "sort_order": "Order",
+      "type": "Type",
+      "due_date": "Due date",
+      "paid_at": "Payment date",
+      "reference": "Reference",
+      "note": "Note",
+      "no_active_payment_methods": "No active payment method is available.",
+      "fully_paid_notice": "The booking is fully paid. Adding a new payment is disabled.",
+      "save_payment_add": "Add payment",
+      "save_payment_edit": "Update payment",
+      "saving": "Saving...",
+      "table": {
+        "type": "Type",
+        "method": "Method",
+        "amount": "Amount",
+        "status": "Status",
+        "due_date": "Due date",
+        "reference": "Reference",
+        "actions": "Actions"
+      }
+    }
+  },
+  "contact_forms": {
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "details": "Details",
+      "confirm": "Confirm"
+    },
+    "list": {
+      "title": "Contact form management",
+      "description": "Review requests received from the site and remove those that are no longer useful.",
+      "load_error": "Unable to load contact forms.",
+      "delete_success": "Contact form deleted.",
+      "delete_error": "Unable to delete contact form.",
+      "stats": {
+        "total": "Total",
+        "with_subject": "With subject"
+      },
+      "search_placeholder": "Search a request...",
+      "loading_title": "Loading...",
+      "loading_description": "Contact forms are being loaded from the API.",
+      "empty_title": "No requests found",
+      "empty_description": "Adjust the search or check whether new forms have been received.",
+      "table": {
+        "name_email": "Name / Email",
+        "subject": "Subject",
+        "message": "Message",
+        "created_at": "Created at",
+        "actions": "Actions"
+      },
+      "delete_modal": {
+        "title": "Delete form",
+        "message": "Do you want to permanently delete the request from \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    },
+    "details": {
+      "loading": "Loading form...",
+      "load_error": "Unable to load contact form details.",
+      "delete_error": "Unable to delete contact form.",
+      "delete_success": "Contact form deleted.",
+      "title": "Contact form details",
+      "description": "View the message received from the site.",
+      "back": "Back to list",
+      "name": "Name",
+      "email": "Email / Contact",
+      "subject": "Subject",
+      "created_at": "Created at",
+      "updated_at": "Updated at",
+      "message": "Message",
+      "delete_modal": {
+        "title": "Delete form",
+        "message": "Do you want to permanently delete the request from \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    }
+  },
+  "layout": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "bookings": "Bookings",
+      "contact_forms": "Contact Forms",
+      "slides": "Slides",
+      "galleries": "Galleries",
+      "tours": "Tours",
+      "testimonials": "Testimonials",
+      "users": "Users",
+      "settings": "Settings",
+      "activity_logs": "Logs",
+      "logout": "Logout"
+    },
+    "page_titles": {
+      "settings": "Settings",
+      "activity_logs": "Activity Logs",
+      "users": "User Management",
+      "contact_forms": "Contact Form Management",
+      "bookings": "Booking Management",
+      "galleries": "Gallery Management",
+      "slides": "Slide Management",
+      "testimonials": "Testimonial Management",
+      "dashboard": "Dashboard",
+      "default": "Administration"
+    },
+    "switcher": {
+      "back_to_site": "Back to site",
+      "open_menu": "Open menu",
+      "close_menu": "Close menu",
+      "expand_menu": "Expand menu",
+      "collapse_menu": "Collapse menu"
+    },
+    "account": {
+      "profile": "Profile",
+      "my_account": "My account"
+    },
+    "session": {
+      "checking": "Checking session..."
+    },
+    "footer": {
+      "copyright": "© :year WORLD OF MADAGASCAR - Admin Dashboard",
+      "secure": "Secure",
+      "responsive": "Responsive"
+    },
+    "logout_modal": {
+      "title": "Logout",
+      "message": "Do you really want to log out?",
+      "confirm": "Yes, log out",
+      "loading": "Logging out...",
+      "cancel": "Cancel"
+    }
+  },
+  "slides": {
+    "status": {
+      "trashed": "Trash",
+      "inactive": "Inactive",
+      "active": "Active"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "permanent": "Permanent",
+      "new": "New slide",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "processing": "Processing...",
+      "saving": "Saving..."
+    },
+    "list": {
+      "title": "Slide management",
+      "description": "List of slides with search, sorting, pagination, and quick actions.",
+      "load_error": "Unable to load slides.",
+      "delete_success": "Slide moved to trash.",
+      "delete_error": "Failed to delete slide.",
+      "restore_success": "Slide restored.",
+      "restore_error": "Failed to restore slide.",
+      "force_delete_success": "Slide permanently deleted.",
+      "force_delete_error": "Failed to permanently delete slide.",
+      "stats": {
+        "active": "Active",
+        "trashed": "Trash",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "trashed": "Trash"
+      },
+      "search_placeholder": "Search a slide...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Slides are being loaded from the API.",
+      "empty_title": "No slides found",
+      "empty_description": "Try changing the search or add a new slide from the top-right button.",
+      "table": {
+        "slide": "Slide",
+        "title": "Title",
+        "order": "Order",
+        "status": "Status",
+        "created_at": "Created at",
+        "actions": "Actions",
+        "no_image": "No image",
+        "no_subtitle": "No subtitle"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total",
+        "first": "First",
+        "first_aria": "Go to the first page",
+        "previous": "Previous",
+        "previous_aria": "Go to the previous page",
+        "next": "Next",
+        "next_aria": "Go to the next page",
+        "last": "Last",
+        "last_aria": "Go to the last page"
+      },
+      "confirm": {
+        "delete_title": "Delete slide",
+        "delete_message": "Do you want to move \":name\" to trash?",
+        "delete_confirm": "Yes, delete",
+        "restore_title": "Restore slide",
+        "restore_message": "Do you want to restore \":name\"?",
+        "restore_confirm": "Yes, restore",
+        "force_title": "Permanent deletion",
+        "force_message": "Do you want to permanently delete \":name\" and its image?",
+        "force_confirm": "Yes, delete"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load slide.",
+      "create_success": "Slide created.",
+      "update_success": "Slide updated.",
+      "save_error": "Failed to save slide.",
+      "loading": "Loading slide...",
+      "create_title": "Add slide",
+      "edit_title": "Edit slide",
+      "description": "Fill in the slide information with a clear and responsive structure.",
+      "fields": {
+        "title": "Title",
+        "title_placeholder": "Main slide title",
+        "subtitle": "Subtitle",
+        "subtitle_placeholder": "Secondary text",
+        "description": "Description",
+        "description_placeholder": "Description shown on the banner.",
+        "image": "Image",
+        "image_alt": "Slide preview",
+        "order": "Order",
+        "active": "Active",
+        "active_help": "Active or inactive for slide display."
+      }
+    }
+  },
+  "users": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "trashed": "Trash"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "details": "Details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "permanent": "Permanent deletion",
+      "new": "New user",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "processing": "Processing...",
+      "saving": "Saving..."
+    },
+    "list": {
+      "title": "User management",
+      "description": "List, search, sorting, roles, statuses, and full user lifecycle.",
+      "load_error": "Unable to load users.",
+      "delete_success": "User moved to trash.",
+      "delete_error": "Failed to delete user.",
+      "restore_success": "User restored.",
+      "restore_error": "Failed to restore user.",
+      "force_delete_success": "User permanently deleted.",
+      "force_delete_error": "Failed to permanently delete user.",
+      "stats": {
+        "active": "Active",
+        "admins": "Admins",
+        "trashed": "Trash",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "admins": "Admins",
+        "trashed": "Trash"
+      },
+      "search_placeholder": "Search a user...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Users are being loaded from the API.",
+      "empty_title": "No users found",
+      "empty_description": "Adjust filters or create a new user from the top-right button.",
+      "table": {
+        "profile": "Profile",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "created_at": "Created at",
+        "actions": "Actions",
+        "no_contact": "No contact",
+        "no_address": "No address"
+      },
+      "sort": {
+        "by": "Sort by :label"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Delete user",
+        "delete_message": "Do you want to move \":name\" to trash?",
+        "delete_confirm": "Yes, delete",
+        "restore_title": "Restore user",
+        "restore_message": "Do you want to restore \":name\"?",
+        "restore_confirm": "Yes, restore",
+        "force_title": "Permanent deletion",
+        "force_message": "Do you want to permanently delete \":name\"?",
+        "force_confirm": "Yes, delete"
+      }
+    },
+    "details": {
+      "load_error": "Unable to load user details.",
+      "loading": "Loading user...",
+      "title": "User details",
+      "description": "Quick view of the user profile.",
+      "profile_alt": "Profile",
+      "fields": {
+        "pseudo": "Username",
+        "email": "Email",
+        "contact": "Contact",
+        "address": "Address",
+        "role": "Role",
+        "status": "Status",
+        "created_at": "Created at",
+        "updated_at": "Updated at"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load user.",
+      "create_success": "User created.",
+      "update_success": "User updated.",
+      "save_error": "Failed to save user.",
+      "loading": "Loading user...",
+      "create_title": "Add user",
+      "edit_title": "Edit user",
+      "description": "Fill in the profile, role, status, and initial password.",
+      "fields": {
+        "avatar": "Avatar",
+        "avatar_alt": "Avatar",
+        "pseudo": "Username",
+        "pseudo_placeholder": "User name",
+        "email": "Email",
+        "email_placeholder": "email@domain.com",
+        "contact": "Contact",
+        "contact_placeholder": "Phone",
+        "address": "Address",
+        "address_placeholder": "Address",
+        "role": "Role",
+        "status": "Status",
+        "password": "Password",
+        "new_password": "New password",
+        "password_placeholder": "Minimum 8 characters",
+        "password_confirmation": "Confirmation",
+        "password_confirmation_placeholder": "Confirm password"
+      }
+    }
+  },
+  "testimonials": {
+    "status": {
+      "publish": "Published",
+      "archived": "Archived",
+      "trashed": "Trash"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "permanent": "Permanent",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "close": "Close",
+      "saving": "Saving..."
+    },
+    "list": {
+      "title": "Testimonial management",
+      "description": "Manage testimonials shown on the homepage with publishing, archiving, and trash.",
+      "load_error": "Unable to load testimonials.",
+      "delete_success": "Testimonial moved to trash.",
+      "restore_success": "Testimonial restored.",
+      "force_delete_success": "Testimonial permanently deleted.",
+      "action_error": "Action failed for this testimonial.",
+      "status_updated": "Testimonial status updated.",
+      "status_update_error": "Unable to update testimonial status.",
+      "stats": {
+        "published": "Published",
+        "archived": "Archived",
+        "trashed": "Trash",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "All",
+        "published": "Published",
+        "archived": "Archived",
+        "trashed": "Trash"
+      },
+      "search_placeholder": "Search a testimonial...",
+      "loading_title": "Loading...",
+      "loading_description": "Testimonials are being loaded from the API.",
+      "empty_title": "No testimonials found",
+      "empty_description": "Adjust filters or refresh the list.",
+      "table": {
+        "client": "Client",
+        "message": "Message",
+        "rating": "Rating",
+        "status": "Status",
+        "created_at": "Created at",
+        "actions": "Actions"
+      },
+      "confirm": {
+        "delete_title": "Delete testimonial",
+        "delete_message": "Do you want to move \":name\" to trash?",
+        "delete_confirm": "Yes, delete",
+        "restore_title": "Restore testimonial",
+        "restore_message": "Do you want to restore \":name\"?",
+        "restore_confirm": "Yes, restore",
+        "force_title": "Permanent deletion",
+        "force_message": "Do you want to permanently delete \":name\" and its photo?",
+        "force_confirm": "Yes, delete"
+      },
+      "status_modal": {
+        "title": "Edit status",
+        "description": "Change only the publication status for \":name\".",
+        "field": "Status"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load testimonial.",
+      "create_success": "Testimonial created.",
+      "update_success": "Testimonial updated.",
+      "save_error": "Failed to save testimonial.",
+      "loading": "Loading testimonial...",
+      "create_title": "Add testimonial",
+      "edit_title": "Edit testimonial",
+      "description": "Fill in the client testimonial, rating, publication status, and portrait.",
+      "fields": {
+        "name": "Name",
+        "name_placeholder": "Client name",
+        "status": "Status",
+        "message": "Message",
+        "message_placeholder": "Traveler feedback",
+        "image": "Photo",
+        "image_alt": "Testimonial preview",
+        "rating": "Rating",
+        "rating_option": ":count star(s)",
+        "rating_preview": "Rating preview"
+      }
+    }
+  },
+  "tours": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "trashed": "Trash"
+    },
+    "review_status": {
+      "publish": "Published",
+      "archived": "Archived",
+      "trashed": "Trash"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "details": "Details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "restore": "Restore",
+      "permanent": "Permanent",
+      "new": "New tour",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "processing": "Processing...",
+      "saving": "Saving...",
+      "close": "Close"
+    },
+    "list": {
+      "title": "Tour management",
+      "description": "List of tours with search, sorting, pagination, and trash.",
+      "load_error": "Unable to load tours.",
+      "delete_success": "Tour moved to trash.",
+      "restore_success": "Tour restored.",
+      "force_delete_success": "Tour permanently deleted.",
+      "action_error": "Action failed for the tour.",
+      "stats": {
+        "active": "Active",
+        "trashed": "Trash",
+        "total": "Total"
+      },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "trashed": "Trash"
+      },
+      "search_placeholder": "Search a tour...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Tours are being loaded from the API.",
+      "empty_title": "No tours found",
+      "empty_description": "Try adjusting the search or add a new tour.",
+      "table": {
+        "cover": "Cover",
+        "title": "Title",
+        "category": "Category",
+        "price": "Price",
+        "images": "Images",
+        "created_at": "Created at",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "confirm": {
+        "delete_title": "Delete tour",
+        "delete_message": "Do you want to move \":name\" to trash?",
+        "delete_confirm": "Yes, delete",
+        "restore_title": "Restore tour",
+        "restore_message": "Do you want to restore \":name\"?",
+        "restore_confirm": "Yes, restore",
+        "force_title": "Permanent deletion",
+        "force_message": "Do you want to permanently delete \":name\" and its images?",
+        "force_confirm": "Yes, delete"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load tour.",
+      "image_required": "Add at least one image for the tour.",
+      "create_success": "Tour created.",
+      "update_success": "Tour updated.",
+      "save_error": "Failed to save tour.",
+      "loading": "Loading tour...",
+      "create_title": "Add tour",
+      "edit_title": "Edit tour",
+      "description": "Configure the tour, its images, and its program.",
+      "fields": {
+        "title": "Title",
+        "slug": "Slug",
+        "slug_placeholder": "Leave empty for auto-generation",
+        "price": "Price",
+        "duration": "Duration",
+        "category": "Category",
+        "status": "Status",
+        "start_location": "Start location",
+        "end_location": "End location",
+        "description": "Description"
+      },
+      "program": {
+        "title": "Program",
+        "day": "Day",
+        "item_title": "Title",
+        "item_description": "Description",
+        "activities": "Activities",
+        "remove_day": "Remove this day",
+        "add_day": "Add a day"
+      },
+      "inclusions": {
+        "title": "Inclusions",
+        "add": "Add"
+      },
+      "exclusions": {
+        "title": "Exclusions",
+        "add": "Add"
+      },
+      "images": {
+        "title": "Images",
+        "description": "Choose the cover, add captions, and upload multiple images.",
+        "add_images": "Add images",
+        "existing_title": "Existing images",
+        "new_title": "New images",
+        "no_existing": "No existing images.",
+        "no_new": "No new image selected.",
+        "caption": "Caption",
+        "cover": "Cover",
+        "remove": "Remove",
+        "image_alt": "Tour image"
+      }
+    },
+    "details": {
+      "loading": "Loading tour...",
+      "load_error": "Unable to load tour details.",
+      "title": "Tour details",
+      "description": "Quick view of the tour product.",
+      "cover": "Cover",
+      "image_alt": "Tour image",
+      "review_status_updated": "Review status updated.",
+      "review_status_update_error": "Unable to update review status.",
+      "review_deleted": "Review deleted.",
+      "review_delete_error": "Unable to delete review.",
+      "fields": {
+        "title": "Title",
+        "slug": "Slug",
+        "category": "Category",
+        "duration": "Duration",
+        "price": "Price",
+        "status": "Status",
+        "start_location": "Departure",
+        "end_location": "Arrival",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "description": "Description"
+      },
+      "program": {
+        "title": "Program",
+        "empty": "No program.",
+        "day_label": "Day :day",
+        "activities": "Activities: :value"
+      },
+      "inclusions": {
+        "title": "Inclusions",
+        "empty": "No inclusion."
+      },
+      "exclusions": {
+        "title": "Exclusions",
+        "empty": "No exclusion."
+      },
+      "images": {
+        "title": "Tour images",
+        "no_caption": "No caption"
+      },
+      "reviews": {
+        "title": "Tour reviews",
+        "empty": "No review linked to this tour.",
+        "traveler": "Traveler"
+      },
+      "review_modal": {
+        "title": "Edit status",
+        "description": "Change the publication status for the review from \":name\".",
+        "field": "Status"
+      },
+      "delete_review": {
+        "title": "Delete review",
+        "message": "Do you want to delete the review from \":name\"?",
+        "confirm": "Yes, delete"
+      }
+    }
+  },
+  "galleries": {
+    "status": {
+      "publish": "Published",
+      "draft": "Draft"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "details": "Details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "new": "New gallery",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "saving": "Saving...",
+      "close": "Close"
+    },
+    "list": {
+      "title": "Gallery management",
+      "description": "List of galleries, publication status, and cover images.",
+      "load_error": "Unable to load galleries.",
+      "delete_success": "Gallery deleted.",
+      "delete_error": "Failed to delete gallery.",
+      "stats": {
+        "total": "Galleries",
+        "published": "Published",
+        "drafts": "Drafts"
+      },
+      "search_placeholder": "Search a gallery...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Galleries are being loaded from the API.",
+      "empty_title": "No galleries",
+      "empty_description": "No gallery matches the current search.",
+      "table": {
+        "cover": "Cover",
+        "title": "Title",
+        "category": "Category",
+        "status": "Status",
+        "images": "Images",
+        "created_at": "Created at",
+        "actions": "Actions",
+        "no_subtitle": "No subtitle"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total",
+        "first": "<<",
+        "previous": "<",
+        "next": ">",
+        "last": ">>"
+      },
+      "delete_modal": {
+        "title": "Delete gallery",
+        "message": "Do you want to delete the gallery \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    },
+    "details": {
+      "loading": "Loading gallery...",
+      "load_error": "Unable to load gallery details.",
+      "title": "Gallery details",
+      "description": "Quick view of the gallery and its images.",
+      "cover": "Cover",
+      "image_alt": "Gallery image",
+      "fields": {
+        "title": "Title",
+        "category": "Category",
+        "subtitle": "Subtitle",
+        "place": "Place",
+        "tour": "Linked tour",
+        "status": "Status",
+        "images_count": "Number of images",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "description": "Description"
+      },
+      "images": {
+        "title": "Gallery images",
+        "description": "All linked images, with their caption and cover indication.",
+        "no_caption": "No caption"
+      }
+    },
+    "form": {
+      "load_error": "Unable to load gallery.",
+      "image_required": "Add at least one image for the gallery.",
+      "create_success": "Gallery created.",
+      "update_success": "Gallery updated.",
+      "save_error": "Failed to save gallery.",
+      "loading": "Loading gallery...",
+      "create_title": "Add gallery",
+      "edit_title": "Edit gallery",
+      "description": "Configure the gallery information and its image collection.",
+      "fields": {
+        "title": "Title",
+        "title_placeholder": "Gallery title",
+        "subtitle": "Subtitle",
+        "subtitle_placeholder": "Subtitle",
+        "place": "Place",
+        "place_placeholder": "Ex: Morondava",
+        "category": "Category",
+        "category_placeholder": "Select a category",
+        "tour": "Linked tour",
+        "tour_placeholder": "No linked tour",
+        "status": "Status",
+        "description": "Description",
+        "description_placeholder": "Gallery description"
+      },
+      "images": {
+        "add_images": "Add images",
+        "existing_title": "Existing images",
+        "existing_description": "Edit captions, choose the cover, or remove images.",
+        "new_title": "New images",
+        "new_description": "Preview new images before saving.",
+        "no_existing": "No existing image.",
+        "no_new": "No new image selected.",
+        "caption": "Caption",
+        "caption_placeholder": "Image caption",
+        "cover": "Cover",
+        "remove": "Remove",
+        "image_alt": "Gallery image"
+      }
+    }
+  },
+  "activity_logs": {
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "close": "Close"
+    },
+    "list": {
+      "title": "Activity logs",
+      "description": "History of admin actions with message, user, route, and status.",
+      "load_error": "Unable to load activity logs.",
+      "delete_success": "Activity log deleted.",
+      "delete_error": "Failed to delete activity log.",
+      "search_placeholder": "Search a log...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Activity logs are being loaded from the API.",
+      "empty_title": "No activity log",
+      "empty_description": "No log matches the current search.",
+      "table": {
+        "action": "Action",
+        "message": "Message",
+        "user": "User",
+        "status": "Status",
+        "date": "Date",
+        "actions": "Actions",
+        "system": "System",
+        "show_details": "Show details"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total"
+      },
+      "delete_modal": {
+        "title": "Delete log",
+        "message": "Do you want to delete the log \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    },
+    "details": {
+      "title": "Log details",
+      "description": "Full information about this activity.",
+      "fields": {
+        "action": "Action",
+        "color": "Color",
+        "user": "User",
+        "date": "Date",
+        "method": "Method",
+        "status_code": "Status code",
+        "message": "Message",
+        "route": "Route",
+        "entity_type": "Entity type",
+        "metadata": "Metadata"
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage platform information, categories, payment methods, and your account from a tabbed interface.",
+    "tabs": {
+      "platform": "Platform information",
+      "categories": "Category management",
+      "payment_methods": "Payment methods",
+      "account": "My account"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save",
+      "update": "Update",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "edit": "Edit",
+      "loading": "Loading...",
+      "saving": "Saving..."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "platform": {
+      "title": "Platform information",
+      "description": "Manage the platform logo, name, contact, email, and address.",
+      "load_error": "Unable to load platform information.",
+      "save": "Save information",
+      "messages": {
+        "update_success": "Platform information updated.",
+        "update_error": "Unable to update the platform."
+      },
+      "fields": {
+        "logo": "Logo",
+        "platform_name": "Platform name",
+        "platform_name_placeholder": "Platform name",
+        "contact": "Contact",
+        "contact_placeholder": "Main phone",
+        "email": "Email",
+        "email_placeholder": "Main email",
+        "address": "Address",
+        "address_placeholder": "Platform address"
+      },
+      "preview": {
+        "title": "Platform preview",
+        "description": "Quick summary of the currently configured information.",
+        "logo_alt": "Platform logo",
+        "platform": "Platform"
+      }
+    },
+    "categories": {
+      "title": "Category management",
+      "description": "Create, edit, and delete categories from settings.",
+      "load_error": "Unable to load categories.",
+      "search_placeholder": "Search a category...",
+      "loading_description": "Categories are being loaded.",
+      "empty_title": "No category",
+      "empty_description": "No category matches the current search.",
+      "stats": {
+        "total": "Total",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "table": {
+        "name": "Name",
+        "description": "Description",
+        "status": "Status",
+        "actions": "Actions",
+        "no_description": "No description"
+      },
+      "messages": {
+        "create_success": "Category created.",
+        "update_success": "Category updated.",
+        "save_error": "Unable to save the category.",
+        "delete_success": "Category deleted.",
+        "delete_error": "Unable to delete the category."
+      },
+      "delete_modal": {
+        "title": "Delete category",
+        "message": "Do you want to permanently delete the category \":name\"?",
+        "confirm": "Yes, delete"
+      },
+      "form": {
+        "create_title": "New category",
+        "edit_title": "Edit category",
+        "description": "Configure the category name, description, and status.",
+        "fields": {
+          "name": "Name",
+          "name_placeholder": "Category name",
+          "description": "Description",
+          "description_placeholder": "Category description",
+          "active": "Active",
+          "active_help": "Show or hide this category."
+        }
+      }
+    },
+    "payment_methods": {
+      "title": "Payment method management",
+      "description": "Create, edit, and delete payment methods.",
+      "load_error": "Unable to load payment methods.",
+      "search_placeholder": "Search a method...",
+      "loading_description": "Payment methods are being loaded.",
+      "empty_title": "No method",
+      "empty_description": "No payment method matches the current search.",
+      "stats": {
+        "total": "Total",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "table": {
+        "name": "Method",
+        "code": "Code",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "messages": {
+        "create_success": "Payment method created.",
+        "update_success": "Payment method updated.",
+        "save_error": "Unable to save the payment method.",
+        "delete_success": "Payment method deleted.",
+        "delete_error": "Unable to delete the payment method."
+      },
+      "delete_modal": {
+        "title": "Delete payment method",
+        "message": "Do you want to permanently delete the method \":name\"?",
+        "confirm": "Yes, delete"
+      },
+      "form": {
+        "create_title": "New method",
+        "edit_title": "Edit method",
+        "description": "Configure the logo, name, code, and status of the payment method.",
+        "logo_alt": "Method logo",
+        "fields": {
+          "logo": "Logo",
+          "name": "Name",
+          "name_placeholder": "Ex: Mvola",
+          "code": "Code",
+          "code_placeholder": "Ex: mvola",
+          "active": "Active",
+          "active_help": "Show or hide this payment method."
+        }
+      }
+    },
+    "account": {
+      "title": "Administrator profile",
+      "description": "Update the information of the currently connected account.",
+      "save": "Save changes",
+      "messages": {
+        "user_not_found": "User not found.",
+        "update_success": "Account information updated.",
+        "update_error": "Unable to update the account."
+      },
+      "fields": {
+        "avatar": "Avatar",
+        "pseudo": "Username",
+        "pseudo_placeholder": "Your username",
+        "email": "Email",
+        "email_placeholder": "Your email",
+        "contact": "Contact",
+        "contact_placeholder": "Phone number",
+        "address": "Address",
+        "address_placeholder": "Full address",
+        "password": "Password",
+        "new_password": "New password",
+        "new_password_placeholder": "Minimum 8 characters",
+        "password_confirmation": "Confirmation",
+        "password_confirmation_placeholder": "Confirm the password"
+      },
+      "password_section": {
+        "title": "Password",
+        "description": "Leave the fields empty if you do not want to change the password."
+      },
+      "session": {
+        "title": "Session",
+        "description": "Quick information about the connected account.",
+        "role": "Role",
+        "status": "Status"
+      }
+    },
+    "delete_account": {
+      "title": "Delete account",
+      "description": "This action permanently deletes the authenticated account.",
+      "warning": "Deletion is irreversible. You will need to confirm with your current password.",
+      "button": "Delete my account",
+      "messages": {
+        "delete_error": "Unable to delete the account."
+      },
+      "modal": {
+        "title": "Delete my account",
+        "description": "This deletion is permanent. Enter your password to confirm.",
+        "password_placeholder": "Your current password",
+        "confirm": "Delete permanently"
+      }
+    }
+  },
+  "categories": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "common": {
+      "refresh": "Refresh",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "new": "New category",
+      "back": "Back to list",
+      "save": "Save",
+      "update": "Update",
+      "saving": "Saving...",
+      "close": "Close"
+    },
+    "list": {
+      "title": "Category management",
+      "description": "List, search, sorting, and quick actions for categories.",
+      "load_error": "Unable to load categories.",
+      "delete_success": "Category deleted.",
+      "delete_error": "Failed to delete category.",
+      "stats": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "total": "Total"
+      },
+      "search_placeholder": "Search a category...",
+      "per_page": ":count / page",
+      "loading_title": "Loading...",
+      "loading_description": "Categories are being loaded from the API.",
+      "empty_title": "No category",
+      "empty_description": "No category matches the current search.",
+      "table": {
+        "name": "Name",
+        "description": "Description",
+        "status": "Status",
+        "created_at": "Created at",
+        "actions": "Actions",
+        "no_description": "No description"
+      },
+      "pagination": {
+        "page_of": "Page :current of :total"
+      },
+      "delete_modal": {
+        "title": "Delete category",
+        "message": "Do you want to delete the category \":name\"?",
+        "confirm": "Yes, delete",
+        "loading": "Deleting..."
+      }
+    },
+    "form": {
+      "load_error": "Unable to load category.",
+      "create_success": "Category created.",
+      "update_success": "Category updated.",
+      "save_error": "Failed to save category.",
+      "loading": "Loading category...",
+      "create_title": "Add category",
+      "edit_title": "Edit category",
+      "description": "Configure the category name, description, and status.",
+      "fields": {
+        "name": "Name",
+        "name_placeholder": "Category name",
+        "description": "Description",
+        "description_placeholder": "Category description",
+        "active": "Active",
+        "active_help": "Show or hide this category."
+      }
+    }
+  }
+}

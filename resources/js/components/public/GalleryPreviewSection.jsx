@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import SectionTitle from "./SectionTitle";
 
 export default function GalleryPreviewSection({ items }) {
+  const { t } = useI18n();
   const featuredItem = items[0] || null;
   const secondaryItems = featuredItem ? items.slice(1) : items;
 
@@ -11,12 +13,12 @@ export default function GalleryPreviewSection({ items }) {
       <div className="mx-auto max-w-7xl px-4">
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle
-            eyebrow="Galerie photos"
-            title="Inspirez les voyageurs avec les plus beaux paysages"
-            text="La galerie doit montrer des photos reelles : clients, guides, parcs, animaux, hotels, voitures et moments forts du voyage."
+            eyebrow={t("public.home.gallery.eyebrow")}
+            title={t("public.home.gallery.title")}
+            text={t("public.home.gallery.text")}
           />
           <Link to="/galerie" className="rounded-full bg-emerald-700 px-6 py-3 font-bold text-white shadow transition hover:bg-emerald-800">
-            Voir toute la galerie
+            {t("public.home.gallery.view_all")}
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

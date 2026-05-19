@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useI18n } from "../../../hooks/admin/I18nContext";
 import { deleteCategory, fetchCategories } from "../../../api/categories";
 
 function cn(...values) {
@@ -15,20 +16,20 @@ function EmptyState({ title, description }) {
   );
 }
 
-function ConfirmModal({ open, title, message, confirmText, loading, onCancel, onConfirm }) {
+function ConfirmModal({ open, title, message, confirmText, cancelText, loadingText, loading, closeLabel, onCancel, onConfirm }) {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button type="button" aria-label="Fermer" className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
+      <button type="button" aria-label={closeLabel} className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={loading ? undefined : onCancel} />
       <div className="relative w-full max-w-md rounded border border-stone-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.22)]">
         <div className="mb-6">
           <h2 className="text-2xl font-extrabold text-slate-950">{title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">{message}</p>
         </div>
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>Annuler</button>
-          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? "Suppression..." : confirmText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={onCancel} disabled={loading}>{cancelText}</button>
+          <button type="button" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60" onClick={onConfirm} disabled={loading}>{loading ? loadingText : confirmText}</button>
         </div>
       </div>
     </div>
@@ -58,6 +59,7 @@ function SortableHead({ label, column, sortBy, sortDirection, onSort }) {
 export default function CategoriesPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, locale } = useI18n();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -93,7 +95,7 @@ export default function CategoriesPage() {
       setCategories(items);
     } catch (requestError) {
       setCategories([]);
-      setError(requestError.response?.data?.message || "Impossible de charger les categories.");
+      setError(requestError.response?.data?.message || t("categories.list.load_error"));
     } finally {
       setLoading(false);
     }
@@ -115,11 +117,11 @@ export default function CategoriesPage() {
 
     try {
       await deleteCategory(category.encrypted_id);
-      setNotice("Categorie supprimee.");
+      setNotice(t("categories.list.delete_success"));
       setConfirmCategory(null);
       await loadCategories();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Echec de la suppression de la categorie.");
+      setError(requestError.response?.data?.message || t("categories.list.delete_error"));
     } finally {
       setActionLoading(false);
     }
@@ -183,26 +185,26 @@ export default function CategoriesPage() {
       <section className="overflow-hidden rounded-sm bg-white/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-950">Gestion des categories</h2>
-            <p className="mt-2 text-sm text-slate-500">Liste, recherche, tri et actions rapides sur les categories.</p>
+            <h2 className="text-2xl font-extrabold text-slate-950">{t("categories.list.title")}</h2>
+            <p className="mt-2 text-sm text-slate-500">{t("categories.list.description")}</p>
           </div>
 
           <Link to="/admin/categories/create" className="inline-flex items-center justify-center rounded-sm bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">
-            Nouvelle categorie
+            {t("categories.common.new")}
           </Link>
         </div>
 
         <div className="mt-3 grid gap-4 md:grid-cols-3">
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Actives</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("categories.list.stats.active")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.active}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Inactives</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("categories.list.stats.inactive")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.inactive}</p>
           </div>
           <div className="rounded-sm border border-stone-200 bg-white px-5 py-4 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Total</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{t("categories.list.stats.total")}</p>
             <p className="mt-2 text-3xl font-extrabold text-slate-950">{counts.total}</p>
           </div>
         </div>
@@ -210,13 +212,13 @@ export default function CategoriesPage() {
         <div className="mt-3 overflow-hidden rounded-sm border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-3 sm:flex-row">
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Rechercher une categorie..." className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
+              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("categories.list.search_placeholder")} className="w-full rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition sm:w-72" />
               <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))} className="rounded-sm border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition">
                 {[5, 10, 25, 50].map((size) => (
-                  <option key={size} value={size}>{size} / page</option>
+                  <option key={size} value={size}>{t("categories.list.per_page", { count: size })}</option>
                 ))}
               </select>
-              <button type="button" onClick={loadCategories} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">Rafraichir</button>
+              <button type="button" onClick={loadCategories} className="inline-flex items-center justify-center rounded-sm border border-stone-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-300 hover:text-red-800">{t("categories.common.refresh")}</button>
             </div>
           </div>
 
@@ -225,9 +227,9 @@ export default function CategoriesPage() {
 
           <div className="mt-3">
             {loading ? (
-              <EmptyState title="Chargement..." description="Les categories sont en cours de recuperation depuis l'API." />
+              <EmptyState title={t("categories.list.loading_title")} description={t("categories.list.loading_description")} />
             ) : sortedCategories.length === 0 ? (
-              <EmptyState title="Aucune categorie" description="Aucune categorie ne correspond a la recherche actuelle." />
+              <EmptyState title={t("categories.list.empty_title")} description={t("categories.list.empty_description")} />
             ) : (
               <div className="space-y-4">
                 <div className="overflow-hidden rounded-sm border border-stone-200">
@@ -235,28 +237,28 @@ export default function CategoriesPage() {
                     <table className="min-w-full divide-y divide-stone-200">
                       <thead className="bg-light text-left text-xs uppercase tracking-[0.18em]">
                         <tr>
-                          <SortableHead label="Nom" column="name" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <th className="px-5 py-4 text-slate-500">Description</th>
-                          <SortableHead label="Statut" column="is_active" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <SortableHead label="Creation" column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
-                          <th className="px-5 py-4 text-right text-slate-500">Actions</th>
+                          <SortableHead label={t("categories.list.table.name")} column="name" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <th className="px-5 py-4 text-slate-500">{t("categories.list.table.description")}</th>
+                          <SortableHead label={t("categories.list.table.status")} column="is_active" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <SortableHead label={t("categories.list.table.created_at")} column="created_at" sortBy={sortBy} sortDirection={sortDirection} onSort={handleSort} />
+                          <th className="px-5 py-4 text-right text-slate-500">{t("categories.list.table.actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-200 bg-white">
                         {paginatedCategories.map((category) => (
                           <tr key={category.encrypted_id || category.id} className="align-top">
                             <td className="px-5 py-4 text-sm font-bold text-slate-900">{category.name}</td>
-                            <td className="px-5 py-4 text-sm text-slate-600">{category.description || "Sans description"}</td>
+                            <td className="px-5 py-4 text-sm text-slate-600">{category.description || t("categories.list.table.no_description")}</td>
                             <td className="px-5 py-4">
                               <span className={cn("inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em]", category.is_active ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700")}>
-                                {category.is_active ? "Active" : "Inactive"}
+                                {category.is_active ? t("categories.status.active") : t("categories.status.inactive")}
                               </span>
                             </td>
-                            <td className="px-5 py-4 text-sm text-slate-500">{category.created_at ? new Date(category.created_at).toLocaleDateString("fr-FR") : "-"}</td>
+                            <td className="px-5 py-4 text-sm text-slate-500">{category.created_at ? new Date(category.created_at).toLocaleDateString(locale) : "-"}</td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap justify-end gap-2">
-                                <Link to={`/admin/categories/${category.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">Modifier</Link>
-                                <button type="button" onClick={() => setConfirmCategory(category)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">Supprimer</button>
+                                <Link to={`/admin/categories/${category.encrypted_id}/edit`} className="rounded-sm border px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-black hover:text-white">{t("categories.common.edit")}</Link>
+                                <button type="button" onClick={() => setConfirmCategory(category)} className="rounded-sm border border-rose-200 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-red-600 hover:text-white">{t("categories.common.delete")}</button>
                               </div>
                             </td>
                           </tr>
@@ -267,7 +269,7 @@ export default function CategoriesPage() {
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm text-slate-500">Page <span className="font-bold text-slate-800">{currentPage}</span> sur <span className="font-bold text-slate-800">{totalPages}</span></p>
+                  <p className="text-sm text-slate-500">{t("categories.list.pagination.page_of", { current: currentPage, total: totalPages })}</p>
                   <div className="inline-flex overflow-hidden rounded-sm border border-stone-300 bg-white">
                     <button type="button" onClick={() => setPage(1)} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<<"}</button>
                     <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={currentPage === 1} className="inline-flex h-10 w-10 items-center justify-center border-l border-stone-300 text-slate-700 transition hover:bg-red-50 hover:text-red-800 disabled:cursor-not-allowed disabled:opacity-50">{"<"}</button>
@@ -284,9 +286,12 @@ export default function CategoriesPage() {
 
       <ConfirmModal
         open={Boolean(confirmCategory)}
-        title="Supprimer la categorie"
-        message={confirmCategory ? `Voulez-vous supprimer la categorie "${confirmCategory.name}" ?` : ""}
-        confirmText="Oui, supprimer"
+        title={t("categories.list.delete_modal.title")}
+        message={confirmCategory ? t("categories.list.delete_modal.message", { name: confirmCategory.name }) : ""}
+        confirmText={t("categories.list.delete_modal.confirm")}
+        cancelText={t("categories.common.cancel")}
+        loadingText={t("categories.list.delete_modal.loading")}
+        closeLabel={t("categories.common.close")}
         loading={actionLoading}
         onCancel={() => (actionLoading ? undefined : setConfirmCategory(null))}
         onConfirm={() => handleDelete(confirmCategory)}

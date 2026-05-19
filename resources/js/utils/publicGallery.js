@@ -8,17 +8,20 @@ export function getGalleryCover(gallery) {
   return gallery?.images?.find((image) => image.is_cover) || gallery?.images?.[0] || null;
 }
 
-export function mapGalleryToPublicItem(gallery) {
+export function mapGalleryToPublicItem(gallery, t = null) {
   const cover = getGalleryCover(gallery);
+  const fallbackTitle = typeof t === "function" ? t("public.gallery.fallbacks.title") : "Gallery";
+  const fallbackPlace = typeof t === "function" ? t("public.gallery.fallbacks.place") : "Madagascar";
+  const fallbackCategory = typeof t === "function" ? t("public.gallery.fallbacks.category") : "Uncategorized";
 
   return {
     id: gallery?.encrypted_id || gallery?.id || gallery?.title,
     galleryId: gallery?.encrypted_id || gallery?.id || null,
-    title: gallery?.title || "Gallery",
-    place: gallery?.place || gallery?.subtitle || gallery?.category?.name || "Madagascar",
+    title: gallery?.title || fallbackTitle,
+    place: gallery?.place || gallery?.subtitle || gallery?.category?.name || fallbackPlace,
     subtitle: gallery?.subtitle || "",
     description: gallery?.description || "",
-    category: gallery?.category?.name || "Sans categorie",
+    category: gallery?.category?.name || fallbackCategory,
     image: buildImageUrl(cover?.image_url),
     relatedTour: gallery?.tour ? {
       id: gallery.tour.encrypted_id || gallery.tour.id || null,

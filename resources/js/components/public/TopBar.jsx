@@ -1,14 +1,10 @@
 import React from "react";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
-function extractContactValue(text, label) {
-  const pattern = new RegExp(`${label}\\s*:\\s*([^|]+)`, "i");
-  const match = String(text || "").match(pattern);
-  return match ? match[1].trim() : "";
-}
-
-export default function TopBar({ leftText, rightText }) {
-  const whatsappNumber = extractContactValue(rightText, "WhatsApp") || "+261 38 09 137 03";
-  const emailAddress = extractContactValue(rightText, "Email") || "worldofmadagascartour@gmail.com";
+export default function TopBar({ leftText, contact, email }) {
+  const { t } = useI18n();
+  const whatsappNumber = contact || "+261 38 09 137 03";
+  const emailAddress = email || "worldofmadagascartour@gmail.com";
   const whatsappHref = `https://wa.me/${whatsappNumber.replace(/[^\d]/g, "")}`;
 
   return (
@@ -17,11 +13,11 @@ export default function TopBar({ leftText, rightText }) {
         <p>{leftText}</p>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
           <a href={whatsappHref} target="_blank" rel="noreferrer" className="transition hover:text-emerald-200">
-            WhatsApp: {whatsappNumber}
+            {t("public.common.whatsapp")}: {whatsappNumber}
           </a>
           <span className="hidden text-white/40 sm:inline">|</span>
           <a href={`mailto:${emailAddress}`} className="transition hover:text-emerald-200">
-            Email: {emailAddress}
+            {t("public.common.email")}: {emailAddress}
           </a>
         </div>
       </div>

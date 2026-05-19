@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useI18n } from "../../hooks/admin/I18nContext";
 
 function PlusIcon({ open = false }) {
   return (
@@ -17,6 +18,7 @@ function PlusIcon({ open = false }) {
 }
 
 export default function FaqSection({ items = [] }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState(0);
 
   if (!Array.isArray(items) || items.length === 0) {
@@ -27,10 +29,10 @@ export default function FaqSection({ items = [] }) {
     <section id="faq" className="bg-[linear-gradient(180deg,#fffdf8_0%,#f6f7f2_100%)] py-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-10 max-w-3xl">
-          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">Questions frequentes</p>
-          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">Les reponses que vos voyageurs cherchent avant de reserver</h2>
+          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.home.faq.eyebrow")}</p>
+          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">{t("public.home.faq.title")}</h2>
           <p className="max-w-xl leading-relaxed text-slate-600">
-            Cette section aide le visiteur a lever ses doutes rapidement avant de passer au formulaire de contact.
+            {t("public.home.faq.text")}
           </p>
         </div>
 

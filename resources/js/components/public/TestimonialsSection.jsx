@@ -1,5 +1,6 @@
-﻿import React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useI18n } from "../../hooks/admin/I18nContext";
 import SectionTitle from "./SectionTitle";
 
 function buildImageUrl(path) {
@@ -14,7 +15,7 @@ function buildImageUrl(path) {
 
 function normalizeTestimonial(item) {
   return {
-    name: item?.name || "Voyageur",
+    name: item?.name || "",
     message: item?.message || item?.quote || "",
     rating: Math.max(1, Math.min(5, Number(item?.rating || 5))),
     image: buildImageUrl(item?.image),
@@ -39,15 +40,16 @@ function StarRating({ value = 5 }) {
 }
 
 export default function TestimonialsSection({ testimonials = [], showMoreHref = "/avis" }) {
+  const { t } = useI18n();
   const items = testimonials.map(normalizeTestimonial);
 
   return (
     <section id="testimonials" className="bg-stone-100 py-20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <SectionTitle eyebrow="Avis clients" title="Ils ont voyage avec nous" center={false} />
+          <SectionTitle eyebrow={t("public.home.testimonials.eyebrow")} title={t("public.home.testimonials.title")} center={false} />
           <Link to={showMoreHref} className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-6 py-3 text-sm font-bold text-emerald-700 transition hover:bg-emerald-50">
-            Voir plus d'avis
+            {t("public.home.testimonials.view_more")}
           </Link>
         </div>
 
@@ -59,12 +61,12 @@ export default function TestimonialsSection({ testimonials = [], showMoreHref = 
                   {item.image ? (
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                   ) : (
-                    item.name.charAt(0).toUpperCase()
+                    (item.name || t("public.testimonials.list.traveler_fallback")).charAt(0).toUpperCase()
                   )}
                 </div>
 
                 <div>
-                  <p className="font-bold text-slate-900">{item.name}</p>
+                  <p className="font-bold text-slate-900">{item.name || t("public.testimonials.list.traveler_fallback")}</p>
                   {item.meta ? <p className="text-sm text-slate-500">{item.meta}</p> : null}
                 </div>
               </div>
