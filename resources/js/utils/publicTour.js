@@ -11,11 +11,11 @@ export function getTourCover(tour) {
 export function getTourTone(category = "") {
   const value = String(category).toLowerCase();
 
-  if (value.includes("nature") || value.includes("wildlife")) return "bg-emerald-100 text-emerald-800";
-  if (value.includes("aventure") || value.includes("adventure")) return "bg-amber-100 text-amber-800";
-  if (value.includes("classique") || value.includes("classic")) return "bg-sky-100 text-sky-800";
-  if (value.includes("plage") || value.includes("beach")) return "bg-cyan-100 text-cyan-800";
-  return "bg-stone-100 text-slate-700";
+  if (value.includes("nature") || value.includes("wildlife")) return "bg-[rgba(115,132,106,0.18)] text-[color:var(--success)]";
+  if (value.includes("aventure") || value.includes("adventure")) return "bg-[rgba(245,208,137,0.26)] text-[#855611]";
+  if (value.includes("classique") || value.includes("classic")) return "bg-[rgba(221,197,170,0.46)] text-[color:var(--accent-deep)]";
+  if (value.includes("plage") || value.includes("beach")) return "bg-[rgba(203,223,216,0.55)] text-[#325d55]";
+  return "bg-[rgba(246,217,203,0.32)] text-[color:var(--accent-dark)]";
 }
 
 export function mapTourToPublicItem(tour, t = null) {

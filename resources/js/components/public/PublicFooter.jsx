@@ -39,7 +39,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
   const { t } = useI18n();
   const socialLinks = [
     { label: t("public.common.facebook"), href: "#", icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
-    { label: t("public.common.instagram"), href: "#", icon: <InstagramIcon />, tone: "bg-[#E4405F] text-white hover:bg-[#cc3754]" },
+    { label: t("public.common.instagram"), href: "#", icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white hover:opacity-90" },
     { label: t("public.common.youtube"), href: "#", icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
     { label: t("public.common.whatsapp"), href: "https://wa.me/261380913703", icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
   ];
@@ -54,15 +54,15 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
   ];
 
   return (
-    <footer className="bg-slate-950 py-10 text-white">
+    <footer className="bg-[linear-gradient(135deg,var(--accent-deep),#2f1713)] py-10 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[1.2fr_0.9fr_0.9fr_0.9fr_1fr]">
         <div>
           <a href="/#home" className="mb-3 inline-flex items-center gap-3">
-            <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded bg-white p-1 object-contain" />
-            <h3 className="text-xl font-extrabold text-red-500">{brand}</h3>
+            <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded-2xl bg-white p-1 object-contain" />
+            <h3 className="text-xl font-extrabold text-[#f5d089]">{brand}</h3>
           </a>
           <p className="max-w-md text-white/60">{t("public.footer.description")}</p>
-          <a href="/login" className="mt-5 inline-flex rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
+          <a href="/login" className="mt-5 inline-flex rounded-full border border-white/16 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/12">
             {t("public.auth.login.submit")}
           </a>
         </div>
@@ -111,7 +111,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
                   rel="noreferrer"
                   aria-label={item.label}
                   title={item.label}
-                  className={`inline-flex h-11 w-11 items-center justify-center rounded-full transition ${item.tone}`}
+                  className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 transition ${item.tone}`}
                 >
                   {item.icon}
                 </a>

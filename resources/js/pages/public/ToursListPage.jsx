@@ -12,27 +12,27 @@ import { mapTourToPublicItem } from "../../utils/publicTour";
 
 function TourCard({ tour, t }) {
   return (
-    <article className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
+    <article className="public-panel overflow-hidden rounded-3xl transition hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(89,44,30,0.16)]">
       <img src={tour.image} alt={tour.title} className="h-60 w-full object-cover" />
       <div className="p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
           <span className={`rounded-full px-3 py-1 text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span>
-          <span className="font-bold text-slate-900">{tour.duration}</span>
+          <span className="font-bold text-[color:var(--accent-deep)]">{tour.duration}</span>
         </div>
-        <h2 className="mb-3 text-xl font-extrabold text-slate-900">{tour.title}</h2>
-        <p className="mb-5 text-sm leading-relaxed text-slate-600">{tour.excerpt || t("public.tours_list.description_coming")}</p>
+        <h2 className="public-heading mb-3 text-xl font-extrabold">{tour.title}</h2>
+        <p className="public-copy mb-5 text-sm leading-relaxed">{tour.excerpt || t("public.tours_list.description_coming")}</p>
         <div className="mb-5 flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{t("public.tours_list.departure")}</p>
-            <p className="text-sm font-semibold text-slate-700">{tour.departure}</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">{t("public.tours_list.departure")}</p>
+            <p className="text-sm font-semibold text-[color:var(--ink-soft)]">{tour.departure}</p>
           </div>
-          <p className="text-2xl font-extrabold text-emerald-800">{tour.formattedPrice}</p>
+          <p className="public-price text-2xl font-extrabold">{tour.formattedPrice}</p>
         </div>
         <div className="flex gap-3">
-          <Link to={`/circuits/${tour.tourId}`} className="flex-1 rounded-full bg-emerald-700 py-3 text-center font-bold text-white transition hover:bg-emerald-800">
+          <Link to={`/circuits/${tour.tourId}`} className="public-btn-primary flex-1 rounded-full py-3 text-center font-bold transition">
             {t("public.common.view_more")}
           </Link>
-          <Link to={`/reservations/${tour.tourId}`} className="flex-1 rounded-full border border-emerald-700 py-3 text-center font-bold text-emerald-700 transition hover:bg-emerald-50">
+          <Link to={`/reservations/${tour.tourId}`} className="public-btn-secondary flex-1 rounded-full py-3 text-center font-bold transition">
             {t("public.common.book")}
           </Link>
         </div>
@@ -157,7 +157,7 @@ export default function ToursListPage() {
   );
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
@@ -177,7 +177,7 @@ export default function ToursListPage() {
           />
 
           {tours.length === 0 ? (
-            <div className="mt-12 rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">
+            <div className="public-panel mt-12 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">
               {t("public.tours_list.empty")}
             </div>
           ) : (

@@ -68,12 +68,12 @@ export default function WhyChooseSection({ items }) {
             const visual = React.isValidElement(icon) ? icon : item.code;
 
             return (
-              <article key={item.title} className="rounded-3xl bg-white p-6 shadow-sm transition hover:shadow-md">
+              <article key={item.title} className="public-panel rounded-3xl p-6 transition hover:-translate-y-0.5 hover:shadow-[0_20px_44px_rgba(89,44,30,0.12)]">
                 <div className={`mb-5 mx-auto flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-extrabold ${item.tone}`}>
                   {visual}
                 </div>
-                <h3 className="mb-3 text-center text-xl font-bold">{item.title}</h3>
-                <p className="text-justify text-sm leading-relaxed text-slate-600">{item.text}</p>
+                <h3 className="public-heading mb-3 text-center text-xl font-bold">{item.title}</h3>
+                <p className="text-justify text-sm leading-relaxed text-[color:var(--ink-soft)]">{item.text}</p>
               </article>
             );
           })}

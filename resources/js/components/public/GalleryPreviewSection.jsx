@@ -9,7 +9,7 @@ export default function GalleryPreviewSection({ items }) {
   const secondaryItems = featuredItem ? items.slice(1) : items;
 
   return (
-    <section id="gallery" className="bg-white py-20">
+    <section id="gallery" className="py-20">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle
@@ -17,7 +17,7 @@ export default function GalleryPreviewSection({ items }) {
             title={t("public.home.gallery.title")}
             text={t("public.home.gallery.text")}
           />
-          <Link to="/galerie" className="rounded-full bg-emerald-700 px-6 py-3 font-bold text-white shadow transition hover:bg-emerald-800">
+          <Link to="/galerie" className="public-btn-primary rounded-full px-6 py-3 font-bold transition">
             {t("public.home.gallery.view_all")}
           </Link>
         </div>

@@ -26,12 +26,12 @@ export default function FaqSection({ items = [] }) {
   }
 
   return (
-    <section id="faq" className="bg-[linear-gradient(180deg,#fffdf8_0%,#f6f7f2_100%)] py-20">
+    <section id="faq" className="bg-[linear-gradient(180deg,#fdf8f2_0%,#f6ede3_100%)] py-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-10 max-w-3xl">
-          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.home.faq.eyebrow")}</p>
-          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">{t("public.home.faq.title")}</h2>
-          <p className="max-w-xl leading-relaxed text-slate-600">
+          <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.home.faq.eyebrow")}</p>
+          <h2 className="public-heading mb-5 text-3xl font-extrabold md:text-4xl">{t("public.home.faq.title")}</h2>
+          <p className="public-copy max-w-xl leading-relaxed">
             {t("public.home.faq.text")}
           </p>
         </div>
@@ -45,8 +45,8 @@ export default function FaqSection({ items = [] }) {
                 key={item.question}
                 className={`overflow-hidden rounded-3xl border transition ${
                   open
-                    ? "border-emerald-300 bg-white shadow-[0_20px_50px_rgba(16,185,129,0.12)]"
-                    : "border-stone-200 bg-white"
+                    ? "border-[rgba(143,51,32,0.24)] bg-white shadow-[0_20px_50px_rgba(89,44,30,0.12)]"
+                    : "border-[rgba(125,94,78,0.16)] bg-white"
                 }`}
               >
                 <button
@@ -54,10 +54,10 @@ export default function FaqSection({ items = [] }) {
                   onClick={() => setOpenIndex(open ? -1 : index)}
                   className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
                 >
-                  <span className="text-base font-extrabold text-slate-900 md:text-lg">{item.question}</span>
+                  <span className="public-heading text-base font-extrabold md:text-lg">{item.question}</span>
                   <span
                     className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${
-                      open ? "bg-emerald-700 text-white" : "bg-stone-100 text-slate-700"
+                      open ? "bg-[color:var(--accent-dark)] text-white" : "bg-[rgba(238,225,207,0.7)] text-[color:var(--ink-soft)]"
                     }`}
                   >
                     <PlusIcon open={open} />
@@ -65,7 +65,7 @@ export default function FaqSection({ items = [] }) {
                 </button>
 
                 {open ? (
-                  <div className="border-t border-stone-100 px-6 py-5 text-sm leading-7 text-slate-600 md:text-base">
+                  <div className="border-t border-[rgba(125,94,78,0.12)] px-6 py-5 text-sm leading-7 text-[color:var(--ink-soft)] md:text-base">
                     {item.answer}
                   </div>
                 ) : null}

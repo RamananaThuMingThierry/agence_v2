@@ -48,7 +48,7 @@ export default function TestimonialsSection({ testimonials = [], showMoreHref = 
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle eyebrow={t("public.home.testimonials.eyebrow")} title={t("public.home.testimonials.title")} center={false} />
-          <Link to={showMoreHref} className="inline-flex items-center justify-center rounded-full border border-emerald-700 px-6 py-3 text-sm font-bold text-emerald-700 transition hover:bg-emerald-50">
+          <Link to={showMoreHref} className="public-btn-secondary inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
             {t("public.home.testimonials.view_more")}
           </Link>
         </div>

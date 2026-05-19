@@ -142,10 +142,10 @@ export default function HomePage() {
 
   const reasons = useMemo(
     () => [
-      { icon: "map-pin", title: t("public.home.reasons.0.title"), text: t("public.home.reasons.0.text"), tone: "bg-emerald-100 text-emerald-800" },
-      { icon: "route", title: t("public.home.reasons.1.title"), text: t("public.home.reasons.1.text"), tone: "bg-amber-100 text-amber-800" },
-      { icon: "leaf", title: t("public.home.reasons.2.title"), text: t("public.home.reasons.2.text"), tone: "bg-sky-100 text-sky-800" },
-      { icon: "message", title: t("public.home.reasons.3.title"), text: t("public.home.reasons.3.text"), tone: "bg-green-100 text-green-800" },
+      { icon: "map-pin", title: t("public.home.reasons.0.title"), text: t("public.home.reasons.0.text"), tone: "bg-[rgba(198,90,61,0.14)] text-[color:var(--accent-dark)]" },
+      { icon: "route", title: t("public.home.reasons.1.title"), text: t("public.home.reasons.1.text"), tone: "bg-[rgba(245,208,137,0.26)] text-[#855611]" },
+      { icon: "leaf", title: t("public.home.reasons.2.title"), text: t("public.home.reasons.2.text"), tone: "bg-[rgba(115,132,106,0.18)] text-[color:var(--success)]" },
+      { icon: "message", title: t("public.home.reasons.3.title"), text: t("public.home.reasons.3.text"), tone: "bg-[rgba(221,197,170,0.42)] text-[color:var(--accent-deep)]" },
     ],
     [t],
   );
@@ -338,7 +338,7 @@ export default function HomePage() {
   }, [t]);
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}

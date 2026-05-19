@@ -4,12 +4,33 @@ import { fetchPlatformSettings } from "../../api/platformSettings";
 import { useAuth } from "../../hooks/admin/AuthContext";
 import { useI18n } from "../../hooks/admin/I18nContext";
 
+function EyeIcon({ open = false }) {
+  if (open) {
+    return (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 3l18 18" />
+      <path d="M10.6 10.7A3 3 0 0 0 13.3 13.4" />
+      <path d="M9.9 5.1A11.4 11.4 0 0 1 12 5c6.5 0 10 7 10 7a17.3 17.3 0 0 1-4 4.8" />
+      <path d="M6.7 6.8A17.7 17.7 0 0 0 2 12s3.5 7 10 7a10.8 10.8 0 0 0 4.2-.8" />
+    </svg>
+  );
+}
+
 export default function LoginPage() {
   const { login, isAuthenticated, loading } = useAuth();
   const { t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [platform, setPlatform] = useState({
@@ -122,15 +143,25 @@ export default function LoginPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-semibold text-[var(--ink)]">{t("public.auth.login.fields.password")}</span>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                className="w-full rounded-sm border border-[var(--line)] bg-white/80 px-4 py-3 outline-none transition focus:border-[var(--accent)]"
-                placeholder={t("public.auth.login.fields.password_placeholder")}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-sm border border-[var(--line)] bg-white/80 px-4 py-3 pr-12 outline-none transition focus:border-[var(--accent)]"
+                  placeholder={t("public.auth.login.fields.password_placeholder")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((current) => !current)}
+                  className="absolute inset-y-0 right-0 inline-flex w-12 items-center justify-center text-[var(--muted)] transition hover:text-[var(--accent-dark)]"
+                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                >
+                  <EyeIcon open={showPassword} />
+                </button>
+              </div>
             </label>
 
             <button

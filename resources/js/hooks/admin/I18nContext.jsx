@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import axios from "axios";
 import deAdmin from "../../../lang/de/admin.json";
 import dePublic from "../../../lang/de/public.json";
 import enAdmin from "../../../lang/en/admin.json";
@@ -46,6 +47,7 @@ export function I18nProvider({ children }) {
 
     window.localStorage.setItem(STORAGE_KEY, lang);
     document.documentElement.lang = lang;
+    axios.defaults.headers.common["Accept-Language"] = lang;
   }, [lang]);
 
   const value = useMemo(

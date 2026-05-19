@@ -154,7 +154,7 @@ export default function GalleryDetailPage() {
   }
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
@@ -164,27 +164,27 @@ export default function GalleryDetailPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="bg-white py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-7xl px-4">
           {loading ? (
-            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">{t("public.gallery.detail.loading")}</div>
+            <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.loading")}</div>
           ) : !gallery ? (
-            <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50 px-6 py-12 text-center text-sm font-semibold text-slate-500">{t("public.gallery.detail.not_found")}</div>
+            <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.not_found")}</div>
           ) : (
             <>
               <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px]">
                 <div className="space-y-4">
-                  <div className="relative overflow-hidden rounded-3xl bg-white shadow-sm">
+                  <div className="public-panel overflow-hidden rounded-3xl">
                     {activeImage ? <img src={activeImage.image} alt={activeImage.caption || gallery.title} className="h-[620px] w-full object-cover" /> : null}
                     {galleryImages.length > 1 ? (
                       <>
-                        <button type="button" onClick={() => goToImage(activeImageIndex - 1)} className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white">
+                        <button type="button" onClick={() => goToImage(activeImageIndex - 1)} className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/88 text-[color:var(--accent-deep)] shadow-lg transition hover:bg-white">
                           <ArrowIcon direction="left" className="h-6 w-6" />
                         </button>
-                        <button type="button" onClick={() => goToImage(activeImageIndex + 1)} className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-slate-900 shadow-lg transition hover:bg-white">
+                        <button type="button" onClick={() => goToImage(activeImageIndex + 1)} className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/88 text-[color:var(--accent-deep)] shadow-lg transition hover:bg-white">
                           <ArrowIcon direction="right" className="h-6 w-6" />
                         </button>
-                        <div className="absolute bottom-4 right-4 rounded-full bg-slate-950/70 px-3 py-1 text-xs font-bold text-white">
+                        <div className="absolute bottom-4 right-4 rounded-full bg-[rgba(38,24,21,0.78)] px-3 py-1 text-xs font-bold text-white">
                           {t("public.gallery.detail.counter", { current: activeImageIndex + 1, total: galleryImages.length })}
                         </div>
                       </>
@@ -192,8 +192,8 @@ export default function GalleryDetailPage() {
                   </div>
 
                   {activeImage?.caption ? (
-                    <div className="rounded-3xl bg-white px-5 py-4 shadow-sm">
-                      <p className="text-sm font-semibold text-slate-700">{activeImage.caption}</p>
+                    <div className="public-panel rounded-3xl px-5 py-4">
+                      <p className="text-sm font-semibold text-[color:var(--ink-soft)]">{activeImage.caption}</p>
                     </div>
                   ) : null}
 
@@ -204,7 +204,7 @@ export default function GalleryDetailPage() {
                           key={image.id}
                           type="button"
                           onClick={() => setActiveImageIndex(index)}
-                          className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-emerald-600" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}
+                          className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-[color:var(--accent)]" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}
                         >
                           <img src={image.image} alt={image.caption || `${gallery.title} ${index + 1}`} className="h-28 w-full object-cover" />
                         </button>
@@ -212,17 +212,17 @@ export default function GalleryDetailPage() {
                     </div>
                   ) : null}
                 </div>
-                <aside className="h-fit rounded-3xl bg-white p-6 shadow-sm">
-                  <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">{gallery.category}</span>
-                  <h1 className="mb-3 mt-4 text-3xl font-extrabold text-slate-900">{gallery.title}</h1>
-                  <p className="mb-6 leading-relaxed text-slate-600">{gallery.description || t("public.gallery.detail.description_fallback")}</p>
+                <aside className="public-panel h-fit rounded-3xl p-6">
+                  <span className="rounded-full bg-[rgba(245,208,137,0.26)] px-3 py-1 text-xs font-bold text-[#855611]">{gallery.category}</span>
+                  <h1 className="public-heading mb-3 mt-4 text-3xl font-extrabold">{gallery.title}</h1>
+                  <p className="public-copy mb-6 leading-relaxed">{gallery.description || t("public.gallery.detail.description_fallback")}</p>
 
                   <div className="mb-6 space-y-3 text-sm">
-                    <div className="flex justify-between border-b border-slate-100 pb-3">
+                    <div className="flex justify-between border-b border-[rgba(125,94,78,0.12)] pb-3">
                       <span>{t("public.gallery.detail.place")}</span>
                       <strong>{gallery.place || "-"}</strong>
                     </div>
-                    <div className="flex justify-between border-b border-slate-100 pb-3">
+                    <div className="flex justify-between border-b border-[rgba(125,94,78,0.12)] pb-3">
                       <span>{t("public.gallery.detail.category")}</span>
                       <strong>{gallery.category || "-"}</strong>
                     </div>
@@ -232,10 +232,10 @@ export default function GalleryDetailPage() {
                     </div>
                   </div>
 
-                  <a href={gallery.relatedTour?.id ? `/circuits/${gallery.relatedTour.id}` : "/#tours"} className="mb-3 block rounded-full bg-emerald-700 py-4 text-center font-bold text-white shadow-lg transition hover:bg-emerald-800">
+                  <a href={gallery.relatedTour?.id ? `/circuits/${gallery.relatedTour.id}` : "/#tours"} className="public-btn-primary mb-3 block rounded-full py-4 text-center font-bold transition">
                     {t("public.gallery.detail.view_related_tour")}
                   </a>
-                  <a href="/#contact" className="block rounded-full border border-emerald-700 py-4 text-center font-bold text-emerald-700 transition hover:bg-emerald-50">
+                  <a href="/#contact" className="public-btn-secondary block rounded-full py-4 text-center font-bold transition">
                     {t("public.gallery.detail.request_trip")}
                   </a>
                 </aside>
@@ -243,14 +243,14 @@ export default function GalleryDetailPage() {
 
               {related.length > 0 ? (
                 <div className="mt-14">
-                  <h2 className="mb-6 text-2xl font-extrabold text-slate-900">{t("public.gallery.detail.related")}</h2>
+                  <h2 className="public-heading mb-6 text-2xl font-extrabold">{t("public.gallery.detail.related")}</h2>
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {related.map((item) => (
-                      <Link key={item.galleryId} to={`/galerie/${item.galleryId}`} className="group overflow-hidden rounded-3xl bg-white shadow-sm">
+                      <Link key={item.galleryId} to={`/galerie/${item.galleryId}`} className="public-panel group overflow-hidden rounded-3xl">
                         <img src={item.image} alt={item.title} className="h-56 w-full object-cover transition duration-500 group-hover:scale-105" />
                         <div className="p-4">
-                          <h3 className="font-extrabold">{item.title}</h3>
-                          <p className="text-sm text-slate-500">{item.place}</p>
+                          <h3 className="public-heading font-extrabold">{item.title}</h3>
+                          <p className="text-sm text-[color:var(--muted)]">{item.place}</p>
                         </div>
                       </Link>
                     ))}

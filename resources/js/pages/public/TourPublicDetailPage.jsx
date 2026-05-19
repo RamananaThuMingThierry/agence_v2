@@ -8,6 +8,7 @@ import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TopBar from "../../components/public/TopBar";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { buildImageUrl, mapTourToPublicItem } from "../../utils/publicTour";
+import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
 function ArrowIcon({ direction = "left", className = "h-5 w-5" }) {
   const path = direction === "left" ? "M15 18 9 12l6-6" : "m9 18 6-6-6-6";
@@ -295,7 +296,18 @@ export default function TourPublicDetailPage() {
       const apiErrors = error?.response?.data?.errors;
       if (apiErrors && typeof apiErrors === "object") {
         const normalized = Object.fromEntries(Object.entries(apiErrors).map(([key, value]) => [key, Array.isArray(value) ? value[0] : String(value)]));
-        setReviewErrors(normalized);
+        setReviewErrors(
+          localizePublicValidationErrors({
+            lang,
+            errors: normalized,
+            fieldLabels: {
+              image: t("public.tour_detail.review.fields.image"),
+              name: t("public.tour_detail.review.fields.name"),
+              rating: t("public.tour_detail.review.fields.rating"),
+              review: t("public.tour_detail.review.fields.review"),
+            },
+          }),
+        );
       }
       setReviewNotice(error?.response?.data?.message || t("public.tour_detail.review.error"));
       setReviewNoticeType("error");
@@ -305,7 +317,7 @@ export default function TourPublicDetailPage() {
   }
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
@@ -315,16 +327,16 @@ export default function TourPublicDetailPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="bg-stone-50 py-8">
+      <section className="py-8">
         <div className="mx-auto max-w-7xl px-4">
           {loading ? (
-            <div className="rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">{t("public.tour_detail.loading")}</div>
+            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.loading")}</div>
           ) : !tour ? (
-            <div className="rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">{t("public.tour_detail.not_found")}</div>
+            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.not_found")}</div>
           ) : (
             <>
               <div className="grid gap-8 lg:grid-cols-3">
-                <div className="overflow-hidden rounded-3xl bg-white shadow-sm lg:col-span-2">
+                <div className="public-panel overflow-hidden rounded-3xl lg:col-span-2">
                   <div className="relative">
                     {activeImage ? <img src={activeImage.image} alt={activeImage.caption || tour.title} className="h-[540px] w-full object-cover" /> : null}
                     {tourImages.length > 1 ? (
@@ -337,7 +349,7 @@ export default function TourPublicDetailPage() {
                   {tourImages.length > 1 ? (
                     <div className="grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-4">
                       {tourImages.map((image, index) => (
-                        <button key={image.id} type="button" onClick={() => setActiveImageIndex(index)} className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-emerald-600" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}>
+                        <button key={image.id} type="button" onClick={() => setActiveImageIndex(index)} className={index === activeImageIndex ? "overflow-hidden rounded-2xl ring-4 ring-[color:var(--accent)]" : "overflow-hidden rounded-2xl opacity-80 transition hover:opacity-100"}>
                           <img src={image.image} alt={image.caption || `${tour.title} ${index + 1}`} className="h-24 w-full object-cover" />
                         </button>
                       ))}
@@ -346,47 +358,47 @@ export default function TourPublicDetailPage() {
                   <div className="p-6 md:p-8">
                     <div className="mb-5 flex flex-wrap gap-3">
                       <span className={`rounded-full px-3 py-1 text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">{tour.duration}</span>
-                      <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">{t("public.tour_detail.departure_badge", { value: tour.departure })}</span>
+                      <span className="rounded-full bg-[rgba(238,225,207,0.7)] px-3 py-1 text-xs font-bold text-[color:var(--ink-soft)]">{tour.duration}</span>
+                      <span className="rounded-full bg-[rgba(245,208,137,0.26)] px-3 py-1 text-xs font-bold text-[#855611]">{t("public.tour_detail.departure_badge", { value: tour.departure })}</span>
                     </div>
-                    <h2 className="mb-4 text-3xl font-extrabold text-slate-900 md:text-4xl">{tour.title}</h2>
-                    <p className="mb-8 leading-relaxed text-slate-600">{tour.description || t("public.tour_detail.description_coming")}</p>
+                    <h2 className="public-heading mb-4 text-3xl font-extrabold md:text-4xl">{tour.title}</h2>
+                    <p className="public-copy mb-8 leading-relaxed">{tour.description || t("public.tour_detail.description_coming")}</p>
                     <div className="mb-8 grid gap-4 md:grid-cols-3">
-                      <div className="rounded-2xl bg-stone-50 p-4">
-                        <p className="text-sm text-slate-500">{t("public.tour_detail.summary.duration")}</p>
-                        <p className="font-extrabold text-slate-900">{tour.duration}</p>
+                      <div className="public-soft-panel rounded-2xl p-4">
+                        <p className="text-sm text-[color:var(--muted)]">{t("public.tour_detail.summary.duration")}</p>
+                        <p className="font-extrabold text-[color:var(--accent-deep)]">{tour.duration}</p>
                       </div>
-                      <div className="rounded-2xl bg-stone-50 p-4">
-                        <p className="text-sm text-slate-500">{t("public.tour_detail.summary.style")}</p>
-                        <p className="font-extrabold text-slate-900">{tour.category}</p>
+                      <div className="public-soft-panel rounded-2xl p-4">
+                        <p className="text-sm text-[color:var(--muted)]">{t("public.tour_detail.summary.style")}</p>
+                        <p className="font-extrabold text-[color:var(--accent-deep)]">{tour.category}</p>
                       </div>
-                      <div className="rounded-2xl bg-stone-50 p-4">
-                        <p className="text-sm text-slate-500">{t("public.tour_detail.summary.price")}</p>
-                        <p className="font-extrabold text-emerald-800">{tour.formattedPrice}</p>
+                      <div className="public-soft-panel rounded-2xl p-4">
+                        <p className="text-sm text-[color:var(--muted)]">{t("public.tour_detail.summary.price")}</p>
+                        <p className="public-price font-extrabold">{tour.formattedPrice}</p>
                       </div>
                     </div>
-                    <h3 className="mb-4 text-2xl font-extrabold text-slate-900">{t("public.tour_detail.program_title")}</h3>
+                    <h3 className="public-heading mb-4 text-2xl font-extrabold">{t("public.tour_detail.program_title")}</h3>
                     <div className="mb-8 space-y-5">
                       {tour.programs.length === 0 ? (
-                        <p className="text-sm text-slate-500">{t("public.tour_detail.program_empty")}</p>
+                        <p className="text-sm text-[color:var(--muted)]">{t("public.tour_detail.program_empty")}</p>
                       ) : tour.programs.map((program) => (
-                        <div key={program.id || `${program.day_number}-${program.title}`} className="border-l-4 border-emerald-700 pl-5">
-                          <h4 className="font-extrabold text-slate-900">{t("public.tour_detail.day_title", { day: program.day_number, title: program.title })}</h4>
-                          <p className="text-sm leading-relaxed text-slate-600">{program.description}</p>
-                          {program.activities ? <p className="mt-2 text-sm text-slate-500">{t("public.tour_detail.activities", { value: program.activities })}</p> : null}
+                        <div key={program.id || `${program.day_number}-${program.title}`} className="border-l-4 border-[color:var(--accent)] pl-5">
+                          <h4 className="font-extrabold text-[color:var(--accent-deep)]">{t("public.tour_detail.day_title", { day: program.day_number, title: program.title })}</h4>
+                          <p className="text-sm leading-relaxed text-[color:var(--ink-soft)]">{program.description}</p>
+                          {program.activities ? <p className="mt-2 text-sm text-[color:var(--muted)]">{t("public.tour_detail.activities", { value: program.activities })}</p> : null}
                         </div>
                       ))}
                     </div>
                     <div className="grid gap-6 md:grid-cols-2">
-                      <div className="rounded-3xl bg-emerald-50 p-6">
-                        <h3 className="mb-4 font-extrabold text-emerald-900">{t("public.tour_detail.included")}</h3>
-                        <ul className="space-y-2 text-sm text-slate-700">
+                      <div className="rounded-3xl bg-[rgba(115,132,106,0.12)] p-6">
+                        <h3 className="mb-4 font-extrabold text-[color:var(--success)]">{t("public.tour_detail.included")}</h3>
+                        <ul className="space-y-2 text-sm text-[color:var(--ink-soft)]">
                           {tour.inclusions.length === 0 ? <li>{t("public.tour_detail.included_empty")}</li> : tour.inclusions.map((item) => <li key={item.id || item.description}>{item.description}</li>)}
                         </ul>
                       </div>
-                      <div className="rounded-3xl bg-rose-50 p-6">
+                      <div className="rounded-3xl bg-[rgba(198,90,61,0.08)] p-6">
                         <h3 className="mb-4 font-extrabold text-rose-900">{t("public.tour_detail.excluded")}</h3>
-                        <ul className="space-y-2 text-sm text-slate-700">
+                        <ul className="space-y-2 text-sm text-[color:var(--ink-soft)]">
                           {tour.exclusions.length === 0 ? <li>{t("public.tour_detail.excluded_empty")}</li> : tour.exclusions.map((item) => <li key={item.id || item.description}>{item.description}</li>)}
                         </ul>
                       </div>
@@ -394,54 +406,54 @@ export default function TourPublicDetailPage() {
                   </div>
                 </div>
                 <aside className="lg:col-span-1">
-                  <div className="sticky top-28 rounded-3xl bg-white p-6 shadow-sm">
-                    <h3 className="mb-2 text-2xl font-extrabold text-slate-900">{t("public.tour_detail.sidebar.title")}</h3>
-                    <p className="mb-6 text-sm text-slate-600">{t("public.tour_detail.sidebar.text")}</p>
+                  <div className="public-panel sticky top-28 rounded-3xl p-6">
+                    <h3 className="public-heading mb-2 text-2xl font-extrabold">{t("public.tour_detail.sidebar.title")}</h3>
+                    <p className="mb-6 text-sm text-[color:var(--ink-soft)]">{t("public.tour_detail.sidebar.text")}</p>
                     <div className="mb-6 space-y-3 text-sm">
-                      <div className="flex justify-between border-b border-slate-100 pb-3"><span>{t("public.tour_detail.summary.duration")}</span><strong>{tour.duration}</strong></div>
-                      <div className="flex justify-between border-b border-slate-100 pb-3"><span>{t("public.tour_detail.summary.departure")}</span><strong>{tour.departure}</strong></div>
-                      <div className="flex justify-between border-b border-slate-100 pb-3"><span>{t("public.tour_detail.summary.type")}</span><strong>{t("public.tour_detail.summary.private")}</strong></div>
-                      <div className="flex justify-between"><span>{t("public.tour_detail.summary.price")}</span><strong className="text-emerald-800">{tour.formattedPrice}</strong></div>
+                      <div className="flex justify-between border-b border-[rgba(125,94,78,0.12)] pb-3"><span>{t("public.tour_detail.summary.duration")}</span><strong>{tour.duration}</strong></div>
+                      <div className="flex justify-between border-b border-[rgba(125,94,78,0.12)] pb-3"><span>{t("public.tour_detail.summary.departure")}</span><strong>{tour.departure}</strong></div>
+                      <div className="flex justify-between border-b border-[rgba(125,94,78,0.12)] pb-3"><span>{t("public.tour_detail.summary.type")}</span><strong>{t("public.tour_detail.summary.private")}</strong></div>
+                      <div className="flex justify-between"><span>{t("public.tour_detail.summary.price")}</span><strong className="public-price">{tour.formattedPrice}</strong></div>
                     </div>
-                    <Link to={`/reservations/${tour.tourId}`} className="block rounded-full bg-emerald-700 py-4 text-center font-bold text-white shadow-lg transition hover:bg-emerald-800">{t("public.common.book")}</Link>
-                    <div className="mt-6 border-t border-slate-100 pt-6">
-                      <h4 className="mb-3 font-extrabold text-slate-900">{t("public.tour_detail.sidebar.payments")}</h4>
-                      <div className="grid grid-cols-2 gap-2 text-xs font-bold text-slate-700">{paymentMethods.map((item) => <span key={item} className="rounded-xl bg-slate-100 px-3 py-2 text-center">{item}</span>)}</div>
+                    <Link to={`/reservations/${tour.tourId}`} className="public-btn-primary block rounded-full py-4 text-center font-bold transition">{t("public.common.book")}</Link>
+                    <div className="mt-6 border-t border-[rgba(125,94,78,0.12)] pt-6">
+                      <h4 className="public-heading mb-3 font-extrabold">{t("public.tour_detail.sidebar.payments")}</h4>
+                      <div className="grid grid-cols-2 gap-2 text-xs font-bold text-[color:var(--ink-soft)]">{paymentMethods.map((item) => <span key={item} className="rounded-xl bg-[rgba(238,225,207,0.72)] px-3 py-2 text-center">{item}</span>)}</div>
                     </div>
                   </div>
                 </aside>
               </div>
 
               <div className="mt-14 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-                <section className="rounded-3xl bg-white p-6 shadow-sm md:p-8">
+                <section className="public-panel rounded-3xl p-6 md:p-8">
                   <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
                     <div>
-                      <p className="mb-2 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.tour_detail.reviews.eyebrow")}</p>
-                      <h2 className="text-2xl font-extrabold text-slate-900">{t("public.tour_detail.reviews.title")}</h2>
+                      <p className="public-eyebrow mb-2 text-sm font-bold uppercase">{t("public.tour_detail.reviews.eyebrow")}</p>
+                      <h2 className="public-heading text-2xl font-extrabold">{t("public.tour_detail.reviews.title")}</h2>
                     </div>
-                    <div className="rounded-2xl bg-stone-50 px-4 py-3 text-right">
-                      <p className="text-sm text-slate-500">{t("public.tour_detail.reviews.average")}</p>
-                      <p className="text-2xl font-extrabold text-slate-900">{averageRating || "-"}/5</p>
+                    <div className="public-soft-panel rounded-2xl px-4 py-3 text-right">
+                      <p className="text-sm text-[color:var(--muted)]">{t("public.tour_detail.reviews.average")}</p>
+                      <p className="public-heading text-2xl font-extrabold">{averageRating || "-"}/5</p>
                     </div>
                   </div>
 
                   {tour.reviews.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-stone-300 px-5 py-8 text-sm text-slate-500">{t("public.tour_detail.reviews.empty")}</div>
+                    <div className="rounded-2xl border border-dashed border-[rgba(125,94,78,0.24)] px-5 py-8 text-sm text-[color:var(--muted)]">{t("public.tour_detail.reviews.empty")}</div>
                   ) : (
                     <div className="space-y-5">
                       {tour.reviews.map((review) => (
-                        <article key={review.id} className="rounded-3xl border border-stone-200 p-5">
+                        <article key={review.id} className="rounded-3xl border border-[rgba(125,94,78,0.16)] bg-white/56 p-5">
                           <div className="mb-3 flex items-start gap-4">
                             <img src={review.image || "/images/profil.png"} alt={review.name} className="h-14 w-14 rounded-full object-cover" />
                             <div className="min-w-0 flex-1">
                               <div className="flex flex-wrap items-start justify-between gap-4">
                                 <div>
-                                  <p className="font-extrabold text-slate-900">{review.name}</p>
-                                  <p className="text-sm text-slate-500">{review.createdAt ? formatDate(review.createdAt, lang) : t("public.tour_detail.reviews.recent")}</p>
+                                  <p className="font-extrabold text-[color:var(--accent-deep)]">{review.name}</p>
+                                  <p className="text-sm text-[color:var(--muted)]">{review.createdAt ? formatDate(review.createdAt, lang) : t("public.tour_detail.reviews.recent")}</p>
                                 </div>
                                 <StarRating value={review.rating} />
                               </div>
-                              <p className="mt-3 text-sm leading-relaxed text-slate-600">{review.review}</p>
+                              <p className="mt-3 text-sm leading-relaxed text-[color:var(--ink-soft)]">{review.review}</p>
                             </div>
                           </div>
                         </article>
@@ -450,24 +462,24 @@ export default function TourPublicDetailPage() {
                   )}
                 </section>
 
-                <section className="rounded-3xl bg-white p-6 shadow-sm md:p-8">
-                  <p className="mb-2 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.tour_detail.review.eyebrow")}</p>
-                  <h2 className="mb-3 text-2xl font-extrabold text-slate-900">{t("public.tour_detail.review.title")}</h2>
-                  <p className="mb-6 text-sm leading-relaxed text-slate-600">{t("public.tour_detail.review.text")}</p>
+                <section className="public-panel rounded-3xl p-6 md:p-8">
+                  <p className="public-eyebrow mb-2 text-sm font-bold uppercase">{t("public.tour_detail.review.eyebrow")}</p>
+                  <h2 className="public-heading mb-3 text-2xl font-extrabold">{t("public.tour_detail.review.title")}</h2>
+                  <p className="mb-6 text-sm leading-relaxed text-[color:var(--ink-soft)]">{t("public.tour_detail.review.text")}</p>
                   {reviewNotice ? <div className={`mb-5 rounded-2xl px-4 py-3 text-sm font-semibold ${reviewNoticeType === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-800" : "border border-rose-200 bg-rose-50 text-rose-700"}`}>{reviewNotice}</div> : null}
                   <form onSubmit={handleReviewSubmit} className="space-y-5">
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.tour_detail.review.fields.image")}</span>
                       <div className="flex items-center gap-4">
-                        <img src={reviewImagePreview || "/images/profil.png"} alt={t("public.tour_detail.review.preview_alt")} className="h-16 w-16 rounded-full object-cover ring-2 ring-stone-200" />
-                        <input ref={reviewFileInputRef} type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={handleReviewChange} className="block w-full text-sm text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-emerald-100 file:px-4 file:py-2 file:font-bold file:text-emerald-800 hover:file:bg-emerald-200" />
+                        <img src={reviewImagePreview || "/images/profil.png"} alt={t("public.tour_detail.review.preview_alt")} className="h-16 w-16 rounded-full object-cover ring-2 ring-[rgba(125,94,78,0.18)]" />
+                        <input ref={reviewFileInputRef} type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={handleReviewChange} className="block w-full text-sm text-[color:var(--ink-soft)] file:mr-4 file:rounded-full file:border-0 file:bg-[rgba(246,217,203,0.42)] file:px-4 file:py-2 file:font-bold file:text-[color:var(--accent-dark)] hover:file:bg-[rgba(246,217,203,0.62)]" />
                       </div>
                       <p className="mt-2 text-xs text-slate-500">{t("public.tour_detail.review.fields.image_help")}</p>
                       {reviewErrors.image ? <span className="mt-2 block text-xs font-semibold text-rose-600">{reviewErrors.image}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.tour_detail.review.fields.name")}</span>
-                      <input type="text" name="name" value={reviewForm.name} onChange={handleReviewChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.tour_detail.review.fields.name_placeholder")} />
+                      <input type="text" name="name" value={reviewForm.name} onChange={handleReviewChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.tour_detail.review.fields.name_placeholder")} />
                       {reviewErrors.name ? <span className="mt-2 block text-xs font-semibold text-rose-600">{reviewErrors.name}</span> : null}
                     </label>
                     <label className="block">
@@ -482,24 +494,24 @@ export default function TourPublicDetailPage() {
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.tour_detail.review.fields.review")}</span>
-                      <textarea name="review" value={reviewForm.review} onChange={handleReviewChange} rows="6" className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.tour_detail.review.fields.review_placeholder")} />
+                      <textarea name="review" value={reviewForm.review} onChange={handleReviewChange} rows="6" className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.tour_detail.review.fields.review_placeholder")} />
                       {reviewErrors.review ? <span className="mt-2 block text-xs font-semibold text-rose-600">{reviewErrors.review}</span> : null}
                     </label>
-                    <button type="submit" disabled={reviewSubmitting} className="inline-flex rounded-full bg-slate-900 px-7 py-3 text-sm font-bold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70">{reviewSubmitting ? t("public.tour_detail.review.submitting") : t("public.tour_detail.review.submit")}</button>
+                    <button type="submit" disabled={reviewSubmitting} className="public-btn-primary inline-flex rounded-full px-7 py-3 text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-70">{reviewSubmitting ? t("public.tour_detail.review.submitting") : t("public.tour_detail.review.submit")}</button>
                   </form>
                 </section>
               </div>
 
               {related.length > 0 ? (
                 <div className="mt-14">
-                  <h2 className="mb-6 text-2xl font-extrabold text-slate-900">{t("public.tour_detail.related")}</h2>
+                  <h2 className="public-heading mb-6 text-2xl font-extrabold">{t("public.tour_detail.related")}</h2>
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {related.map((item) => (
-                      <Link key={item.tourId} to={`/circuits/${item.tourId}`} className="group overflow-hidden rounded-3xl bg-white shadow-sm">
+                      <Link key={item.tourId} to={`/circuits/${item.tourId}`} className="public-panel group overflow-hidden rounded-3xl">
                         <img src={item.image} alt={item.title} className="h-56 w-full object-cover transition duration-500 group-hover:scale-105" />
                         <div className="p-4">
-                          <h3 className="font-extrabold">{item.title}</h3>
-                          <p className="text-sm text-slate-500">{item.departure}</p>
+                          <h3 className="public-heading font-extrabold">{item.title}</h3>
+                          <p className="text-sm text-[color:var(--muted)]">{item.departure}</p>
                         </div>
                       </Link>
                     ))}

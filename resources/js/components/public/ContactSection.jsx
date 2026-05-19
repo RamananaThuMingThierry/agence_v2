@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createPublicContactForm } from "../../api/contactForms";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
 const initialForm = {
   name: "",
@@ -45,7 +46,7 @@ function MailIcon() {
 }
 
 export default function ContactSection({ platform = {} }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -60,9 +61,9 @@ export default function ContactSection({ platform = {} }) {
   const instagramHref = platform.instagram || "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D";
   const contactMethods = [
     { label: t("public.common.facebook"), value: platform.brand || "World of Madagascar", href: facebookHref, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white" },
-    { label: t("public.common.instagram"), value: "@world_of_madagascar", href: instagramHref, icon: <InstagramIcon />, tone: "bg-[#E4405F] text-white" },
+    { label: t("public.common.instagram"), value: "@world_of_madagascar", href: instagramHref, icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white" },
     { label: t("public.common.whatsapp"), value: contact, href: whatsappHref, icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white" },
-    { label: t("public.common.email"), value: email, href: `mailto:${email}`, icon: <MailIcon />, tone: "bg-slate-900 text-white" },
+    { label: t("public.common.email"), value: email, href: `mailto:${email}`, icon: <MailIcon />, tone: "bg-[#EA4335] text-white" },
   ];
 
   function handleChange(event) {
@@ -107,7 +108,18 @@ export default function ContactSection({ platform = {} }) {
         const normalized = Object.fromEntries(
           Object.entries(apiErrors).map(([key, value]) => [key, Array.isArray(value) ? value[0] : String(value)]),
         );
-        setFieldErrors(normalized);
+        setFieldErrors(
+          localizePublicValidationErrors({
+            lang,
+            errors: normalized,
+            fieldLabels: {
+              name: t("public.home.contact.form.fields.name"),
+              subject: t("public.home.contact.form.fields.subject"),
+              email: t("public.home.contact.form.fields.email"),
+              message: t("public.home.contact.form.fields.message"),
+            },
+          }),
+        );
       }
 
       setErrorMessage(apiMessage || t("public.home.contact.form.error"));
@@ -117,15 +129,15 @@ export default function ContactSection({ platform = {} }) {
   }
 
   return (
-    <section id="contact" className="bg-white py-20">
+    <section id="contact" className="py-20">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.home.contact.eyebrow")}</p>
-          <h2 className="mb-5 text-3xl font-extrabold text-slate-900 md:text-4xl">{t("public.home.contact.title")}</h2>
-          <p className="mb-6 leading-relaxed text-slate-600">{t("public.home.contact.text")}</p>
-          <div className="mb-6 rounded-3xl bg-stone-50 p-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">{t("public.home.contact.address")}</p>
-            <p className="mt-2 text-slate-700">{address}</p>
+          <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.home.contact.eyebrow")}</p>
+          <h2 className="public-heading mb-5 text-3xl font-extrabold md:text-4xl">{t("public.home.contact.title")}</h2>
+          <p className="public-copy mb-6 leading-relaxed">{t("public.home.contact.text")}</p>
+          <div className="public-soft-panel mb-6 rounded-3xl p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--muted)]">{t("public.home.contact.address")}</p>
+            <p className="mt-2 text-[color:var(--ink-soft)]">{address}</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {contactMethods.map((item) => (
@@ -134,48 +146,48 @@ export default function ContactSection({ platform = {} }) {
                 href={item.href}
                 target={item.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={item.href.startsWith("mailto:") ? undefined : "noreferrer"}
-                className="group flex items-center gap-4 rounded-3xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"
+                className="public-panel group flex items-center gap-4 rounded-3xl p-4 text-[color:var(--ink-soft)] transition hover:-translate-y-0.5 hover:border-[rgba(143,51,32,0.24)] hover:shadow-[0_18px_42px_rgba(89,44,30,0.14)]"
               >
                 <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${item.tone}`}>
                   {item.icon}
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{item.label}</span>
-                  <span className="block truncate text-sm font-semibold text-slate-900">{item.value}</span>
+                  <span className="block text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--muted)]">{item.label}</span>
+                  <span className="block truncate text-sm font-semibold text-[color:var(--accent-deep)]">{item.value}</span>
                 </span>
               </a>
             ))}
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4 rounded-3xl bg-stone-50 p-6 shadow-sm">
-          {successMessage ? <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">{successMessage}</div> : null}
+        <form onSubmit={handleSubmit} className="public-panel-strong space-y-4 rounded-3xl p-6">
+          {successMessage ? <div className="rounded-2xl border border-[rgba(45,107,86,0.2)] bg-[rgba(221,235,229,0.9)] px-4 py-3 text-sm font-semibold text-[color:var(--success)]">{successMessage}</div> : null}
           {errorMessage ? <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{errorMessage}</div> : null}
 
           <div>
             <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.name")}</label>
-            <input name="name" type="text" value={form.name} onChange={handleChange} placeholder={t("public.home.contact.form.fields.name_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <input name="name" type="text" value={form.name} onChange={handleChange} placeholder={t("public.home.contact.form.fields.name_placeholder")} className="public-input w-full rounded-2xl px-4 py-3" />
             {fieldErrors.name ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.name}</span> : null}
           </div>
 
           <div>
             <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.subject")}</label>
-            <input name="subject" type="text" value={form.subject} onChange={handleChange} placeholder={t("public.home.contact.form.fields.subject_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <input name="subject" type="text" value={form.subject} onChange={handleChange} placeholder={t("public.home.contact.form.fields.subject_placeholder")} className="public-input w-full rounded-2xl px-4 py-3" />
             {fieldErrors.subject ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.subject}</span> : null}
           </div>
 
           <div>
             <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.email")}</label>
-            <input name="email" type="text" value={form.email} onChange={handleChange} placeholder={t("public.home.contact.form.fields.email_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <input name="email" type="text" value={form.email} onChange={handleChange} placeholder={t("public.home.contact.form.fields.email_placeholder")} className="public-input w-full rounded-2xl px-4 py-3" />
             {fieldErrors.email ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.email}</span> : null}
           </div>
 
           <div>
             <label className="mb-2 block text-sm font-bold">{t("public.home.contact.form.fields.message")}</label>
-            <textarea name="message" value={form.message} onChange={handleChange} rows="5" placeholder={t("public.home.contact.form.fields.message_placeholder")} className="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+            <textarea name="message" value={form.message} onChange={handleChange} rows="5" placeholder={t("public.home.contact.form.fields.message_placeholder")} className="public-input w-full rounded-2xl px-4 py-3" />
             {fieldErrors.message ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.message}</span> : null}
           </div>
 
-          <button type="submit" disabled={submitting} className="w-full rounded-full bg-emerald-700 py-4 font-bold text-white shadow-lg transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70">
+          <button type="submit" disabled={submitting} className="public-btn-primary w-full rounded-full py-4 font-bold transition disabled:cursor-not-allowed disabled:opacity-70">
             {submitting ? t("public.home.contact.form.submitting") : t("public.home.contact.form.submit")}
           </button>
         </form>

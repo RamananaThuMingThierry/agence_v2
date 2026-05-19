@@ -8,6 +8,7 @@ import TopBar from "../../components/public/TopBar";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { mapTourToPublicItem } from "../../utils/publicTour";
+import { localizePublicValidationErrors } from "../../utils/publicValidation";
 import { useParams } from "react-router-dom";
 
 const initialForm = {
@@ -232,7 +233,22 @@ export default function BookingPage() {
         const normalized = Object.fromEntries(
           Object.entries(apiErrors).map(([key, value]) => [key, Array.isArray(value) ? value[0] : String(value)]),
         );
-        setFieldErrors(normalized);
+        setFieldErrors(
+          localizePublicValidationErrors({
+            lang,
+            errors: normalized,
+            fieldLabels: {
+              name: t("public.booking.form.fields.name"),
+              email: t("public.booking.form.fields.email"),
+              phone: t("public.booking.form.fields.phone"),
+              start_date: t("public.booking.form.fields.start_date"),
+              end_date: t("public.booking.form.fields.end_date"),
+              number_of_people: t("public.booking.form.fields.people"),
+              message: t("public.booking.form.fields.message"),
+              tour_id: "tour",
+            },
+          }),
+        );
       }
 
       setErrorMessage(apiMessage || t("public.booking.form.error"));
@@ -242,7 +258,7 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
@@ -252,18 +268,18 @@ export default function BookingPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="bg-stone-50 py-8">
+      <section className="py-8">
         <div className="mx-auto max-w-7xl px-4">
           {loading ? (
-            <div className="rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">{t("public.booking.loading")}</div>
+            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.loading")}</div>
           ) : !tour ? (
-            <div className="rounded-3xl border border-stone-200 bg-white px-6 py-12 text-center text-sm font-semibold text-slate-500 shadow-sm">{t("public.booking.not_found")}</div>
+            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.not_found")}</div>
           ) : (
             <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm md:p-8">
-                <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.booking.eyebrow")}</p>
-                <h1 className="mb-3 text-3xl font-extrabold text-slate-900 md:text-4xl">{t("public.booking.title", { tour: tour.title })}</h1>
-                <p className="mb-8 max-w-2xl text-sm leading-relaxed text-slate-600">{t("public.booking.text")}</p>
+              <div className="public-panel-strong rounded-3xl p-6 md:p-8">
+                <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.booking.eyebrow")}</p>
+                <h1 className="public-heading mb-3 text-3xl font-extrabold md:text-4xl">{t("public.booking.title", { tour: tour.title })}</h1>
+                <p className="mb-8 max-w-2xl text-sm leading-relaxed text-[color:var(--ink-soft)]">{t("public.booking.text")}</p>
 
                 {successMessage ? <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">{successMessage}</div> : null}
                 {errorMessage ? <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{errorMessage}</div> : null}
@@ -272,88 +288,88 @@ export default function BookingPage() {
                   <div className="grid gap-5 md:grid-cols-2">
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.name")}</span>
-                      <input type="text" name="name" value={form.name} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.booking.form.fields.name_placeholder")} />
+                      <input type="text" name="name" value={form.name} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.booking.form.fields.name_placeholder")} />
                       {fieldErrors.name ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.name}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.email")}</span>
-                      <input type="email" name="email" value={form.email} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.booking.form.fields.email_placeholder")} />
+                      <input type="email" name="email" value={form.email} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.booking.form.fields.email_placeholder")} />
                       {fieldErrors.email ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.email}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.phone")}</span>
-                      <input type="text" name="phone" value={form.phone} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.booking.form.fields.phone_placeholder")} />
+                      <input type="text" name="phone" value={form.phone} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.booking.form.fields.phone_placeholder")} />
                       {fieldErrors.phone ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.phone}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.people")}</span>
-                      <input type="text" inputMode="numeric" name="number_of_people" value={form.number_of_people} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.booking.form.fields.people_placeholder")} />
+                      <input type="text" inputMode="numeric" name="number_of_people" value={form.number_of_people} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.booking.form.fields.people_placeholder")} />
                       {fieldErrors.number_of_people ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.number_of_people}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.start_date")}</span>
-                      <input type="date" name="start_date" value={form.start_date} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" />
+                      <input type="date" name="start_date" value={form.start_date} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" />
                       {fieldErrors.start_date ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.start_date}</span> : null}
                     </label>
                     <label className="block">
                       <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.end_date")}</span>
-                      <input type="date" name="end_date" value={form.end_date} onChange={handleChange} className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" />
+                      <input type="date" name="end_date" value={form.end_date} onChange={handleChange} className="public-input w-full rounded-2xl px-4 py-3 text-sm" />
                       {fieldErrors.end_date ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.end_date}</span> : null}
                     </label>
                   </div>
 
                   <label className="block">
                     <span className="mb-2 block text-sm font-bold text-slate-700">{t("public.booking.form.fields.message")}</span>
-                    <textarea name="message" value={form.message} onChange={handleChange} rows="5" className="w-full rounded-2xl border border-stone-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100" placeholder={t("public.booking.form.fields.message_placeholder")} />
+                    <textarea name="message" value={form.message} onChange={handleChange} rows="5" className="public-input w-full rounded-2xl px-4 py-3 text-sm" placeholder={t("public.booking.form.fields.message_placeholder")} />
                     {fieldErrors.message ? <span className="mt-2 block text-xs font-semibold text-rose-600">{fieldErrors.message}</span> : null}
                   </label>
 
-                  <button type="submit" disabled={submitting} className="inline-flex rounded-full bg-emerald-700 px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70">
+                  <button type="submit" disabled={submitting} className="public-btn-primary inline-flex rounded-full px-8 py-4 text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-70">
                     {submitting ? t("public.booking.form.submitting") : t("public.booking.form.submit")}
                   </button>
                 </form>
               </div>
 
               <aside className="space-y-6">
-                <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
+                <div className="public-panel overflow-hidden rounded-3xl">
                   <img src={tour.image} alt={tour.title} className="h-72 w-full object-cover" />
                   <div className="p-6">
                     <span className={`mb-3 inline-flex rounded-full px-3 py-1 text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span>
-                    <h2 className="mb-3 text-2xl font-extrabold text-slate-900">{tour.title}</h2>
-                    <p className="text-sm leading-relaxed text-slate-600">{tour.excerpt || tour.description || t("public.tour_detail.description_coming")}</p>
+                    <h2 className="public-heading mb-3 text-2xl font-extrabold">{tour.title}</h2>
+                    <p className="text-sm leading-relaxed text-[color:var(--ink-soft)]">{tour.excerpt || tour.description || t("public.tour_detail.description_coming")}</p>
                   </div>
                 </div>
 
-                <div className="rounded-3xl bg-white p-6 shadow-sm">
-                  <h3 className="mb-4 text-xl font-extrabold text-slate-900">{t("public.booking.summary.title")}</h3>
-                  <div className="space-y-4 text-sm text-slate-600">
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                <div className="public-panel rounded-3xl p-6">
+                  <h3 className="public-heading mb-4 text-xl font-extrabold">{t("public.booking.summary.title")}</h3>
+                  <div className="space-y-4 text-sm text-[color:var(--ink-soft)]">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.duration")}</span>
-                      <strong className="text-slate-900">{tour.duration}</strong>
+                      <strong className="text-[color:var(--accent-deep)]">{tour.duration}</strong>
                     </div>
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.departure")}</span>
-                      <strong className="text-slate-900">{tour.departure}</strong>
+                      <strong className="text-[color:var(--accent-deep)]">{tour.departure}</strong>
                     </div>
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.arrival")}</span>
-                      <strong className="text-slate-900">{tour.arrival}</strong>
+                      <strong className="text-[color:var(--accent-deep)]">{tour.arrival}</strong>
                     </div>
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.price_per_person")}</span>
-                      <strong className="text-emerald-800">{tour.formattedPrice}</strong>
+                      <strong className="public-price">{tour.formattedPrice}</strong>
                     </div>
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.selected_departure")}</span>
-                      <strong className="text-slate-900">{formatDateLabel(form.start_date, lang)}</strong>
+                      <strong className="text-[color:var(--accent-deep)]">{formatDateLabel(form.start_date, lang)}</strong>
                     </div>
-                    <div className="flex items-center justify-between gap-4 border-b border-stone-100 pb-4">
+                    <div className="flex items-center justify-between gap-4 border-b border-[rgba(125,94,78,0.12)] pb-4">
                       <span>{t("public.booking.summary.selected_return")}</span>
-                      <strong className="text-slate-900">{formatDateLabel(form.end_date, lang)}</strong>
+                      <strong className="text-[color:var(--accent-deep)]">{formatDateLabel(form.end_date, lang)}</strong>
                     </div>
                     <div className="flex items-center justify-between gap-4">
                       <span>{t("public.booking.summary.estimate")}</span>
-                      <strong className="text-lg text-emerald-800">{estimatedTotal || tour.formattedPrice}</strong>
+                      <strong className="public-price text-lg">{estimatedTotal || tour.formattedPrice}</strong>
                     </div>
                   </div>
                 </div>
