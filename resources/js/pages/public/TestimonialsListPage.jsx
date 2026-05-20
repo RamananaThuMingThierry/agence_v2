@@ -6,6 +6,7 @@ import PublicHeader from "../../components/public/PublicHeader";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TopBar from "../../components/public/TopBar";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { getPublicLocale } from "../../utils/publicLocale";
 
 function buildImageUrl(path) {
   if (!path) return "/images/profil.png";
@@ -48,8 +49,7 @@ const initialForm = {
 
 function formatDate(value, lang) {
   if (!value) return "";
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return new Date(value).toLocaleDateString(localeMap[lang] || "fr-FR");
+  return new Date(value).toLocaleDateString(getPublicLocale(lang));
 }
 
 export default function TestimonialsListPage() {
@@ -222,11 +222,12 @@ export default function TestimonialsListPage() {
   }
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell bg-stone-50 text-slate-800">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader logo={platformMeta.logo} brand={platformMeta.brand} tagline={platformMeta.tagline} links={publicLinks} homeHref="/#home" contactHref="/#contact" />
-      <section className="bg-stone-50 py-8">
-        <div className="mx-auto max-w-7xl px-4">
+      <main className="public-main">
+        <section className="bg-stone-50 py-8">
+          <div className="mx-auto max-w-7xl px-4">
           <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">{t("public.testimonials.list.eyebrow")}</p>
@@ -316,8 +317,9 @@ export default function TestimonialsListPage() {
               </form>
             </section>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
+      </main>
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>

@@ -8,6 +8,7 @@ import TopBar from "../../components/public/TopBar";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { formatUsd } from "../../utils/currency";
+import { getPublicLocale } from "../../utils/publicLocale";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 import { localizePublicValidationErrors } from "../../utils/publicValidation";
 import { useParams } from "react-router-dom";
@@ -28,8 +29,7 @@ function formatDateLabel(value, lang) {
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) return value;
 
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return new Intl.DateTimeFormat(localeMap[lang] || "fr-FR", {
+  return new Intl.DateTimeFormat(getPublicLocale(lang), {
     day: "2-digit",
     month: "long",
     year: "numeric",
@@ -37,8 +37,7 @@ function formatDateLabel(value, lang) {
 }
 
 function formatPrice(price, lang) {
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return formatUsd(price, localeMap[lang] || "fr-FR");
+  return formatUsd(price, getPublicLocale(lang));
 }
 
 export default function BookingPage() {
@@ -268,14 +267,15 @@ export default function BookingPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="py-8">
-        <div className="mx-auto max-w-7xl px-4">
-          {loading ? (
-            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.loading")}</div>
-          ) : !tour ? (
-            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.not_found")}</div>
-          ) : (
-            <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr]">
+      <main className="public-main">
+        <section className="py-8">
+          <div className="mx-auto max-w-7xl px-4">
+            {loading ? (
+              <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.loading")}</div>
+            ) : !tour ? (
+              <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.booking.not_found")}</div>
+            ) : (
+              <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr]">
               <div className="public-panel-strong rounded-3xl p-6 md:p-8">
                 <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.booking.eyebrow")}</p>
                 <h1 className="public-heading mb-3 text-3xl font-extrabold md:text-4xl">{t("public.booking.title", { tour: tour.title })}</h1>
@@ -374,10 +374,11 @@ export default function BookingPage() {
                   </div>
                 </div>
               </aside>
-            </div>
-          )}
-        </div>
-      </section>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>

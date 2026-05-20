@@ -9,6 +9,7 @@ import TopBar from "../../components/public/TopBar";
 import TourVideosSection from "../../components/public/TourVideosSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { formatUsd } from "../../utils/currency";
+import { getPublicLocale } from "../../utils/publicLocale";
 import { buildImageUrl, mapTourToPublicItem } from "../../utils/publicTour";
 import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
@@ -58,14 +59,12 @@ const initialReviewForm = {
 };
 
 function formatPrice(price, lang) {
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return formatUsd(price, localeMap[lang] || "fr-FR");
+  return formatUsd(price, getPublicLocale(lang));
 }
 
 function formatDate(value, lang) {
   if (!value) return "";
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return new Date(value).toLocaleDateString(localeMap[lang] || "fr-FR");
+  return new Date(value).toLocaleDateString(getPublicLocale(lang));
 }
 
 export default function TourPublicDetailPage() {
@@ -365,14 +364,15 @@ export default function TourPublicDetailPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="py-8">
-        <div className="mx-auto max-w-7xl px-4">
-          {loading ? (
-            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.loading")}</div>
-          ) : !tour ? (
-            <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.not_found")}</div>
-          ) : (
-            <>
+      <main className="public-main">
+        <section className="py-8">
+          <div className="mx-auto max-w-7xl px-4">
+            {loading ? (
+              <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.loading")}</div>
+            ) : !tour ? (
+              <div className="public-panel rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.tour_detail.not_found")}</div>
+            ) : (
+              <>
               <div className="grid gap-8 lg:grid-cols-3">
                 <div className="public-panel overflow-hidden rounded-3xl lg:col-span-2">
                   <div className="relative">
@@ -586,10 +586,11 @@ export default function TourPublicDetailPage() {
                   </div>
                 </div>
               ) : null}
-            </>
-          )}
-        </div>
-      </section>
+              </>
+            )}
+          </div>
+        </section>
+      </main>
       {lightboxOpen && activeImage ? (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/88 p-4 sm:p-6" onClick={() => setLightboxOpen(false)}>
           <button

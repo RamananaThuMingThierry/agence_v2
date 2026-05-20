@@ -132,17 +132,19 @@ export default function VideosListPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="py-8">
-        <div className="mx-auto max-w-7xl px-4">
-          {loading ? (
-            <div className="public-panel rounded-xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.home.memories.loading")}</div>
-          ) : memoryVideos.length === 0 ? (
-            <div className="public-panel rounded-xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.home.memories.empty")}</div>
-          ) : (
-            <MemoriesVideosSection videos={memoryVideos} />
-          )}
-        </div>
-      </section>
+      <main className="public-main">
+        <section className="py-8">
+          <div className="mx-auto max-w-7xl px-4">
+            {loading ? (
+              <div className="public-panel rounded-xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.home.memories.loading")}</div>
+            ) : memoryVideos.length === 0 ? (
+              <div className="rounded-xl px-6 py-20 text-center text-xl font-bold leading-relaxed text-[color:var(--accent-deep)] md:text-2xl">{t("public.home.memories.empty")}</div>
+            ) : (
+              <MemoriesVideosSection videos={memoryVideos} />
+            )}
+          </div>
+        </section>
+      </main>
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>

@@ -26,11 +26,34 @@ import WhyChooseSection from "../../components/public/WhyChooseSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { consumePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
 import { mapGalleryToPublicItem } from "../../utils/publicGallery";
+import { getPublicLocale } from "../../utils/publicLocale";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 import { mapPlatformVideoToPublicItem } from "../../utils/publicVideo";
 
 export default function HomePage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const spokenLanguages = useMemo(
+    () => ["Malagasy", "English", "German", "French", "Chinese", "Italian", "Russian", "Spanish"],
+    [],
+  );
+  const founderLanguagesParagraph = useMemo(
+    () => {
+      const joinedLanguages = spokenLanguages.join(", ");
+      const languageParagraphs = {
+        de: `Ich spreche ${joinedLanguages}. Mit mehreren Jahren Erfahrung in ganz Madagaskar habe ich Reisende aus Europa, Asien, Afrika, Australien und den Vereinigten Staaten begleitet.`,
+        en: `I speak ${joinedLanguages}. With several years of experience across Madagascar, I have guided travelers from Europe, Asia, Africa, Australia, and the United States.`,
+        es: `Hablo ${joinedLanguages}. Con varios anos de experiencia por todo Madagascar, he acompanado a viajeros de Europa, Asia, Africa, Australia y Estados Unidos.`,
+        fr: `Je parle ${joinedLanguages}. Avec plusieurs annees d'experience a travers Madagascar, j'ai accompagne des voyageurs venus d'Europe, d'Asie, d'Afrique, d'Australie et des Etats-Unis.`,
+        it: `Parlo ${joinedLanguages}. Con diversi anni di esperienza in tutto il Madagascar, ho accompagnato viaggiatori provenienti da Europa, Asia, Africa, Australia e Stati Uniti.`,
+        mg: `Miteny ${joinedLanguages} aho. Efa an-taonany maro no niasako nanerana an'i Madagasikara ka efa nanampy mpandeha avy any Eoropa, Azia, Afrika, Aostralia ary Etazonia aho.`,
+        ru: `Ya govoryu na ${joinedLanguages}. Imeia mnogoletnii opyt raboty po vsemu Madagaskaru, ya soprovozhdal puteshestvennikov iz Evropy, Azii, Afriki, Avstralii i Soedinennykh Shtatov.`,
+        zh: `Wo hui shuo ${joinedLanguages}。Wo zai Madajiasijia yongyou duo nian jingyan, ceng jie dai lai zi Ouzhou, Yazhou, Feizhou, Aodaliya he Meiguo de youke。`,
+      };
+
+      return languageParagraphs[lang] || languageParagraphs.en;
+    },
+    [lang, spokenLanguages],
+  );
   const fallbackTestimonials = useMemo(
     () => [
       { name: "Sarah M.", country: "France", quote: t("public.home.testimonials.fallback.0.quote") },
@@ -117,12 +140,7 @@ export default function HomePage() {
       image: "/images/founder.jpg",
       location: t("public.home.about.founder.location"),
       experience: t("public.home.about.founder.experience"),
-      languages: [
-        t("public.home.about.founder.languages.0"),
-        t("public.home.about.founder.languages.1"),
-        t("public.home.about.founder.languages.2"),
-        t("public.home.about.founder.languages.3"),
-      ],
+      languages: spokenLanguages,
       countries: [
         t("public.home.about.founder.countries.0"),
         t("public.home.about.founder.countries.1"),
@@ -137,20 +155,20 @@ export default function HomePage() {
       ],
       paragraphs: [
         t("public.home.about.founder.paragraphs.0"),
-        t("public.home.about.founder.paragraphs.1"),
+        founderLanguagesParagraph,
         t("public.home.about.founder.paragraphs.2"),
         t("public.home.about.founder.paragraphs.3"),
       ],
       safariBookingsText: t("public.home.about.founder.reference_text"),
     }),
-    [t],
+    [founderLanguagesParagraph, spokenLanguages, t],
   );
 
   const highlights = useMemo(
     () => [
       { value: "8+", label: t("public.home.highlights.0") },
       { value: "100%", label: t("public.home.highlights.1") },
-      { value: "4", label: t("public.home.highlights.2") },
+      { value: "8", label: t("public.home.highlights.2") },
       { value: "24/7", label: t("public.home.highlights.3") },
     ],
     [t],
@@ -396,29 +414,31 @@ export default function HomePage() {
         tagline={platformMeta.tagline}
         links={navLinks}
       />
-      <HeroSection hero={hero} slides={slides}>
-        <TrustStatsSection items={highlights} />
-      </HeroSection>
-      <div className="bg-stone-50 md:hidden">
-        <TrustStatsSection
-          items={highlights}
-          containerClassName="m-0 max-w-none px-0"
-          panelClassName="w-full rounded-none border-x-0 p-0"
-        />
-      </div>
-      <div className="hidden h-24 md:block" />
-      <WhyChooseSection items={reasons} />
-      <AboutSection founder={aboutFounder} />
-      <PlatformVideoSection videos={platformVideos} />
-      <FeaturedToursSection tours={featuredTours} />
-      <ToursCatalogSection tours={allTours} />
-      <GalleryPreviewSection items={galleryPreview} />
-      <PaymentMethodsSection methods={paymentMethods} />
-      <CustomTripCtaSection trips={customTrips} />
-      <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
-      <FaqSection items={faqItems} />
-      <ContactSection platform={platformMeta} />
-      <LocationMapSection location={officeLocation} />
+      <main className="public-main">
+        <HeroSection hero={hero} slides={slides}>
+          <TrustStatsSection items={highlights} />
+        </HeroSection>
+        <div className="bg-stone-50 md:hidden">
+          <TrustStatsSection
+            items={highlights}
+            containerClassName="m-0 max-w-none px-0"
+            panelClassName="w-full rounded-none border-x-0 p-0"
+          />
+        </div>
+        <div className="hidden h-24 md:block" />
+        <WhyChooseSection items={reasons} />
+        <AboutSection founder={aboutFounder} />
+        <PlatformVideoSection videos={platformVideos} />
+        <FeaturedToursSection tours={featuredTours} />
+        <ToursCatalogSection tours={allTours} />
+        <GalleryPreviewSection items={galleryPreview} />
+        <PaymentMethodsSection methods={paymentMethods} />
+        <CustomTripCtaSection trips={customTrips} />
+        <TestimonialsSection testimonials={testimonials} showMoreHref="/avis" />
+        <FaqSection items={faqItems} />
+        <ContactSection platform={platformMeta} />
+        <LocationMapSection location={officeLocation} />
+      </main>
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>

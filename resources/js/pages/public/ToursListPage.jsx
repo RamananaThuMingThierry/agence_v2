@@ -8,6 +8,7 @@ import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import SectionTitle from "../../components/public/SectionTitle";
 import TopBar from "../../components/public/TopBar";
 import { useI18n } from "../../hooks/admin/I18nContext";
+import { getPublicLocale } from "../../utils/publicLocale";
 import { formatUsd } from "../../utils/currency";
 import { mapTourToPublicItem } from "../../utils/publicTour";
 
@@ -45,8 +46,7 @@ function TourCard({ tour, t }) {
 }
 
 function formatPrice(price, lang) {
-  const localeMap = { fr: "fr-FR", en: "en-GB", es: "es-ES", de: "de-DE" };
-  return formatUsd(price, localeMap[lang] || "fr-FR");
+  return formatUsd(price, getPublicLocale(lang));
 }
 
 export default function ToursListPage() {
@@ -168,27 +168,29 @@ export default function ToursListPage() {
         contactHref="/#contact"
       />
 
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4">
-          <SectionTitle
-            eyebrow={t("public.tours_list.eyebrow")}
-            title={t("public.tours_list.title")}
-            text={t("public.tours_list.text")}
-          />
+      <main className="public-main">
+        <section className="py-20">
+          <div className="mx-auto max-w-7xl px-4">
+            <SectionTitle
+              eyebrow={t("public.tours_list.eyebrow")}
+              title={t("public.tours_list.title")}
+              text={t("public.tours_list.text")}
+            />
 
-          {tours.length === 0 ? (
-            <div className="public-panel mt-12 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">
-              {t("public.tours_list.empty")}
-            </div>
-          ) : (
-            <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-              {tours.map((tour) => (
-                <TourCard key={tour.tourId || tour.id || tour.title} tour={tour} t={t} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+            {tours.length === 0 ? (
+              <div className="mt-12 rounded-3xl px-6 py-20 text-center text-xl font-bold leading-relaxed text-[color:var(--accent-deep)] md:text-2xl">
+                {t("public.tours_list.empty")}
+              </div>
+            ) : (
+              <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+                {tours.map((tour) => (
+                  <TourCard key={tour.tourId || tour.id || tour.title} tour={tour} t={t} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
 
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />

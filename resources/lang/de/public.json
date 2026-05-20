@@ -75,7 +75,7 @@
     "about": {
       "eyebrow": "Über uns",
       "title": "Entdecken Sie Madagaskar mit einem echten lokalen Guide",
-      "languages": "Gesprochene Sprachen",
+      "languages": "Während der Tour gesprochene Sprachen",
       "travelers": "Begleitete Reisende",
       "reference": "Referenz",
       "founder": {
@@ -157,6 +157,30 @@
       "title": "Inspirieren Sie Reisende mit den schönsten Landschaften",
       "text": "Die Galerie sollte echte Fotos zeigen: Kunden, Guides, Parks, Tiere, Hotels, Fahrzeuge und Höhepunkte der Reise.",
       "view_all": "Gesamte Galerie ansehen"
+    },
+    "video": {
+      "eyebrow": "Reisevideo",
+      "title": "Entdecken Sie die Reise vor der Buchung",
+      "text": "Ein kurzes Video hilft Besuchern, die Atmosphäre, die Landschaften und den Komfort des Erlebnisses zu entdecken, bevor sie eine Rundreise auswählen.",
+      "sidebar_title": "Warum das Reisenden hilft",
+      "sidebar_text": "Ein gezielt eingesetztes Video kann Besucher von der Qualität des Reiseziels, dem Rhythmus der Reise und der lokalen Begleitung überzeugen.",
+      "points": {
+        "0": "Zeigen Sie echte Orte, Straßen, Lodges und Landschaften.",
+        "1": "Schaffen Sie Vertrauen mit einer immersiveren Präsentation.",
+        "2": "Helfen Sie Besuchern, sich ihre künftige Reise besser vorzustellen."
+      },
+      "unavailable": "Dieses Video ist derzeit nicht verfügbar."
+    },
+    "memories": {
+      "eyebrow": "Video-Erinnerungen",
+      "title": "Reiseerinnerungen, die die Emotion lebendig halten",
+      "text": "Dieser Bereich hebt kurze Videos hervor, die Besucher als Reiseerinnerung und Inspiration für ihre nächste Rundreise ansehen können.",
+      "view_all": "Alle Videos ansehen",
+      "loading": "Videos werden geladen...",
+      "empty": "Noch keine Videos verfügbar.",
+      "card_title_fallback": "Reiseerinnerung",
+      "card_text_fallback": "Eine kurze Erinnerung aus Madagaskar, um die Atmosphäre der Reise noch einmal zu erleben.",
+      "view_related_tour": "Verknüpfte Rundreise ansehen"
     },
     "payments": {
       "eyebrow": "Sichere Zahlung",
@@ -276,7 +300,65 @@
   },
   "tour_detail": {
     "loading": "Rundreise wird geladen...",
-    "not_found": "Rundreise nicht gefunden."
+    "not_found": "Rundreise nicht gefunden.",
+    "description_coming": "Beschreibung der Rundreise folgt.",
+    "departure_badge": "Abfahrt :value",
+    "program_title": "Reiseprogramm",
+    "program_empty": "Programm folgt.",
+    "day_title": "Tag :day - :title",
+    "activities": "Aktivitäten: :value",
+    "included": "Inklusive",
+    "included_empty": "Keine Leistungen angegeben.",
+    "excluded": "Nicht inklusive",
+    "excluded_empty": "Keine Ausschlüsse angegeben.",
+    "related": "Weitere Rundreisen",
+    "summary": {
+      "duration": "Dauer",
+      "style": "Stil",
+      "price": "Preis",
+      "departure": "Abfahrt",
+      "type": "Typ",
+      "private": "Privat"
+    },
+    "sidebar": {
+      "title": "Diese Rundreise buchen",
+      "text": "Prüfen Sie die Informationen zur Rundreise und gehen Sie direkt zur Buchung weiter.",
+      "payments": "Akzeptierte Zahlungen"
+    },
+    "reviews": {
+      "eyebrow": "Bewertungen von Reisenden",
+      "title": "Bewertungen zu dieser Rundreise",
+      "average": "Durchschnittsbewertung",
+      "empty": "Noch keine Bewertungen veröffentlicht. Seien Sie der Erste, der seine Erfahrung teilt.",
+      "recent": "Aktuelle Bewertung"
+    },
+    "review": {
+      "eyebrow": "Bewertung hinterlassen",
+      "title": "Teilen Sie Ihre Erfahrung",
+      "text": "Reisende können ihr Feedback direkt auf dieser Seite hinterlassen, um künftigen Besuchern zu helfen.",
+      "success": "Bewertung erfolgreich gesendet.",
+      "error": "Ihre Bewertung kann im Moment nicht gesendet werden.",
+      "submitting": "Wird gesendet...",
+      "submit": "Meine Bewertung veröffentlichen",
+      "preview_alt": "Profilvorschau",
+      "rating_label": ":count Stern geben",
+      "fields": {
+        "image": "Profilfoto",
+        "image_help": "Optional. Wenn kein Bild ausgewählt wird, wird ein Standard-Profilbild angezeigt.",
+        "name": "Name",
+        "name_placeholder": "Ihr Name",
+        "rating": "Bewertung",
+        "review": "Ihre Bewertung",
+        "review_placeholder": "Beschreiben Sie Ihre Erfahrung mit dieser Rundreise."
+      }
+    },
+    "videos": {
+      "eyebrow": "Reisevideos",
+      "title": "Sehen Sie diese Rundreise unter realen Bedingungen",
+      "text": "Diese Videos helfen Besuchern, die Atmosphäre, das Tempo und die Höhepunkte dieser Rundreise vor der Buchung zu verstehen.",
+      "card_title_fallback": "Video der Rundreise",
+      "card_text_fallback": "Ein kurzes Vorschauvideo zu dieser Rundreise."
+    }
   },
   "gallery": {
     "fallbacks": {

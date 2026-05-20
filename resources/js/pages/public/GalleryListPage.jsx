@@ -117,7 +117,7 @@ export default function GalleryListPage() {
   }, [galleryItems, t]);
 
   return (
-    <div className="bg-stone-50 text-slate-800">
+    <div className="public-shell bg-stone-50 text-slate-800">
       <TopBar leftText={platformMeta.topBarLeft} contact={platformMeta.contact} email={platformMeta.email} />
       <PublicHeader
         logo={platformMeta.logo}
@@ -127,7 +127,9 @@ export default function GalleryListPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <GalleryPageSection filters={galleryFilters} items={galleryItems} />
+      <main className="public-main">
+        <GalleryPageSection filters={galleryFilters} items={galleryItems} />
+      </main>
       <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>

@@ -85,7 +85,7 @@
     "about": {
       "eyebrow": "À propos",
       "title": "Découvrez Madagascar avec un vrai guide local",
-      "languages": "Langues parlées",
+      "languages": "Langues parlées pendant le tour",
       "travelers": "Voyageurs accompagnés",
       "reference": "Référence",
       "founder": {
@@ -167,6 +167,30 @@
       "title": "Inspirez les voyageurs avec les plus beaux paysages",
       "text": "La galerie doit montrer des photos réelles : clients, guides, parcs, animaux, hôtels, voitures et moments forts du voyage.",
       "view_all": "Voir toute la galerie"
+    },
+    "video": {
+      "eyebrow": "Vidéo du voyage",
+      "title": "Voyez votre futur voyage avant de réserver",
+      "text": "Découvrez en quelques instants l'ambiance du circuit, la beauté des paysages et la qualité de notre accompagnement local.",
+      "sidebar_title": "Réservez avec plus de confiance",
+      "sidebar_text": "Cette vidéo vous aide à vous projeter, à mieux choisir votre voyage et à réserver plus sereinement sur notre plateforme.",
+      "points": {
+        "0": "Explorez de vrais lieux, routes, hébergements et paysages de Madagascar.",
+        "1": "Ressentez l'ambiance du voyage avant même votre départ.",
+        "2": "Réservez plus sereinement avec une vision claire de l'expérience proposée."
+      },
+      "unavailable": "Cette vidéo n'est pas disponible pour le moment."
+    },
+    "memories": {
+      "eyebrow": "Souvenirs vidéo",
+      "title": "Des souvenirs de voyage pour prolonger l'émotion",
+      "text": "Cette section met en avant de courtes vidéos que les visiteurs peuvent regarder comme souvenirs de voyage et comme inspiration pour leur prochain circuit.",
+      "view_all": "Je découvre plus de vidéos",
+      "loading": "Chargement des vidéos...",
+      "empty": "Aucune vidéo disponible pour le moment.",
+      "card_title_fallback": "Souvenir de voyage",
+      "card_text_fallback": "Un court souvenir de Madagascar pour revivre l'ambiance du voyage.",
+      "view_related_tour": "Voir le circuit lié"
     },
     "payments": {
       "eyebrow": "Paiement sécurisé",
@@ -334,6 +358,13 @@
         "review": "Votre avis",
         "review_placeholder": "Décrivez votre expérience sur ce circuit."
       }
+    },
+    "videos": {
+      "eyebrow": "Vidéos du voyage",
+      "title": "Regardez ce circuit en conditions réelles",
+      "text": "Ces vidéos aident les visiteurs à comprendre l'ambiance, le rythme et les temps forts de ce circuit avant de réserver.",
+      "card_title_fallback": "Vidéo du circuit",
+      "card_text_fallback": "Une courte vidéo d'aperçu liée à ce circuit."
     }
   },
   "gallery": {

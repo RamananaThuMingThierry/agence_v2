@@ -8,6 +8,14 @@ import esAdmin from "../../../lang/es/admin.json";
 import esPublic from "../../../lang/es/public.json";
 import frAdmin from "../../../lang/fr/admin.json";
 import frPublic from "../../../lang/fr/public.json";
+import itAdmin from "../../../lang/it/admin.json";
+import itPublic from "../../../lang/it/public.json";
+import mgAdmin from "../../../lang/mg/admin.json";
+import mgPublic from "../../../lang/mg/public.json";
+import ruAdmin from "../../../lang/ru/admin.json";
+import ruPublic from "../../../lang/ru/public.json";
+import zhAdmin from "../../../lang/zh/admin.json";
+import zhPublic from "../../../lang/zh/public.json";
 
 const I18nContext = createContext(null);
 const STORAGE_KEY = "public_lang";
@@ -18,6 +26,10 @@ const MESSAGES = {
   en: { public: enPublic, admin: enAdmin },
   es: { public: esPublic, admin: esAdmin },
   de: { public: dePublic, admin: deAdmin },
+  it: { public: itPublic, admin: itAdmin },
+  mg: { public: mgPublic, admin: mgAdmin },
+  ru: { public: ruPublic, admin: ruAdmin },
+  zh: { public: zhPublic, admin: zhAdmin },
 };
 
 function getNestedValue(object, key) {

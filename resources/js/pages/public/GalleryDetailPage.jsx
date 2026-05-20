@@ -203,14 +203,15 @@ export default function GalleryDetailPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="pb-16">
-        <div className="mx-auto max-w-7xl px-4">
-          {loading ? (
-            <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.loading")}</div>
-          ) : !gallery ? (
-            <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.not_found")}</div>
-          ) : (
-            <>
+      <main className="public-main">
+        <section className="pb-16">
+          <div className="mx-auto max-w-7xl px-4">
+            {loading ? (
+              <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.loading")}</div>
+            ) : !gallery ? (
+              <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.not_found")}</div>
+            ) : (
+              <>
               <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px]">
                 <div className="space-y-4">
                   <div className="public-panel relative overflow-hidden rounded-3xl">
@@ -322,10 +323,11 @@ export default function GalleryDetailPage() {
                   </div>
                 </div>
               ) : null}
-            </>
-          )}
-        </div>
-      </section>
+              </>
+            )}
+          </div>
+        </section>
+      </main>
       {lightboxOpen && activeImage ? (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/88 p-4 sm:p-6" onClick={() => setLightboxOpen(false)}>
           <button

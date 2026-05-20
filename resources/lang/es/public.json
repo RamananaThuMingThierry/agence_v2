@@ -75,7 +75,7 @@
     "about": {
       "eyebrow": "Acerca de",
       "title": "Descubre Madagascar con un verdadero guía local",
-      "languages": "Idiomas hablados",
+      "languages": "Idiomas hablados durante el tour",
       "travelers": "Viajeros acompañados",
       "reference": "Referencia",
       "founder": {
@@ -157,6 +157,30 @@
       "title": "Inspira a los viajeros con los paisajes más hermosos",
       "text": "La galería debe mostrar fotos reales: clientes, guías, parques, animales, hoteles, vehículos y momentos destacados del viaje.",
       "view_all": "Ver toda la galería"
+    },
+    "video": {
+      "eyebrow": "Video del viaje",
+      "title": "Descubre el viaje antes de reservarlo",
+      "text": "Un video corto ayuda a los visitantes a descubrir el ambiente, los paisajes y la comodidad de la experiencia antes de elegir un circuito.",
+      "sidebar_title": "Por qué esto ayuda a los viajeros",
+      "sidebar_text": "Un video bien enfocado puede tranquilizar a los visitantes sobre la calidad del destino, el ritmo del viaje y el acompañamiento local que recibirán.",
+      "points": {
+        "0": "Mostrar lugares reales, carreteras, alojamientos y paisajes.",
+        "1": "Generar confianza con una presentación más inmersiva.",
+        "2": "Ayudar a los visitantes a imaginar mejor su futuro viaje."
+      },
+      "unavailable": "Este video no está disponible en este momento."
+    },
+    "memories": {
+      "eyebrow": "Recuerdos en video",
+      "title": "Recuerdos de viaje para mantener viva la emoción",
+      "text": "Esta sección destaca videos cortos que los visitantes pueden ver como recuerdos del viaje e inspiración para su próximo circuito.",
+      "view_all": "Ver todos los videos",
+      "loading": "Cargando videos...",
+      "empty": "Todavía no hay videos disponibles.",
+      "card_title_fallback": "Recuerdo de viaje",
+      "card_text_fallback": "Un breve recuerdo de Madagascar para revivir el ambiente del viaje.",
+      "view_related_tour": "Ver el circuito relacionado"
     },
     "payments": {
       "eyebrow": "Pago seguro",
@@ -276,7 +300,65 @@
   },
   "tour_detail": {
     "loading": "Cargando circuito...",
-    "not_found": "Circuito no encontrado."
+    "not_found": "Circuito no encontrado.",
+    "description_coming": "Descripción del circuito próximamente.",
+    "departure_badge": "Salida :value",
+    "program_title": "Programa del circuito",
+    "program_empty": "Programa próximamente.",
+    "day_title": "Día :day - :title",
+    "activities": "Actividades: :value",
+    "included": "Incluido",
+    "included_empty": "No se especificaron inclusiones.",
+    "excluded": "No incluido",
+    "excluded_empty": "No se especificaron exclusiones.",
+    "related": "Otros circuitos",
+    "summary": {
+      "duration": "Duración",
+      "style": "Estilo",
+      "price": "Precio",
+      "departure": "Salida",
+      "type": "Tipo",
+      "private": "Privado"
+    },
+    "sidebar": {
+      "title": "Reservar este circuito",
+      "text": "Consulta la información del circuito y continúa directamente con la reserva.",
+      "payments": "Pagos aceptados"
+    },
+    "reviews": {
+      "eyebrow": "Opiniones de viajeros",
+      "title": "Opiniones de este circuito",
+      "average": "Nota media",
+      "empty": "Todavía no hay opiniones publicadas. Sé el primero en compartir tu experiencia.",
+      "recent": "Opinión reciente"
+    },
+    "review": {
+      "eyebrow": "Dejar una opinión",
+      "title": "Comparte tu experiencia",
+      "text": "Los viajeros pueden dejar sus comentarios directamente en esta página para ayudar a los futuros visitantes.",
+      "success": "Opinión enviada con éxito.",
+      "error": "No se puede enviar tu opinión en este momento.",
+      "submitting": "Enviando...",
+      "submit": "Publicar mi opinión",
+      "preview_alt": "Vista previa del perfil",
+      "rating_label": "Dar :count estrella",
+      "fields": {
+        "image": "Foto de perfil",
+        "image_help": "Opcional. Si no se selecciona ninguna imagen, se mostrará una imagen de perfil predeterminada.",
+        "name": "Nombre",
+        "name_placeholder": "Tu nombre",
+        "rating": "Nota",
+        "review": "Tu opinión",
+        "review_placeholder": "Describe tu experiencia en este circuito."
+      }
+    },
+    "videos": {
+      "eyebrow": "Videos del viaje",
+      "title": "Mira este circuito en condiciones reales",
+      "text": "Estos videos ayudan a los visitantes a comprender el ambiente, el ritmo y los momentos destacados de este circuito antes de reservar.",
+      "card_title_fallback": "Video del circuito",
+      "card_text_fallback": "Un breve video de presentación relacionado con este circuito."
+    }
   },
   "gallery": {
     "fallbacks": {

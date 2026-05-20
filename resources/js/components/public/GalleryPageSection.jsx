@@ -23,8 +23,8 @@ export default function GalleryPageSection({ filters, items }) {
   }, [activeFilter, allFilterLabel, items]);
 
   return (
-    <section id="page-gallery" className="bg-white py-10">
-      <div className="mx-auto max-w-7xl">
+    <section id="page-gallery" className="py-10">
+      <div className="mx-auto max-w-7xl px-4">
         <SectionTitle
           title={t("public.gallery.list.title")}
           text={t("public.gallery.list.text")}
@@ -36,7 +36,7 @@ export default function GalleryPageSection({ filters, items }) {
               key={filter}
               type="button"
               onClick={() => setActiveFilter(filter)}
-              className={activeFilter === filter ? "rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-bold text-white" : "rounded-full bg-stone-100 px-5 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-stone-200"}
+              className={activeFilter === filter ? "rounded-full bg-[color:var(--accent-dark)] px-5 py-2.5 text-sm font-bold text-white" : "rounded-full bg-stone-100 px-5 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-stone-200"}
             >
               {filter}
             </button>
@@ -44,10 +44,10 @@ export default function GalleryPageSection({ filters, items }) {
         </div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {visibleItems.map((item) => (
-            <Link key={item.galleryId || item.id || item.title} to={`/galerie/${item.galleryId}`} className="group overflow-hidden rounded-3xl bg-stone-50 shadow-sm">
+            <Link key={item.galleryId || item.id || item.title} to={`/galerie/${item.galleryId}`} className="public-panel group overflow-hidden rounded-3xl">
               <img src={item.image} alt={item.title} className="h-64 w-full object-cover transition duration-500 group-hover:scale-105" />
               <div className="p-4">
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">{item.category}</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--accent-dark)]">{item.category}</p>
                 <h3 className="font-extrabold">{item.title}</h3>
                 <p className="text-sm text-slate-500">{item.place}</p>
                 {item.description ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-600">{item.description}</p> : null}
@@ -55,7 +55,7 @@ export default function GalleryPageSection({ filters, items }) {
             </Link>
           ))}
         </div>
-        {visibleItems.length === 0 ? <p className="mt-8 text-center text-sm font-semibold text-slate-500">{t("public.gallery.list.empty")}</p> : null}
+        {visibleItems.length === 0 ? <p className="mt-12 px-6 py-20 text-center text-xl font-bold leading-relaxed text-[color:var(--accent-deep)] md:text-2xl">{t("public.gallery.list.empty")}</p> : null}
       </div>
     </section>
   );
