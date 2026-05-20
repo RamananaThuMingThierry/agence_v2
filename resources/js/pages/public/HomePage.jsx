@@ -72,10 +72,10 @@ export default function HomePage() {
   const navLinks = useMemo(
     () => [
       { href: "#home", label: t("public.home.nav.home") },
+      { href: "#why", label: t("public.home.nav.why") },
       { href: "#about", label: t("public.home.nav.about") },
       { href: "#tours", label: t("public.home.nav.tours") },
       { href: "#gallery", label: t("public.home.nav.gallery") },
-      { href: "#why", label: t("public.home.nav.why") },
       { href: "#testimonials", label: t("public.home.nav.testimonials") },
       { href: "#contact", label: t("public.home.nav.contact") },
     ],
@@ -371,7 +371,7 @@ export default function HomePage() {
         });
         const mappedTours = latestTours.map((item) => mapTourToPublicItem(item, t));
         setAllTours(mappedTours);
-        setFeaturedTours(mappedTours.slice(0, 6));
+        setFeaturedTours(mappedTours.slice(0, 3));
       } catch {
         if (active) {
           setAllTours([]);
@@ -419,7 +419,7 @@ export default function HomePage() {
       <FaqSection items={faqItems} />
       <ContactSection platform={platformMeta} />
       <LocationMapSection location={officeLocation} />
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

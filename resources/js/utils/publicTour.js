@@ -59,5 +59,18 @@ export function mapTourToPublicItem(tour, t = null) {
       image: buildImageUrl(review.image),
       createdAt: review.created_at || null,
     })) : [],
+    videos: Array.isArray(tour?.videos) ? tour.videos.map((video) => ({
+      id: video.id || null,
+      encryptedId: video.encrypted_id || null,
+      title: video.title || "",
+      description: video.description || "",
+      sourceType: video.source_type || "external",
+      videoUrl: video.video_url || "",
+      videoPath: video.video_path ? `/${String(video.video_path).replace(/^\/+/, "")}` : "",
+      thumbnail: video.thumbnail ? `/${String(video.thumbnail).replace(/^\/+/, "")}` : "",
+      placement: video.placement || "home",
+      order: Number(video.order || 0),
+      isActive: Boolean(video.is_active),
+    })) : [],
   };
 }

@@ -94,7 +94,11 @@ export default function GalleryDetailPage() {
         const mappedItems = Array.isArray(allItems) ? allItems.map((item) => mapGalleryToPublicItem(item, t)) : [];
 
         setGallery(mappedGallery);
-        setRelated(mappedItems.filter((item) => item.galleryId !== galleryId).slice(0, 4));
+        setRelated(
+          mappedItems
+            .filter((item) => Number(item.id || 0) !== Number(mappedGallery?.id || 0))
+            .slice(0, 4),
+        );
       } catch {
         if (active) {
           setGallery(null);
@@ -199,7 +203,7 @@ export default function GalleryDetailPage() {
         homeHref="/#home"
         contactHref="/#contact"
       />
-      <section className="py-16">
+      <section className="pb-16">
         <div className="mx-auto max-w-7xl px-4">
           {loading ? (
             <div className="public-panel mt-10 rounded-3xl px-6 py-12 text-center text-sm font-semibold text-[color:var(--muted)]">{t("public.gallery.detail.loading")}</div>
@@ -374,7 +378,7 @@ export default function GalleryDetailPage() {
           </div>
         </div>
       ) : null}
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

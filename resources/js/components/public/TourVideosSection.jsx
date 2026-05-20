@@ -34,12 +34,12 @@ export default function TourVideosSection({ videos = [] }) {
   if (videos.length === 0) return null;
 
   return (
-    <section className="mt-14">
+    <section className="mt-">
       <div className="public-panel rounded-xl p-6 md:p-8">
         <p className="public-eyebrow mb-2 text-sm font-bold uppercase">{t("public.tour_detail.videos.eyebrow")}</p>
         <h2 className="public-heading mb-3 text-2xl font-extrabold">{t("public.tour_detail.videos.title")}</h2>
         <p className="public-copy mb-8 leading-relaxed">{t("public.tour_detail.videos.text")}</p>
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-1">
           {videos.map((video) => {
             const embedUrl = video.sourceType === "external" ? getEmbedUrl(video.videoUrl) : null;
 

@@ -59,11 +59,12 @@ export default function ContactSection({ platform = {} }) {
   const whatsappHref = platform.whatsapp || `https://wa.me/${contact.replace(/[^\d]/g, "")}`;
   const facebookHref = platform.facebook || "https://www.facebook.com/profile.php?id=100084179285857";
   const instagramHref = platform.instagram || "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D";
+  const gmailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
   const contactMethods = [
-    { label: t("public.common.facebook"), value: platform.brand || "World of Madagascar", href: facebookHref, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white" },
+    { label: t("public.common.facebook"), value: "World of Madagascar", href: facebookHref, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white" },
     { label: t("public.common.instagram"), value: "@world_of_madagascar", href: instagramHref, icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white" },
     { label: t("public.common.whatsapp"), value: contact, href: whatsappHref, icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white" },
-    { label: t("public.common.email"), value: email, href: `mailto:${email}`, icon: <MailIcon />, tone: "bg-[#EA4335] text-white" },
+    { label: t("public.common.email"), value: email, href: gmailHref, icon: <MailIcon />, tone: "bg-[#EA4335] text-white" },
   ];
 
   function handleChange(event) {
@@ -144,8 +145,8 @@ export default function ContactSection({ platform = {} }) {
               <a
                 key={item.label}
                 href={item.href}
-                target={item.href.startsWith("mailto:") ? undefined : "_blank"}
-                rel={item.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                target="_blank"
+                rel="noreferrer"
                 className="public-panel group flex items-center gap-4 rounded-3xl p-4 text-[color:var(--ink-soft)] transition hover:-translate-y-0.5 hover:border-[rgba(143,51,32,0.24)] hover:shadow-[0_18px_42px_rgba(89,44,30,0.14)]"
               >
                 <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${item.tone}`}>

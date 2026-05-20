@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchPlatformSettings } from "../../api/platformSettings";
-import { fetchPublicPlatformVideos } from "../../api/platformVideos";
 import { createPublicTourReview, fetchPublicTour, fetchPublicTours } from "../../api/tours";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
@@ -11,7 +10,6 @@ import TourVideosSection from "../../components/public/TourVideosSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { formatUsd } from "../../utils/currency";
 import { buildImageUrl, mapTourToPublicItem } from "../../utils/publicTour";
-import { mapPlatformVideoToPublicItem } from "../../utils/publicVideo";
 import { localizePublicValidationErrors } from "../../utils/publicValidation";
 
 function ArrowIcon({ direction = "left", className = "h-5 w-5" }) {
@@ -179,17 +177,15 @@ export default function TourPublicDetailPage() {
       setLoading(true);
 
       try {
-        const [tourItem, allItems, videoItems] = await Promise.all([
+        const [tourItem, allItems] = await Promise.all([
           fetchPublicTour(tourId),
           fetchPublicTours(),
-          fetchPublicPlatformVideos(),
         ]);
 
         if (!active) return;
 
         const mappedTour = tourItem ? mapTourToPublicItem(tourItem, t) : null;
         const mappedItems = Array.isArray(allItems) ? allItems.map((item) => mapTourToPublicItem(item, t)) : [];
-        const mappedVideos = Array.isArray(videoItems) ? videoItems.map((item) => mapPlatformVideoToPublicItem(item)) : [];
 
         setTour(
           mappedTour
@@ -201,14 +197,15 @@ export default function TourPublicDetailPage() {
         );
         setRelated(
           mappedItems
-            .filter((item) => item.tourId !== tourId)
+            .filter((item) => String(item.id || "") !== String(mappedTour?.id || ""))
+            .filter((item) => String(item.encryptedId || item.tourId || "") !== String(mappedTour?.encryptedId || tourId || ""))
             .slice(0, 4)
             .map((item) => ({
               ...item,
               formattedPrice: formatPrice(item.price, lang),
             })),
         );
-        setTourVideos(mappedVideos.filter((item) => String(item.relatedTour?.id || "") === String(mappedTour?.id || "")));
+        setTourVideos(Array.isArray(mappedTour?.videos) ? mappedTour.videos : []);
       } catch {
         if (active) {
           setTour(null);
@@ -491,6 +488,10 @@ export default function TourPublicDetailPage() {
                 </aside>
               </div>
 
+              <div className="mt-14">
+                   <TourVideosSection videos={tourVideos} />
+              </div>
+
               <div className="mt-14 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
                 <section className="public-panel rounded-3xl p-6 md:p-8">
                   <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -569,8 +570,6 @@ export default function TourPublicDetailPage() {
                 </section>
               </div>
 
-              <TourVideosSection videos={tourVideos} />
-
               {related.length > 0 ? (
                 <div className="mt-14">
                   <h2 className="public-heading mb-6 text-2xl font-extrabold">{t("public.tour_detail.related")}</h2>
@@ -643,7 +642,7 @@ export default function TourPublicDetailPage() {
           </div>
         </div>
       ) : null}
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

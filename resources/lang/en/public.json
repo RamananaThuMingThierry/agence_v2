@@ -190,7 +190,7 @@
     "payment_methods": [
       "Mastercard",
       "Visa",
-      "PayPal",
+      "AMERICAN EXPRESS",
       "Bank transfer",
       "Cash",
       "Mobile Money"

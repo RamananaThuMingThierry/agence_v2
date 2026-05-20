@@ -15,7 +15,8 @@ export function mapGalleryToPublicItem(gallery, t = null) {
   const fallbackCategory = typeof t === "function" ? t("public.gallery.fallbacks.category") : "Uncategorized";
 
   return {
-    id: gallery?.encrypted_id || gallery?.id || gallery?.title,
+    id: gallery?.id || null,
+    encryptedId: gallery?.encrypted_id || null,
     galleryId: gallery?.encrypted_id || gallery?.id || null,
     title: gallery?.title || fallbackTitle,
     place: gallery?.place || gallery?.subtitle || gallery?.category?.name || fallbackPlace,

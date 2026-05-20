@@ -178,7 +178,7 @@ export default function BookingPage() {
 
     setForm((current) => ({
       ...current,
-      [name]: name === "number_of_people" ? value.replace(/[^0-9]/g, "") : value,
+      [name]: name === "number_of_people" ? value.replace(/[^0-9]/g, "") : name === "phone" ? value.replace(/[^0-9\s().-]/g, "") : value,
     }));
 
     setFieldErrors((current) => ({
@@ -201,8 +201,10 @@ export default function BookingPage() {
     setSuccessMessage("");
 
     try {
+      const normalizedPhone = form.phone.trim();
       const result = await createPublicBooking({
         ...form,
+        phone: normalizedPhone,
         tour_id: tour.id,
         number_of_people: Number(form.number_of_people || 0),
       });
@@ -376,7 +378,7 @@ export default function BookingPage() {
           )}
         </div>
       </section>
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

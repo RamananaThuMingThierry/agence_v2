@@ -37,15 +37,15 @@ function WhatsAppIcon() {
   );
 }
 
-export default function PublicFooter({ footerLinks, logo = "/images/logo.png", brand = "Monde de Madagascar" }) {
+export default function PublicFooter({ footerLinks, logo = "/images/logo.png", brand = "Monde de Madagascar", facebook = "https://www.facebook.com/profile.php?id=100084179285857", instagram = "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D", whatsapp = "https://wa.me/261380913703", youtube = "https://www.youtube.com/@worldofmadagascartour" }) {
   const { t } = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
   const socialLinks = [
-    { label: t("public.common.facebook"), href: "#", icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
-    { label: t("public.common.instagram"), href: "#", icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white hover:opacity-90" },
-    { label: t("public.common.youtube"), href: "#", icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
-    { label: t("public.common.whatsapp"), href: "https://wa.me/261380913703", icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
+    { label: t("public.common.facebook"), href: facebook, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
+    { label: t("public.common.instagram"), href: instagram, icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white hover:opacity-90" },
+    { label: t("public.common.youtube"), href: youtube, icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
+    { label: t("public.common.whatsapp"), href: whatsapp, icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
   ];
 
   const payments = [

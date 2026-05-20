@@ -59,7 +59,16 @@ class TourController extends Controller
             $tour = $this->tourService->getByKeysTour(
                 ['id', 'status'],
                 [$id, 'active'],
-                relations: ['images', 'programs', 'inclusions', 'exclusions', 'reviews' => fn ($query) => $query->where('status', 'publish')]
+                relations: [
+                    'images',
+                    'programs',
+                    'inclusions',
+                    'exclusions',
+                    'reviews' => fn ($query) => $query->where('status', 'publish'),
+                    'videos' => fn ($query) => $query
+                        ->where('is_active', true)
+                        ->with('relatedTour:id,title'),
+                ]
             );
 
             if (!$tour) {

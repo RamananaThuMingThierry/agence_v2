@@ -166,7 +166,7 @@
     "payment_methods": [
       "Mastercard",
       "Visa",
-      "PayPal",
+      "AMERICAN EXPRESS",
       "Transferencia bancaria",
       "Efectivo",
       "Mobile Money"

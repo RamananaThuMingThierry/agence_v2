@@ -82,7 +82,7 @@ export default function MemoriesVideosSection({ videos = [] }) {
             <p className="public-copy mt-4 leading-relaxed">{t("public.home.memories.text")}</p>
           </div>
         </div>
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-3">
           {videos.map((video) => <MemoryVideoCard key={video.encryptedId || video.id || `${video.title}-${video.order}`} video={video} />)}
         </div>
         <div className="mt-8 md:hidden">
