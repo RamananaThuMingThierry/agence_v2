@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { normalizeSectionTarget, queuePublicSectionScroll, scrollToPublicSection } from "../../utils/publicScroll";
+import { getPaymentMethodImage } from "./PaymentMethodsSection";
 
 function FacebookIcon() {
   return (
@@ -101,10 +102,20 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
 
         <div>
           <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.payments")}</h4>
-          <div className="space-y-2 text-sm text-white/60">
-            {payments.map((payment) => (
-              <p key={payment}>{payment}</p>
-            ))}
+          <div className="grid grid-cols-2 gap-2">
+            {payments.map((payment) => {
+              const imageFile = getPaymentMethodImage(payment);
+
+              return (
+                <div key={payment} className="flex h-12 items-center justify-center rounded-lg bg-white px-2 py-1.5">
+                  {imageFile ? (
+                    <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-9 max-w-9 object-contain" loading="lazy" />
+                  ) : (
+                    <span className="text-center text-xs font-bold text-slate-900">{payment}</span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 

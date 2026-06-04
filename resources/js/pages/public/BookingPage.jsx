@@ -6,6 +6,7 @@ import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
 import TopBar from "../../components/public/TopBar";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
+import { getPaymentMethodImage } from "../../components/public/PaymentMethodsSection";
 import { useI18n } from "../../hooks/admin/I18nContext";
 import { formatUsd } from "../../utils/currency";
 import { getPublicLocale } from "../../utils/publicLocale";
@@ -159,6 +160,18 @@ export default function BookingPage() {
       { label: t("public.home.nav.why"), href: "/#why" },
       { label: t("public.home.nav.testimonials"), href: "/#testimonials" },
       { label: t("public.home.nav.contact"), href: "/#contact" },
+    ],
+    [t],
+  );
+
+  const paymentMethods = useMemo(
+    () => [
+      t("public.home.payment_methods.0"),
+      t("public.home.payment_methods.1"),
+      t("public.home.payment_methods.2"),
+      t("public.home.payment_methods.3"),
+      t("public.home.payment_methods.4"),
+      t("public.home.payment_methods.5"),
     ],
     [t],
   );
@@ -371,6 +384,25 @@ export default function BookingPage() {
                       <span>{t("public.booking.summary.estimate")}</span>
                       <strong className="public-price text-lg">{estimatedTotal || tour.formattedPrice}</strong>
                     </div>
+                  </div>
+                </div>
+
+                <div className="public-panel rounded-3xl p-6">
+                  <h3 className="public-heading mb-4 text-xl font-extrabold">{t("public.footer.payments")}</h3>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
+                    {paymentMethods.map((payment) => {
+                      const imageFile = getPaymentMethodImage(payment);
+
+                      return (
+                        <div key={payment} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-[rgba(125,94,78,0.12)]">
+                          {imageFile ? (
+                            <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-11 max-w-full object-contain" loading="lazy" />
+                          ) : (
+                            <span className="text-center text-xs font-bold text-slate-900">{payment}</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </aside>
