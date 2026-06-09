@@ -219,15 +219,23 @@ const NAV = [
 ];
 
 function SidebarItem({ item, label, collapsed, onAction, mobile = false }) {
-  const baseClass = "group flex w-full items-center gap-3 rounded px-3 py-3 text-sm font-semibold transition";
+  const iconOnly = collapsed && !mobile;
+  const baseClass = cn(
+    "group flex w-full items-center rounded text-sm font-semibold transition",
+    iconOnly ? "justify-center px-0 py-2" : "gap-3 px-3 py-3",
+  );
+  const iconClass = cn(
+    "flex h-11 w-11 shrink-0 items-center justify-center rounded border transition",
+    iconOnly ? "mx-auto" : "",
+  );
 
   if (item.action) {
     return (
-      <button type="button" title={collapsed ? label : undefined} className={cn(baseClass, "text-red-50 bg-white/12 text-white")} onClick={() => onAction(item.action)}>
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-white/20 bg-white/10 text-white transition group-hover:border-white/40 group-hover:bg-white/20">
+      <button type="button" title={iconOnly ? label : undefined} className={cn(baseClass, "text-red-50 bg-white/12 text-white")} onClick={() => onAction(item.action)}>
+        <span className={cn(iconClass, "border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20")}>
           <Icon name={item.icon} />
         </span>
-        {!collapsed || mobile ? <span className="truncate">{label}</span> : null}
+        {!iconOnly ? <span className="truncate">{label}</span> : null}
       </button>
     );
   }
@@ -235,7 +243,7 @@ function SidebarItem({ item, label, collapsed, onAction, mobile = false }) {
   return (
     <NavLink
       to={item.to}
-      title={collapsed ? label : undefined}
+      title={iconOnly ? label : undefined}
       className={({ isActive }) =>
         cn(
           baseClass,
@@ -247,14 +255,14 @@ function SidebarItem({ item, label, collapsed, onAction, mobile = false }) {
         <>
           <span
             className={cn(
-              "flex h-11 w-11 shrink-0 items-center justify-center rounded border transition",
+              iconClass,
               isActive ? "border-red-200 bg-red-50 text-red-700" : "border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20",
             )}
           >
             <Icon name={item.icon} />
           </span>
 
-          {!collapsed || mobile ? <span className="truncate">{label}</span> : null}
+          {!iconOnly ? <span className="truncate">{label}</span> : null}
         </>
       )}
     </NavLink>
@@ -362,7 +370,7 @@ function SidebarContent({ collapsed, onAction, t, mobile = false }) {
 
       <hr className="mb-5 border-white/15" />
 
-      <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+      <div className="admin-sidebar-scroll min-h-0 flex-1 overflow-y-auto pr-1">
         <nav className="space-y-2">
           {NAV.map((item) => (
             <SidebarItem key={item.to ?? item.action} item={item} label={t(item.labelKey)} collapsed={collapsed} onAction={onAction} mobile={mobile} />
@@ -460,7 +468,7 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-white text-red-950">
       <div className="flex min-h-screen">
-        <aside className={cn("sticky top-0 hidden h-screen shrink-0 border-r border-red-800 bg-red-700 p-5 text-white lg:flex lg:flex-col", sidebarWidth)}>
+        <aside className={cn("sticky top-0 hidden h-screen shrink-0 border-r border-red-800 bg-red-700 text-white lg:flex lg:flex-col", collapsed ? "p-3" : "p-5", sidebarWidth)}>
           <SidebarContent collapsed={collapsed} onAction={handleAction} t={t} />
         </aside>
 
