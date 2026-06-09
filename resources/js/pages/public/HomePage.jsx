@@ -122,7 +122,7 @@ export default function HomePage() {
     () => ({
       title: t("public.home.hero.title"),
       text: t("public.home.hero.text"),
-      image: "https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=1600&q=80",
+      image: "https://images.unsplash.com/photo-1578922746465-3a80a228f223?auto=format&fit=crop&w=2200&q=100",
       highlights: [
         t("public.home.hero.highlights.0"),
         t("public.home.hero.highlights.1"),
@@ -439,7 +439,7 @@ export default function HomePage() {
         <ContactSection platform={platformMeta} />
         <LocationMapSection location={officeLocation} />
       </main>
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} email={platformMeta.email} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

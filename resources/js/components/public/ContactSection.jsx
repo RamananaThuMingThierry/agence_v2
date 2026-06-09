@@ -131,7 +131,7 @@ export default function ContactSection({ platform = {} }) {
 
   return (
     <section id="contact" className="py-20">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-2">
         <div>
           <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.home.contact.eyebrow")}</p>
           <h2 className="public-heading mb-5 text-3xl font-extrabold md:text-4xl">{t("public.home.contact.title")}</h2>

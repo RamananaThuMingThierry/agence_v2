@@ -84,7 +84,7 @@
     ],
     "about": {
       "eyebrow": "À propos",
-      "title": "Découvrez Madagascar avec un vrai guide local",
+      "title": "Découvrez Madagascar avec de vrais guides locaux",
       "languages": "Langues parlées pendant le tour",
       "travelers": "Voyageurs accompagnés",
       "reference": "Référence",
@@ -144,7 +144,9 @@
     ],
     "featured_tours": {
       "eyebrow": "Nos circuits populaires",
-      "title": "Choisissez votre aventure à Madagascar"
+      "title": "Choisissez votre aventure à Madagascar",
+      "details_cta": "Voir le circuit",
+      "all_cta": "Tous les circuits"
     },
     "tours": {
       "from": "À partir de",
@@ -208,7 +210,7 @@
     "custom_trip": {
       "eyebrow": "Voyage personnalisé",
       "title": "Vous ne savez pas quel circuit choisir ?",
-      "text": "Envoyez-nous vos dates, votre budget et vos envies. Nous préparons un itinéraire adapté pour votre séjour à Madagascar.",
+      "text": "Envoyez-nous vos dates, votre budget et vos envies. Nous vous préparons un itinéraire clair, adapté à votre rythme et à votre séjour à Madagascar.",
       "cta": "Recevoir une proposition gratuite",
       "examples": "Exemples de voyages",
       "items": [

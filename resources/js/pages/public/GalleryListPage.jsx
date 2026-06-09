@@ -130,7 +130,7 @@ export default function GalleryListPage() {
       <main className="public-main">
         <GalleryPageSection filters={galleryFilters} items={galleryItems} />
       </main>
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} email={platformMeta.email} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

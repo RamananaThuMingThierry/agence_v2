@@ -27,11 +27,11 @@ export default function FaqSection({ items = [] }) {
 
   return (
     <section id="faq" className="bg-[linear-gradient(180deg,#fdf8f2_0%,#f6ede3_100%)] py-20">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-10 max-w-3xl">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="mb-10 max-w-4xl">
           <p className="public-eyebrow mb-3 text-sm font-bold uppercase">{t("public.home.faq.eyebrow")}</p>
           <h2 className="public-heading mb-5 text-3xl font-extrabold md:text-4xl">{t("public.home.faq.title")}</h2>
-          <p className="public-copy max-w-xl leading-relaxed">
+          <p className="public-copy max-w-2xl leading-relaxed">
             {t("public.home.faq.text")}
           </p>
         </div>

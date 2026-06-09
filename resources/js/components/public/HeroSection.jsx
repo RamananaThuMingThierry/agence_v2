@@ -53,44 +53,45 @@ export default function HeroSection({ hero, slides = [], children = null }) {
 
   return (
     <section id="home" className="relative flex min-h-[78vh] items-center overflow-hidden pb-24 md:overflow-visible">
-      {items.map((slide, index) => (
-        <div
-          key={slide.id}
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
-          style={{
-            backgroundImage: `linear-gradient(rgba(41,17,13,0.76), rgba(41,17,13,0.38)), url('${slide.image}')`,
-            opacity: index === currentIndex ? 1 : 0,
-          }}
-        />
-      ))}
+      <div className="absolute inset-0 overflow-hidden">
+        {items.map((slide, index) => (
+          <img
+            key={slide.id}
+            src={slide.image}
+            alt={slide.title}
+            className="absolute inset-0 h-full w-full scale-[1.01] object-cover blur-[1px] transition-opacity duration-700"
+            style={{
+              opacity: index === currentIndex ? 1 : 0,
+            }}
+            loading={index === 0 ? "eager" : "lazy"}
+          />
+        ))}
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(198,90,61,0.26),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(199,150,69,0.2),transparent_22%)]" />
+        <div className="absolute inset-0 bg-black/35" />
+      </div>
 
-      <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-4 py-24 text-white">
-        <div className="max-w-3xl">
-          <h2 className="mb-6 text-4xl font-extrabold leading-tight md:text-6xl">{activeSlide.title}</h2>
-          <p className="mb-8 text-lg leading-relaxed text-white/90 md:text-xl">{activeSlide.text}</p>
-          <div className="flex flex-col gap-4 sm:flex-row">
+      <div className="relative mx-auto flex w-full max-w-7xl items-center justify-center gap-6 px-4 py-24 text-center text-white">
+        <div className="max-w-4xl">
+          <h2 className="mb-7 text-4xl font-black leading-tight tracking-tight text-white drop-shadow-[0_10px_26px_rgba(0,0,0,0.45)] md:text-6xl lg:text-7xl" style={{ fontFamily: '"Georgia", "Times New Roman", serif' }}>
+            <span className="block">{activeSlide.title}</span>
+            <span className="mx-auto mt-5 block h-1.5 w-28 rounded-full bg-[#f5d089] shadow-[0_0_26px_rgba(245,208,137,0.6)]" />
+          </h2>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <a href="#contact" className="rounded-full bg-[#f5d089] px-7 py-4 text-center font-bold text-[color:var(--accent-deep)] shadow-[0_18px_40px_rgba(201,150,69,0.28)] transition hover:bg-[#f8dca0]">
               {t("public.home.hero.cta.quote")}
             </a>
-            <a href="#tours" className="rounded-full border border-white/24 bg-white/12 px-7 py-4 text-center font-bold backdrop-blur transition hover:bg-white/20">
+            <a href="#tours" className="rounded-full border border-white/24 bg-white/12 px-7 py-4 text-center font-bold transition hover:bg-white/20">
               {t("public.home.hero.cta.tours")}
             </a>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/90">
-            {activeSlide.highlights.map((item) => (
-              <span key={item} className="rounded-full border border-white/16 bg-white/10 px-3 py-2 backdrop-blur-sm">{item}</span>
-            ))}
           </div>
         </div>
 
         {items.length > 1 ? (
-          <div className="hidden items-center gap-3 lg:flex">
-            <button type="button" onClick={() => goToSlide(currentIndex - 1)} className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/24 bg-white/10 text-xl font-bold text-white backdrop-blur transition hover:bg-white/18">
+          <div className="absolute right-4 hidden items-center gap-3 lg:flex">
+            <button type="button" onClick={() => goToSlide(currentIndex - 1)} className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/24 bg-white/10 text-xl font-bold text-white transition hover:bg-white/18">
                 <ArrowIcon direction="left" className="h-6 w-6" />
             </button>
-            <button type="button" onClick={() => goToSlide(currentIndex + 1)} className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/24 bg-white/10 text-xl font-bold text-white backdrop-blur transition hover:bg-white/18">
+            <button type="button" onClick={() => goToSlide(currentIndex + 1)} className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/24 bg-white/10 text-xl font-bold text-white transition hover:bg-white/18">
                 <ArrowIcon direction="right" className="h-6 w-6" />
             </button>
           </div>

@@ -394,7 +394,7 @@ export default function BookingPage() {
                       const imageFile = getPaymentMethodImage(payment);
 
                       return (
-                        <div key={payment} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-[rgba(125,94,78,0.12)]">
+                        <div key={payment} title={payment} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-[rgba(125,94,78,0.12)]">
                           {imageFile ? (
                             <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-11 max-w-full object-contain" loading="lazy" />
                           ) : (
@@ -411,7 +411,7 @@ export default function BookingPage() {
           </div>
         </section>
       </main>
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} email={platformMeta.email} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

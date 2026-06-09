@@ -21,7 +21,7 @@ function FeaturedTourCard({ tour }) {
             <p className="public-price text-2xl font-extrabold">{tour.formattedPrice}</p>
           </div>
           <div className="flex gap-3">
-            <Link to={`/circuits/${tour.tourId}`} className="public-btn-primary flex-1 rounded-full py-3 text-center font-bold transition">{t("public.common.view_more")}</Link>
+            <Link to={`/circuits/${tour.tourId}`} className="public-btn-primary flex-1 rounded-full py-3 text-center font-bold transition">{t("public.home.featured_tours.details_cta")}</Link>
             <Link to={`/reservations/${tour.tourId}`} className="public-btn-secondary flex-1 rounded-full py-3 text-center font-bold transition">{t("public.common.book")}</Link>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function FeaturedToursSection({ tours }) {
             <h2 className="public-heading text-3xl font-extrabold md:text-4xl">{t("public.home.featured_tours.title")}</h2>
           </div>
           <Link to="/circuits" className="public-btn-secondary hidden items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition md:inline-flex">
-            {t("public.common.view_more")}
+            {t("public.home.featured_tours.all_cta")}
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
@@ -50,7 +50,7 @@ export default function FeaturedToursSection({ tours }) {
         </div>
         <div className="mt-8 md:hidden">
           <Link to="/circuits" className="public-btn-secondary flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition">
-            {t("public.common.view_more")}
+            {t("public.home.featured_tours.all_cta")}
           </Link>
         </div>
       </div>

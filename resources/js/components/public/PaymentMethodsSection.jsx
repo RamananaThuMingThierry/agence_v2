@@ -39,7 +39,7 @@ export default function PaymentMethodsSection({ methods }) {
               const imageFile = getPaymentMethodImage(item);
 
               return (
-                <div key={item} className="flex h-24 items-center justify-center rounded-2xl bg-white p-4">
+                <div key={item} title={item} className="flex h-24 items-center justify-center rounded-2xl bg-white p-4">
                   {imageFile ? (
                     <img src={`/paymentMethod/${imageFile}`} alt={item} className="max-h-14 max-w-full object-contain" loading="lazy" />
                   ) : (

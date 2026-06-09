@@ -4,6 +4,7 @@ import { fetchPlatformSettings } from "../../api/platformSettings";
 import { createPublicTourReview, fetchPublicTour, fetchPublicTours } from "../../api/tours";
 import PublicFooter from "../../components/public/PublicFooter";
 import PublicHeader from "../../components/public/PublicHeader";
+import { getPaymentMethodImage } from "../../components/public/PaymentMethodsSection";
 import ScrollToTopButton from "../../components/public/ScrollToTopButton";
 import TopBar from "../../components/public/TopBar";
 import TourVideosSection from "../../components/public/TourVideosSection";
@@ -482,7 +483,21 @@ export default function TourPublicDetailPage() {
                     <Link to={`/reservations/${tour.tourId}`} className="public-btn-primary block rounded-full py-4 text-center font-bold transition">{t("public.common.book")}</Link>
                     <div className="mt-6 border-t border-[rgba(125,94,78,0.12)] pt-6">
                       <h4 className="public-heading mb-3 font-extrabold">{t("public.tour_detail.sidebar.payments")}</h4>
-                      <div className="grid grid-cols-2 gap-2 text-xs font-bold text-[color:var(--ink-soft)]">{paymentMethods.map((item) => <span key={item} className="rounded-xl bg-[rgba(238,225,207,0.72)] px-3 py-2 text-center">{item}</span>)}</div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {paymentMethods.map((item) => {
+                          const imageFile = getPaymentMethodImage(item);
+
+                          return (
+                            <div key={item} title={item} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-[rgba(125,94,78,0.12)]">
+                              {imageFile ? (
+                                <img src={`/paymentMethod/${imageFile}`} alt={item} className="max-h-11 max-w-full object-contain" loading="lazy" />
+                              ) : (
+                                <span className="text-center text-xs font-bold text-[color:var(--ink-soft)]">{item}</span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </aside>
@@ -643,7 +658,7 @@ export default function TourPublicDetailPage() {
           </div>
         </div>
       ) : null}
-      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
+      <PublicFooter footerLinks={footerLinks} logo={platformMeta.logo} brand={platformMeta.brand} email={platformMeta.email} facebook={platformMeta.facebook} instagram={platformMeta.instagram} whatsapp={platformMeta.whatsapp} />
       <ScrollToTopButton />
     </div>
   );

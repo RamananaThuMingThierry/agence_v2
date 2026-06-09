@@ -74,7 +74,7 @@
     ],
     "about": {
       "eyebrow": "About",
-      "title": "Discover Madagascar with a real local guide",
+      "title": "Discover Madagascar with real local guides",
       "languages": "Tour's Languages Spoken",
       "travelers": "Travelers hosted",
       "reference": "Reference",
@@ -134,7 +134,9 @@
     ],
     "featured_tours": {
       "eyebrow": "Popular tours",
-      "title": "Choose your adventure in Madagascar"
+      "title": "Choose your adventure in Madagascar",
+      "details_cta": "View tour",
+      "all_cta": "All tours"
     },
     "tours": {
       "from": "From",
@@ -198,7 +200,7 @@
     "custom_trip": {
       "eyebrow": "Custom trip",
       "title": "Not sure which tour to choose?",
-      "text": "Send us your dates, budget, and preferences. We will prepare a suitable itinerary for your stay in Madagascar.",
+      "text": "Send us your dates, budget, and preferences. We will prepare a clear itinerary tailored to your pace and your stay in Madagascar.",
       "cta": "Receive a free proposal",
       "examples": "Trip examples",
       "items": [

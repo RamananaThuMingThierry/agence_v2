@@ -38,15 +38,27 @@ function WhatsAppIcon() {
   );
 }
 
-export default function PublicFooter({ footerLinks, logo = "/images/logo.png", brand = "Monde de Madagascar", facebook = "https://www.facebook.com/profile.php?id=100084179285857", instagram = "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D", whatsapp = "https://wa.me/261380913703", youtube = "https://www.youtube.com/@worldofmadagascartour" }) {
+function EmailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+
+export default function PublicFooter({ logo = "/images/logo.png", brand = "Monde de Madagascar", email = "worldofmadagascartour@gmail.com", facebook = "https://www.facebook.com/profile.php?id=100084179285857", instagram = "https://www.instagram.com/world_of_madagascar?igsh=MTRuNXR4bm9sNThkag%3D%3D", whatsapp = "https://wa.me/261380913703", youtube = "https://www.youtube.com/@worldofmadagascartour" }) {
   const { t } = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
+  const emailAddress = email || "worldofmadagascartour@gmail.com";
+  const gmailHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
   const socialLinks = [
     { label: t("public.common.facebook"), href: facebook, icon: <FacebookIcon />, tone: "bg-[#1877F2] text-white hover:bg-[#1669d8]" },
     { label: t("public.common.instagram"), href: instagram, icon: <InstagramIcon />, tone: "bg-[linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4)] text-white hover:opacity-90" },
     { label: t("public.common.youtube"), href: youtube, icon: <YouTubeIcon />, tone: "bg-[#FF0000] text-white hover:bg-[#e00000]" },
     { label: t("public.common.whatsapp"), href: whatsapp, icon: <WhatsAppIcon />, tone: "bg-[#25D366] text-white hover:bg-[#20ba59]" },
+    { label: `${t("public.common.email")}: ${emailAddress}`, href: gmailHref, icon: <EmailIcon />, tone: "bg-[#EA4335] text-white hover:bg-[#d33b2f]" },
   ];
 
   const payments = [
@@ -75,7 +87,7 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
 
   return (
     <footer className="bg-[linear-gradient(135deg,var(--accent-deep),#2f1713)] py-10 text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-2 lg:grid-cols-5">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <a href="/#home" onClick={(event) => handleSectionLink(event, "/#home")} className="mb-3 inline-flex items-center gap-3">
             <img src={logo} alt={`${brand} logo`} className="h-14 w-14 rounded-2xl bg-white p-1 object-contain" />
@@ -85,31 +97,15 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
         </div>
 
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.navigation")}</h4>
-          <div className="space-y-2 text-sm text-white/60">
-            {footerLinks.map((item) => (
-              <a
-                key={item.href || item.label || item}
-                href={item.href || "#"}
-                onClick={(event) => handleSectionLink(event, item.href || "#")}
-                className="block transition hover:text-white"
-              >
-                {item.label || item}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.payments")}</h4>
-          <div className="grid grid-cols-2 gap-2">
+          <h4 className="mb-3 text-center text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.payments")}</h4>
+          <div className="grid grid-cols-2 gap-3">
             {payments.map((payment) => {
               const imageFile = getPaymentMethodImage(payment);
 
               return (
-                <div key={payment} className="flex h-12 items-center justify-center rounded-lg bg-white px-2 py-1.5">
+                <div key={payment} title={payment} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-white/20">
                   {imageFile ? (
-                    <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-9 max-w-9 object-contain" loading="lazy" />
+                    <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-11 max-w-full object-contain" loading="lazy" />
                   ) : (
                     <span className="text-center text-xs font-bold text-slate-900">{payment}</span>
                   )}
@@ -120,8 +116,8 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
         </div>
 
         <div>
-          <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.location")}</h4>
-          <div className="space-y-2 text-sm text-white/60">
+          <h4 className="mb-3 text-center text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.location")}</h4>
+          <div className="space-y-2 text-center text-sm text-white/60">
             <p>{t("public.footer.location_city")}</p>
             <p>{t("public.footer.location_area")}</p>
           </div>
@@ -129,8 +125,8 @@ export default function PublicFooter({ footerLinks, logo = "/images/logo.png", b
 
         <div className="space-y-8">
           <div>
-            <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.social")}</h4>
-            <div className="flex flex-wrap gap-3 text-sm text-white/60">
+            <h4 className="mb-3 text-center text-sm font-bold uppercase tracking-[0.22em] text-white">{t("public.footer.social")}</h4>
+            <div className="flex flex-wrap justify-center gap-3 text-sm text-white/60">
               {socialLinks.map((item) => (
                 <a
                   key={item.label}
