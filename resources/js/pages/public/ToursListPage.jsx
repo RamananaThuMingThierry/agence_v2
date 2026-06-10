@@ -18,7 +18,7 @@ function TourCard({ tour, t }) {
       <img src={tour.image} alt={tour.title} className="h-60 w-full object-cover" />
       <div className="flex flex-1 flex-col p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <span className={`rounded-full px-3 py-1 text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span>
+          <span className={`text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span>
           <span className="font-bold text-[color:var(--accent-deep)]">{tour.duration}</span>
         </div>
         <h2 className="public-heading mb-3 text-xl font-extrabold">{tour.title}</h2>

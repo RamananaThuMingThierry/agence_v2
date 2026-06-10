@@ -27,7 +27,7 @@ export default function ToursCatalogSection({ tours }) {
               <div key={tour.tourId || tour.id || tour.title} className="grid items-center gap-4 px-6 py-5 transition hover:bg-[rgba(246,217,203,0.16)] md:grid-cols-12">
                 <div className="md:col-span-4"><h3 className="public-heading font-extrabold">{tour.title}</h3><p className="text-sm text-[color:var(--muted)]">{tour.excerpt || tour.description || t("public.home.tours.description_coming")}</p></div>
                 <div className="text-sm font-semibold md:col-span-2">{tour.duration}</div>
-                <div className="md:col-span-2"><span className={`rounded-full px-3 py-1 text-xs font-bold ${tour.categoryTone}`}>{tour.category}</span></div>
+                <div className="md:col-span-2"><span className={`text-xs font-bold text-[color:var(--accent)]`}>{tour.category}</span></div>
                 <div className="text-sm text-[color:var(--ink-soft)] md:col-span-2">{tour.departure}</div>
                 <div className="flex gap-4 md:col-span-2 md:justify-end md:text-right"><Link to={`/circuits/${tour.tourId}`} className="public-link font-bold hover:underline">{t("public.common.view_more")}</Link><a href="/#contact" className="font-bold text-[color:var(--muted)] hover:text-[color:var(--accent)] hover:underline">{t("public.common.quote")}</a></div>
               </div>

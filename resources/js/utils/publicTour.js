@@ -10,16 +10,6 @@ export function getTourCover(tour) {
   return tour?.images?.find((image) => image.is_cover) || tour?.images?.[0] || null;
 }
 
-export function getTourTone(category = "") {
-  const value = String(category).toLowerCase();
-
-  if (value.includes("nature") || value.includes("wildlife")) return "bg-[rgba(115,132,106,0.18)] text-[color:var(--success)]";
-  if (value.includes("aventure") || value.includes("adventure")) return "bg-[rgba(245,208,137,0.26)] text-[#855611]";
-  if (value.includes("classique") || value.includes("classic")) return "bg-[rgba(221,197,170,0.46)] text-[color:var(--accent-deep)]";
-  if (value.includes("plage") || value.includes("beach")) return "bg-[rgba(203,223,216,0.55)] text-[#325d55]";
-  return "bg-[rgba(246,217,203,0.32)] text-[color:var(--accent-dark)]";
-}
-
 export function mapTourToPublicItem(tour, t = null) {
   const cover = getTourCover(tour);
   const description = tour?.description || "";
@@ -36,7 +26,7 @@ export function mapTourToPublicItem(tour, t = null) {
     excerpt: description.length > 180 ? `${description.slice(0, 177)}...` : description,
     image: buildImageUrl(cover?.image_url),
     category: tour?.category || fallbackCategory,
-    categoryTone: getTourTone(tour?.category),
+    categoryTone: tour?.category,
     duration: tour?.duration || "-",
     price: Number(tour?.price || 0),
     formattedPrice: formatUsd(tour?.price || 0, "fr-FR"),

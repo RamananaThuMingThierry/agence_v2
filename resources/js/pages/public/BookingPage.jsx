@@ -396,7 +396,7 @@ export default function BookingPage() {
                       return (
                         <div key={payment} title={payment} className="flex h-16 items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-[rgba(125,94,78,0.12)]">
                           {imageFile ? (
-                            <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-11 max-w-full object-contain" loading="lazy" />
+                            <img src={`/paymentMethod/${imageFile}`} alt={payment} className="max-h-11 max-w-full object-contain rounded-sm" loading="lazy" />
                           ) : (
                             <span className="text-center text-xs font-bold text-slate-900">{payment}</span>
                           )}
